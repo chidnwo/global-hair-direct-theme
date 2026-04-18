@@ -1,12 +1,21 @@
 {% if section.settings.show_bar %}
 <div class="announcement-bar">
   <div class="announcement-bar__track">
-    {% for block in section.blocks %}
-      <span class="announcement-bar__item">{{ block.settings.text }}<span class="announcement-bar__sep"> · </span></span>
-    {% endfor %}
-    {% for block in section.blocks %}
-      <span class="announcement-bar__item">{{ block.settings.text }}<span class="announcement-bar__sep"> · </span></span>
-    {% endfor %}
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <span class="announcement-bar__item">{{ block.settings.text }}<span class="announcement-bar__sep"> · </span></span>
+      {% endfor %}
+      {% for block in section.blocks %}
+        <span class="announcement-bar__item">{{ block.settings.text }}<span class="announcement-bar__sep"> · </span></span>
+      {% endfor %}
+    {% else %}
+      <span class="announcement-bar__item">{{ section.settings.fallback_text }}<span class="announcement-bar__sep"> · </span></span>
+      <span class="announcement-bar__item">{{ section.settings.fallback_text_secondary }}<span class="announcement-bar__sep"> · </span></span>
+      <span class="announcement-bar__item">{{ section.settings.fallback_text_tertiary }}<span class="announcement-bar__sep"> · </span></span>
+      <span class="announcement-bar__item">{{ section.settings.fallback_text }}<span class="announcement-bar__sep"> · </span></span>
+      <span class="announcement-bar__item">{{ section.settings.fallback_text_secondary }}<span class="announcement-bar__sep"> · </span></span>
+      <span class="announcement-bar__item">{{ section.settings.fallback_text_tertiary }}<span class="announcement-bar__sep"> · </span></span>
+    {% endif %}
   </div>
 </div>
 {% endif %}
@@ -15,7 +24,10 @@
 {
   "name": "Announcement Bar",
   "settings": [
-    { "type": "checkbox", "id": "show_bar", "label": "Show Announcement Bar", "default": true }
+    { "type": "checkbox", "id": "show_bar", "label": "Show Announcement Bar", "default": true },
+    { "type": "text", "id": "fallback_text", "label": "Fallback Text", "default": "Same-Day Lagos Dispatch on Confirmed Orders" },
+    { "type": "text", "id": "fallback_text_secondary", "label": "Fallback Text 2", "default": "Pre-Order Open: Get 5% Off All Hair Types" },
+    { "type": "text", "id": "fallback_text_tertiary", "label": "Fallback Text 3", "default": "Wholesale Pricing Available for Salons & Distributors" }
   ],
   "blocks": [
     {
@@ -35,8 +47,9 @@
         { "type": "item", "settings": { "text": "Deep Wave Bulk — 22inch" } },
         { "type": "item", "settings": { "text": "Colours: 1B · 27# · BUG · 613#" } },
         { "type": "item", "settings": { "text": "Wholesale Orders Welcome" } },
-        { "type": "item", "settings": { "text": "Pre-Order Now — 5% Discount" } },
-        { "type": "item", "settings": { "text": "Same-Day Dispatch Lagos" } },
+        { "type": "item", "settings": { "text": "Pre-Order Open: Get 5% Off All Hair Types" } },
+        { "type": "item", "settings": { "text": "Wholesale Pricing Available for Salons & Distributors" } },
+        { "type": "item", "settings": { "text": "Same-Day Lagos Dispatch on Confirmed Orders" } },
         { "type": "item", "settings": { "text": "All 36 States Covered" } }
       ]
     }
