@@ -45,51 +45,6 @@
         "hero_stat_4"
       ]
     },
-    "what_we_supply": {
-      "type": "supply-list",
-      "settings": {
-        "eyebrow": "What We Supply",
-        "title": "Every Hair Type.",
-        "title_italic": "Stocked and Ready to Ship.",
-        "lead": "Global Hair Direct supplies a full range of hair products to salon owners, beauty distributors, and individual buyers across Nigeria. We stock what sells, price it fairly, and deliver it on time — every order."
-      },
-      "blocks": {
-        "supply_1": {
-          "type": "supply_item",
-          "settings": {
-            "number": "01",
-            "title": "Bone Straight Braiding Hair — 30inch 150g",
-            "text": "Available in colours 1B, 27#, BUG, and 613#. Suitable for knotless braids, box braids, and straight styles. Stocked in bulk quantities for salon and wholesale orders. Pre-order pricing available with 5% discount on confirmed orders."
-          }
-        },
-        "supply_2": {
-          "type": "supply_item",
-          "settings": {
-            "number": "02",
-            "title": "French Curl Hair — 22inch 150g",
-            "text": "Available in colours 1B, 27#, BUG, and 613#. Lightweight and manageable for crochet and freeform curl styles. Consistent curl pattern across all colour options. Individual and wholesale quantities available."
-          }
-        },
-        "supply_3": {
-          "type": "supply_item",
-          "settings": {
-            "number": "03",
-            "title": "Deep Wave Bulk Hair — 22inch 100g",
-            "text": "Available in colours 1B, 27#, BUG, and 613#. Ideal for deep wave installs, crochet, and bulk styling. 100g per unit — competitively priced for volume buyers. Salon and distributor discounts available."
-          }
-        },
-        "supply_4": {
-          "type": "supply_item",
-          "settings": {
-            "number": "04",
-            "title": "Coming Soon — Premium Human Hair Extensions",
-            "text": "Global Hair Direct is expanding into premium human hair bundles, HD lace frontals, and closures. Pre-registration for wholesale accounts is open now. Existing customers receive first-access allocation when stock launches."
-          }
-        }
-      },
-      "block_order": ["supply_1", "supply_2", "supply_3", "supply_4"]
-    },
-    "divider_1": { "type": "section-divider", "settings": {} },
     "featured_products": {
       "type": "featured-products",
       "settings": {
@@ -348,8 +303,6 @@
   },
   "order": [
     "hero",
-    "what_we_supply",
-    "divider_1",
     "featured_products",
     "divider_2",
     "about_us",
