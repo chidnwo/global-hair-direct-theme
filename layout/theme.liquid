@@ -16,14 +16,14 @@
 </head>
 <body class="template-{{ template.name }}">
 
-  {%- sections 'header' -%}
-  {%- sections 'announcement-bar' -%}
+  {% section 'header' %}
+  {% section 'announcement-bar' %}
 
   <main id="main-content">
     {{ content_for_layout }}
   </main>
 
-  {%- sections 'footer' -%}
+  {% section 'footer' %}
 
   {{ 'theme.js' | asset_url | script_tag }}
 </body>
