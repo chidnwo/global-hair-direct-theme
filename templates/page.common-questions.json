@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "eyebrow": "Common Questions",
+        "title": "What Buyers Ask.",
+        "title_italic": "Answered Directly."
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What hair types do you currently stock?",
+            "answer": "We currently stock three lines — 30inch 150g Bone Straight Braiding Hair, 22inch 150g French Curl Hair, and 22inch 100g Deep Wave Bulk. All three are available in colours 1B, 27#, BUG, and 613#. Premium human hair bundles and frontals are launching soon."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I mix colours in one order?",
+            "answer": "Yes. You can mix colours within the same product line in a single order. Just specify the quantity per colour when placing your order. Minimum quantities apply per colour depending on the product — confirm with our team before ordering."
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the pre-order discount?",
+            "answer": "Pre-orders placed before stock arrives receive a 5% discount off the standard unit price. The discounted price is confirmed in writing at the time of order. Additional wholesale discounts apply for salon and distributor accounts on top of the pre-order rate."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you deliver outside Lagos?",
+            "answer": "Yes — all 36 states and the FCT via GIG Logistics and DHL Nigeria. Lagos orders receive same-day dispatch for payments confirmed before 12pm. Abuja and Port Harcourt typically 1–2 days. Remote states 2–4 days."
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "When are premium human hair bundles launching?",
+            "answer": "Premium human hair bundles, HD lace frontals, and closures are in our product pipeline. Pre-registration for wholesale accounts is open now — registered accounts will receive first-access allocation and launch pricing before general availability."
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5"]
+    }
+  },
+  "order": ["faq"]
+}

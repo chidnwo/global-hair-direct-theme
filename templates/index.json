@@ -36,45 +36,13 @@
         "hero_stat_4": {
           "type": "stat",
           "settings": { "value": "4+", "label": "Colour options" }
-        },
-        "hero_qual_1": {
-          "type": "qualifier",
-          "settings": {
-            "title": "All Hair Types",
-            "desc": "Braiding hair, bulk hair, bone straight, french curl, deep wave — individual and wholesale quantities."
-          }
-        },
-        "hero_qual_2": {
-          "type": "qualifier",
-          "settings": {
-            "title": "Multiple Colours",
-            "desc": "1B, 27#, BUG, 613# and more — stocked across all product lines for salon and retail buyers."
-          }
-        },
-        "hero_qual_3": {
-          "type": "qualifier",
-          "settings": {
-            "title": "Pre-Order Pricing",
-            "desc": "Reserve stock before it arrives. Fixed price at time of order. 5% discount on pre-order quantities."
-          }
-        },
-        "hero_qual_4": {
-          "type": "qualifier",
-          "settings": {
-            "title": "36-State Delivery",
-            "desc": "Same-day Lagos dispatch. GIG Logistics and DHL nationwide. WhatsApp tracking at every milestone."
-          }
         }
       },
       "block_order": [
         "hero_stat_1",
         "hero_stat_2",
         "hero_stat_3",
-        "hero_stat_4",
-        "hero_qual_1",
-        "hero_qual_2",
-        "hero_qual_3",
-        "hero_qual_4"
+        "hero_stat_4"
       ]
     },
     "what_we_supply": {
@@ -364,53 +332,6 @@
       },
       "block_order": ["step_1", "step_2", "step_3", "step_4"]
     },
-    "divider_3": { "type": "section-divider", "settings": {} },
-    "faq": {
-      "type": "faq",
-      "settings": {
-        "eyebrow": "Common Questions",
-        "title": "What Buyers Ask.",
-        "title_italic": "Answered Directly."
-      },
-      "blocks": {
-        "faq_1": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What hair types do you currently stock?",
-            "answer": "We currently stock three lines — 30inch 150g Bone Straight Braiding Hair, 22inch 150g French Curl Hair, and 22inch 100g Deep Wave Bulk. All three are available in colours 1B, 27#, BUG, and 613#. Premium human hair bundles and frontals are launching soon."
-          }
-        },
-        "faq_2": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Can I mix colours in one order?",
-            "answer": "Yes. You can mix colours within the same product line in a single order. Just specify the quantity per colour when placing your order. Minimum quantities apply per colour depending on the product — confirm with our team before ordering."
-          }
-        },
-        "faq_3": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is the pre-order discount?",
-            "answer": "Pre-orders placed before stock arrives receive a 5% discount off the standard unit price. The discounted price is confirmed in writing at the time of order. Additional wholesale discounts apply for salon and distributor accounts on top of the pre-order rate."
-          }
-        },
-        "faq_4": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Do you deliver outside Lagos?",
-            "answer": "Yes — all 36 states and the FCT via GIG Logistics and DHL Nigeria. Lagos orders receive same-day dispatch for payments confirmed before 12pm. Abuja and Port Harcourt typically 1–2 days. Remote states 2–4 days."
-          }
-        },
-        "faq_5": {
-          "type": "faq_item",
-          "settings": {
-            "question": "When are premium human hair bundles launching?",
-            "answer": "Premium human hair bundles, HD lace frontals, and closures are in our product pipeline. Pre-registration for wholesale accounts is open now — registered accounts will receive first-access allocation and launch pricing before general availability."
-          }
-        }
-      },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5"]
-    },
     "cta_banner": {
       "type": "cta-banner",
       "settings": {
@@ -434,8 +355,6 @@
     "about_us",
     "buyer_tiers",
     "how_to_order",
-    "divider_3",
-    "faq",
     "cta_banner"
   ]
 }

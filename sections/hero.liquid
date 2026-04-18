@@ -17,16 +17,6 @@
       <a href="{{ section.settings.cta3_url | default: '/pages/wholesale' }}" class="btn btn--ghost-light">{{ section.settings.cta3_text | default: 'Wholesale Inquiry' }}</a>
     </div>
 
-    <div class="hero__quals">
-      {% for block in section.blocks %}
-        {% if block.type == 'qualifier' %}
-          <div class="hero__qual">
-            <span class="hero__qual-title">{{ block.settings.title }}</span>
-            <span class="hero__qual-desc">{{ block.settings.desc }}</span>
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
   </div>
 
   <div class="hero__panel">
@@ -82,14 +72,6 @@
   ],
   "blocks": [
     {
-      "type": "qualifier",
-      "name": "Qualifier Row",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "All Hair Types" },
-        { "type": "text", "id": "desc", "label": "Description", "default": "Braiding hair, bulk hair, bone straight, french curl, deep wave." }
-      ]
-    },
-    {
       "type": "stat",
       "name": "Stats Panel Item",
       "settings": [
@@ -105,11 +87,7 @@
         { "type": "stat", "settings": { "value": "700+", "label": "Units in stock" } },
         { "type": "stat", "settings": { "value": "3", "label": "Hair types" } },
         { "type": "stat", "settings": { "value": "36", "label": "States covered" } },
-        { "type": "stat", "settings": { "value": "4+", "label": "Colour options" } },
-        { "type": "qualifier", "settings": { "title": "All Hair Types", "desc": "Braiding hair, bulk hair, bone straight, french curl, deep wave — individual and wholesale quantities." } },
-        { "type": "qualifier", "settings": { "title": "Multiple Colours", "desc": "1B, 27#, BUG, 613# and more — stocked across all product lines for salon and retail buyers." } },
-        { "type": "qualifier", "settings": { "title": "Pre-Order Pricing", "desc": "Reserve stock before it arrives. Fixed price at time of order. 5% discount on pre-order quantities." } },
-        { "type": "qualifier", "settings": { "title": "36-State Delivery", "desc": "Same-day Lagos dispatch. GIG Logistics and DHL nationwide. WhatsApp tracking at every milestone." } }
+        { "type": "stat", "settings": { "value": "4+", "label": "Colour options" } }
       ]
     }
   ]
