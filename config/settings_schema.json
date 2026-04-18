@@ -1,1 +1,135 @@
-[]
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Global Hair Direct",
+    "theme_version": "1.0.0",
+    "theme_author": "Global Hair Direct",
+    "theme_documentation_url": "https://globalhairdirect.com.ng",
+    "theme_support_url": "https://globalhairdirect.com.ng/contact"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Color scheme"
+      },
+      {
+        "type": "color",
+        "id": "colors_solid_button_labels",
+        "label": "Solid button labels",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent_1",
+        "label": "Accent 1",
+        "default": "#C9970A"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent_2",
+        "label": "Accent 2",
+        "default": "#0B1623"
+      },
+      {
+        "type": "color",
+        "id": "colors_background_1",
+        "label": "Background 1",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "colors_background_2",
+        "label": "Background 2",
+        "default": "#F7F7F5"
+      },
+      {
+        "type": "color",
+        "id": "colors_text",
+        "label": "Text",
+        "default": "#1A1A1A"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts"
+      },
+      {
+        "type": "text",
+        "id": "typography_font_header__family",
+        "label": "Heading font family",
+        "default": "Playfair Display"
+      },
+      {
+        "type": "text",
+        "id": "typography_font_header__style",
+        "label": "Heading font style",
+        "default": "normal"
+      },
+      {
+        "type": "text",
+        "id": "typography_font_header__weight",
+        "label": "Heading font weight",
+        "default": "400"
+      },
+      {
+        "type": "text",
+        "id": "typography_font_body__family",
+        "label": "Body font family",
+        "default": "DM Sans"
+      },
+      {
+        "type": "text",
+        "id": "typography_font_body__style",
+        "label": "Body font style",
+        "default": "normal"
+      },
+      {
+        "type": "text",
+        "id": "typography_font_body__weight",
+        "label": "Body font weight",
+        "default": "400"
+      },
+      {
+        "type": "range",
+        "id": "type_header_font_size",
+        "min": 24,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "label": "Heading font size",
+        "default": 36
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "spacing_sections",
+        "min": 0,
+        "max": 160,
+        "step": 4,
+        "unit": "px",
+        "label": "Section spacing",
+        "default": 80
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "min": 50,
+        "max": 400,
+        "step": 10,
+        "unit": "px",
+        "label": "Logo max width",
+        "default": 200
+      }
+    ]
+  }
+]

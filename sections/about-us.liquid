@@ -1,0 +1,141 @@
+{% liquid
+  assign check_count = 0
+  assign stat_count = 0
+  for block in section.blocks
+    if block.type == 'check_item'
+      assign check_count = check_count | plus: 1
+    elsif block.type == 'stat'
+      assign stat_count = stat_count | plus: 1
+    endif
+  endfor
+%}
+<section class="section">
+  <div class="about-cols">
+    <div>
+      <div class="eyebrow">
+        <div class="eyebrow__line"></div>
+        <span class="eyebrow__text">{{ section.settings.left_eyebrow | default: 'About Us' }}</span>
+      </div>
+      <h2 class="section__title">{{ section.settings.title | default: 'One Standard.' }}<br><em>{{ section.settings.title_italic | default: 'Consistently Applied.' }}</em></h2>
+      <p class="section__lead">{{ section.settings.lead | default: 'Global Hair Direct supplies quality hair products directly to Nigerian buyers — salon owners, beauty distributors, and individuals — with fair wholesale pricing, multiple colour options, and reliable nationwide delivery on every order.' }}</p>
+      <ul class="checklist">
+        {% if check_count > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'check_item' %}
+              <li class="checklist__item" {{ block.shopify_attributes }}>
+                <span class="{% if block.settings.is_negative %}checklist__mark--no{% else %}checklist__mark--yes{% endif %}">
+                  {% if block.settings.is_negative %}✕{% else %}✓{% endif %}
+                </span>
+                <div><strong>{{ block.settings.label }}</strong> {{ block.settings.text }}</div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <li class="checklist__item">
+            <span class="checklist__mark--yes">✓</span>
+            <div><strong>What we are:</strong> A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states.</div>
+          </li>
+          <li class="checklist__item">
+            <span class="checklist__mark--yes">✓</span>
+            <div><strong>What we supply:</strong> Braiding hair, bulk hair, and curl hair — with premium human hair extensions launching soon.</div>
+          </li>
+          <li class="checklist__item">
+            <span class="checklist__mark--yes">✓</span>
+            <div><strong>What we offer:</strong> Wholesale pricing tiers, pre-order discounts, and dedicated support for salon and distributor accounts.</div>
+          </li>
+          <li class="checklist__item">
+            <span class="checklist__mark--no">✕</span>
+            <div><strong>What we do not do:</strong> Process unconfirmed orders, substitute colours without approval, or ship outside Nigeria.</div>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div>
+      <div class="eyebrow">
+        <div class="eyebrow__line"></div>
+        <span class="eyebrow__text">{{ section.settings.right_eyebrow | default: 'By the Numbers' }}</span>
+      </div>
+      <div class="stats-block">
+        {% if stat_count > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'stat' %}
+              <div class="stat-row" {{ block.shopify_attributes }}>
+                <span class="stat-row__val">{{ block.settings.value }}</span>
+                <span class="stat-row__lbl">{{ block.settings.label }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="stat-row">
+            <span class="stat-row__val">700+</span>
+            <span class="stat-row__lbl">Units available in current stock</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">3</span>
+            <span class="stat-row__lbl">Hair types stocked — more coming</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">4+</span>
+            <span class="stat-row__lbl">Colour options per product line</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">36</span>
+            <span class="stat-row__lbl">States covered nationwide</span>
+          </div>
+        {% endif %}
+      </div>
+      <a href="{{ section.settings.cta_url | default: '/pages/contact' }}" class="btn btn--navy btn--full" style="margin-top:24px;">
+        {{ section.settings.cta_text | default: 'Request Wholesale Account' }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Us",
+  "settings": [
+    { "type": "text", "id": "left_eyebrow", "label": "Left Eyebrow", "default": "About Us" },
+    { "type": "text", "id": "title", "label": "Title", "default": "One Standard." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Consistently Applied." },
+    { "type": "textarea", "id": "lead", "label": "Lead Text" },
+    { "type": "text", "id": "right_eyebrow", "label": "Right Eyebrow", "default": "By the Numbers" },
+    { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Request Wholesale Account" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" }
+  ],
+  "blocks": [
+    {
+      "type": "check_item",
+      "name": "Checklist Item",
+      "settings": [
+        { "type": "checkbox", "id": "is_negative", "label": "Negative item", "default": false },
+        { "type": "text", "id": "label", "label": "Label", "default": "What we are:" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states." }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "700+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Units available in current stock" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us",
+      "blocks": [
+        { "type": "check_item", "settings": { "is_negative": false, "label": "What we are:", "text": "A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states." } },
+        { "type": "check_item", "settings": { "is_negative": false, "label": "What we supply:", "text": "Braiding hair, bulk hair, and curl hair — with premium human hair extensions launching soon." } },
+        { "type": "check_item", "settings": { "is_negative": false, "label": "What we offer:", "text": "Wholesale pricing tiers, pre-order discounts, and dedicated support for salon and distributor accounts." } },
+        { "type": "check_item", "settings": { "is_negative": true, "label": "What we do not do:", "text": "Process unconfirmed orders, substitute colours without approval, or ship outside Nigeria." } },
+        { "type": "stat", "settings": { "value": "700+", "label": "Units available in current stock" } },
+        { "type": "stat", "settings": { "value": "3", "label": "Hair types stocked — more coming" } },
+        { "type": "stat", "settings": { "value": "4+", "label": "Colour options per product line" } },
+        { "type": "stat", "settings": { "value": "36", "label": "States covered nationwide" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,78 @@
+<section class="section--dark">
+  <div class="eyebrow eyebrow--gold">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Buyer Tiers' }}</span>
+  </div>
+  <h2 class="section__title section__title--light">{{ section.settings.title | default: 'Structured Pricing.' }}<br><em>{{ section.settings.title_italic | default: 'Three Account Tiers.' }}</em></h2>
+  <p class="section__lead section__lead--light">{{ section.settings.lead | default: 'Pricing reflects order volume and account type. All pricing confirmed in writing before any order is processed. No hidden charges.' }}</p>
+
+  <div class="tiers-wrap">
+    {% for block in section.blocks %}
+      {% if block.type == 'tier' %}
+        <div class="tier-row" {{ block.shopify_attributes }}>
+          <div>
+            <div class="tier-row__num">{{ block.settings.tier_number }}</div>
+            <div class="tier-row__name">{{ block.settings.name }}</div>
+            <div class="tier-row__range">{{ block.settings.range }}</div>
+          </div>
+          <ul class="tier-row__perks">
+            {% assign perk_html = block.settings.perks | newline_to_br %}
+            {% assign perk_lines = perk_html | split: '<br />' %}
+            {% for line in perk_lines %}
+              {% assign trimmed = line | strip | strip_html %}
+              {% if trimmed != blank %}
+                <li class="tier-row__perk">{{ trimmed }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          <div>
+            <div class="tier-row__disc">{{ block.settings.discount }}</div>
+            <div class="tier-row__disc-lbl">{{ block.settings.discount_label }}</div>
+            {% if block.settings.cta_text != blank %}
+              <a href="{{ block.settings.cta_url | default: '#' }}" class="tier-row__cta{% if block.settings.featured %} tier-row__cta--featured{% endif %}">{{ block.settings.cta_text }}</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Buyer Tiers",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Buyer Tiers" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Structured Pricing." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Three Account Tiers." },
+    { "type": "textarea", "id": "lead", "label": "Lead Text" }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Tier",
+      "settings": [
+        { "type": "text", "id": "tier_number", "label": "Tier Number", "default": "Tier 01" },
+        { "type": "text", "id": "name", "label": "Tier Name", "default": "Individual Buyer" },
+        { "type": "text", "id": "range", "label": "Range Text", "default": "Small quantities · No minimums" },
+        { "type": "textarea", "id": "perks", "label": "Perks (one per line)", "default": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door" },
+        { "type": "text", "id": "discount", "label": "Discount", "default": "Retail" },
+        { "type": "text", "id": "discount_label", "label": "Discount Label", "default": "Standard pricing" },
+        { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Shop Now" },
+        { "type": "url", "id": "cta_url", "label": "CTA URL" },
+        { "type": "checkbox", "id": "featured", "label": "Featured CTA", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Buyer Tiers",
+      "blocks": [
+        { "type": "tier", "settings": { "tier_number": "Tier 01", "name": "Individual Buyer", "range": "Small quantities · No minimums", "perks": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door", "discount": "Retail", "discount_label": "Standard pricing", "cta_text": "Shop Now", "featured": false } },
+        { "type": "tier", "settings": { "tier_number": "Tier 02", "name": "Salon Owner", "range": "Medium volume · Regular orders", "perks": "Salon-tier pricing across all hair types\nMixed colour orders accepted per product\nMonthly standing order option available\nPriority dispatch and dedicated support\nFirst access to new product launches", "discount": "–15%", "discount_label": "Off retail pricing", "cta_text": "Apply Now", "featured": true } },
+        { "type": "tier", "settings": { "tier_number": "Tier 03", "name": "Wholesale Distributor", "range": "High volume · Bulk orders", "perks": "Lowest per-unit pricing available\nFull colour and product mix per order\nCustom packaging options available\nDedicated account manager assigned\nNet-30 payment terms for verified accounts\nMulti-state distribution support", "discount": "–35%", "discount_label": "Off retail pricing", "cta_text": "Apply Now", "featured": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

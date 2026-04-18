@@ -1,0 +1,56 @@
+<section class="section--alt">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'How to Order' }}</span>
+  </div>
+  <h2 class="section__title">{{ section.settings.title | default: 'Simple Process.' }}<br><em>{{ section.settings.title_italic | default: 'Four Steps to Delivery.' }}</em></h2>
+  <p class="section__lead">{{ section.settings.lead | default: 'Every order — standard or pre-order — follows a documented process with confirmed pricing, clear timelines, and WhatsApp tracking from dispatch to delivery.' }}</p>
+
+  <div class="process-list">
+    {% for block in section.blocks %}
+      {% if block.type == 'step' %}
+        <div class="process-item" {{ block.shopify_attributes }}>
+          <div class="process-item__num">{{ block.settings.number }}</div>
+          <div>
+            <h4 class="process-item__title">{{ block.settings.title }}</h4>
+            <p class="process-item__text">{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How To Order",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How to Order" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Simple Process." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Four Steps to Delivery." },
+    { "type": "textarea", "id": "lead", "label": "Lead Text" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Step Number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Step Title", "default": "Select Your Products" },
+        { "type": "textarea", "id": "text", "label": "Step Description", "default": "Choose your hair type, colour, and quantity from our catalogue. Mix colours within the same product line — 1B, 27#, BUG, and 613# all available. Confirm availability before proceeding." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How To Order",
+      "blocks": [
+        { "type": "step", "settings": { "number": "01", "title": "Select Your Products", "text": "Choose your hair type, colour, and quantity from our catalogue. Mix colours within the same product line — 1B, 27#, BUG, and 613# all available. Confirm availability before proceeding." } },
+        { "type": "step", "settings": { "number": "02", "title": "Confirm Pricing & Pay", "text": "Receive a confirmed price list based on your order and account tier. Pay via Paystack, Flutterwave, or direct bank transfer. Order is confirmed in writing upon cleared payment — no informal commitments." } },
+        { "type": "step", "settings": { "number": "03", "title": "Track Your Order", "text": "Receive WhatsApp updates at defined milestones — order confirmed, dispatched, and in transit. One communication channel per order. Same-day Lagos dispatch for orders confirmed before 12pm." } },
+        { "type": "step", "settings": { "number": "04", "title": "Receive Your Delivery", "text": "Delivered to all 36 states via GIG Logistics and DHL Nigeria. Lagos 24–48 hours. Abuja and Port Harcourt 1–2 days. Remote states 2–4 days. Delivery confirmation issued on completion." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

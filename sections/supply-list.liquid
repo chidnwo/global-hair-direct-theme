@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'What We Supply' }}</span>
+  </div>
+  <h2 class="section__title">{{ section.settings.title | default: 'Every Hair Type.' }}<br><em>{{ section.settings.title_italic | default: 'Stocked and Ready to Ship.' }}</em></h2>
+  <p class="section__lead">{{ section.settings.lead | default: 'Global Hair Direct supplies a full range of hair products to salon owners, beauty distributors, and individual buyers across Nigeria. We stock what sells, price it fairly, and deliver it on time — every order.' }}</p>
+
+  <div class="scope-list">
+    {% for block in section.blocks %}
+      {% if block.type == 'supply_item' %}
+        <div class="scope-item" {{ block.shopify_attributes }}>
+          <div class="scope-item__num">{{ block.settings.number }}</div>
+          <div>
+            <h4 class="scope-item__title">{{ block.settings.title }}</h4>
+            <p class="scope-item__text">{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "What We Supply",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What We Supply" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Every Hair Type." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Stocked and Ready to Ship." },
+    { "type": "textarea", "id": "lead", "label": "Lead Text" }
+  ],
+  "blocks": [
+    {
+      "type": "supply_item",
+      "name": "Supply Item",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Bone Straight Braiding Hair — 30inch 150g" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Available in colours 1B, 27#, BUG, and 613#. Suitable for knotless braids, box braids, and straight styles. Stocked in bulk quantities for salon and wholesale orders. Pre-order pricing available with 5% discount on confirmed orders." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "What We Supply",
+      "blocks": [
+        { "type": "supply_item", "settings": { "number": "01", "title": "Bone Straight Braiding Hair — 30inch 150g", "text": "Available in colours 1B, 27#, BUG, and 613#. Suitable for knotless braids, box braids, and straight styles. Stocked in bulk quantities for salon and wholesale orders. Pre-order pricing available with 5% discount on confirmed orders." } },
+        { "type": "supply_item", "settings": { "number": "02", "title": "French Curl Hair — 22inch 150g", "text": "Available in colours 1B, 27#, BUG, and 613#. Lightweight and manageable for crochet and freeform curl styles. Consistent curl pattern across all colour options. Individual and wholesale quantities available." } },
+        { "type": "supply_item", "settings": { "number": "03", "title": "Deep Wave Bulk Hair — 22inch 100g", "text": "Available in colours 1B, 27#, BUG, and 613#. Ideal for deep wave installs, crochet, and bulk styling. 100g per unit — competitively priced for volume buyers. Salon and distributor discounts available." } },
+        { "type": "supply_item", "settings": { "number": "04", "title": "Coming Soon — Premium Human Hair Extensions", "text": "Global Hair Direct is expanding into premium human hair bundles, HD lace frontals, and closures. Pre-registration for wholesale accounts is open now. Existing customers receive first-access allocation when stock launches." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

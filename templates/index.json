@@ -78,7 +78,7 @@
       ]
     },
     "what_we_supply": {
-      "type": "what-we-supply",
+      "type": "supply-list",
       "settings": {
         "eyebrow": "What We Supply",
         "title": "Every Hair Type.",
