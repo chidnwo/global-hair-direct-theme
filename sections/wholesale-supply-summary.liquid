@@ -1,0 +1,60 @@
+<section class="section">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Wholesale Product Scope' }}</span>
+  </div>
+  <h2 class="section__title">
+    {{ section.settings.title | default: 'What You Can Order In Bulk.' }}<br>
+    <em>{{ section.settings.title_italic | default: 'Condensed For Fast Review.' }}</em>
+  </h2>
+  <p class="section__lead">
+    {{ section.settings.lead | default: 'This is a quick wholesale summary. Full product details, colour options, and pricing remain in the catalogue cards below.' }}
+  </p>
+
+  <div class="scope-list">
+    {% for block in section.blocks %}
+      {% if block.type == 'summary_item' %}
+        <div class="scope-item" {{ block.shopify_attributes }}>
+          <div class="scope-item__num">{{ block.settings.number }}</div>
+          <div>
+            <h4 class="scope-item__title">{{ block.settings.title }}</h4>
+            <p class="scope-item__text">{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wholesale Supply Summary",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Wholesale Product Scope" },
+    { "type": "text", "id": "title", "label": "Title", "default": "What You Can Order In Bulk." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Condensed For Fast Review." },
+    { "type": "textarea", "id": "lead", "label": "Lead Text" }
+  ],
+  "blocks": [
+    {
+      "type": "summary_item",
+      "name": "Summary Item",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Braiding Hair Lines" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "Bone Straight 30inch (150g). Available in 1B, 27#, BUG, and 613# for salon and distributor accounts." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Supply Summary",
+      "blocks": [
+        { "type": "summary_item", "settings": { "number": "01", "title": "Braiding Hair Lines", "text": "Bone Straight 30inch (150g). Available in 1B, 27#, BUG, and 613# for salon and distributor accounts." } },
+        { "type": "summary_item", "settings": { "number": "02", "title": "Curl And Bulk Hair", "text": "French Curl 22inch (150g) and Deep Wave Bulk 22inch (100g). Consistent colour sets and volume-ready packing." } },
+        { "type": "summary_item", "settings": { "number": "03", "title": "Premium Add-Ons", "text": "Human hair bundles and HD lace frontals are launching soon. Approved wholesale accounts receive first-access allocation." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

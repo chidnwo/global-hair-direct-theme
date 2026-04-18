@@ -1,0 +1,251 @@
+{
+  "sections": {
+    "wholesale_supply_summary": {
+      "type": "wholesale-supply-summary",
+      "settings": {
+        "eyebrow": "Wholesale Product Scope",
+        "title": "What You Can Order In Bulk.",
+        "title_italic": "Clear Range. No Guesswork.",
+        "lead": "This section is a wholesale summary only. Detailed line-by-line specs, colours, and unit pricing are shown in the catalogue cards below."
+      },
+      "blocks": {
+        "summary_1": {
+          "type": "summary_item",
+          "settings": {
+            "number": "01",
+            "title": "Braiding Hair Core Line",
+            "text": "Bone Straight Braiding Hair (30inch, 150g) for salon and distributor volume orders. Colour set includes 1B, 27#, BUG, and 613#."
+          }
+        },
+        "summary_2": {
+          "type": "summary_item",
+          "settings": {
+            "number": "02",
+            "title": "Curl And Bulk Staples",
+            "text": "French Curl 22inch (150g) and Deep Wave Bulk 22inch (100g). Built for regular reorders and mixed-colour wholesale baskets."
+          }
+        },
+        "summary_3": {
+          "type": "summary_item",
+          "settings": {
+            "number": "03",
+            "title": "Upcoming Premium Expansion",
+            "text": "Premium human hair bundles and lace products are opening for wholesale pre-registration. Approved accounts get first access."
+          }
+        }
+      },
+      "block_order": ["summary_1", "summary_2", "summary_3"]
+    },
+    "divider_1": {
+      "type": "section-divider",
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Wholesale Catalogue Snapshot",
+        "title": "Current Stock &",
+        "title_italic": "Pre-Order Lines",
+        "products_limit": 4,
+        "show_view_all": true,
+        "view_all_text": "View Full Catalogue",
+        "view_all_url": "/collections/all"
+      },
+      "blocks": {
+        "fp_f1": {
+          "type": "filter",
+          "settings": { "label": "Braiding Hair", "filter_key": "braiding-hair" }
+        },
+        "fp_f2": {
+          "type": "filter",
+          "settings": { "label": "Curl Hair", "filter_key": "curl-hair" }
+        },
+        "fp_f3": {
+          "type": "filter",
+          "settings": { "label": "Deep Wave", "filter_key": "deep-wave" }
+        },
+        "fp_f4": {
+          "type": "filter",
+          "settings": { "label": "Coming Soon", "filter_key": "coming-soon" }
+        },
+        "fp_c1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Bone Straight 30inch",
+            "category": "Braiding Hair",
+            "vendor": "150g · Colours: 1B, 27#, BUG, 613#",
+            "price": "$1.00",
+            "price_label": "Per unit · MOQ 60",
+            "badge_type": "instock",
+            "badge": "In Stock",
+            "filter_key": "braiding-hair"
+          }
+        },
+        "fp_c2": {
+          "type": "product_card",
+          "settings": {
+            "title": "French Curl 22inch",
+            "category": "Curl Hair",
+            "vendor": "150g · Colours: 1B, 27#, BUG, 613#",
+            "price": "$1.00",
+            "price_label": "Per unit · MOQ 25",
+            "badge_type": "instock",
+            "badge": "In Stock",
+            "filter_key": "curl-hair"
+          }
+        },
+        "fp_c3": {
+          "type": "product_card",
+          "settings": {
+            "title": "Deep Wave Bulk 22inch",
+            "category": "Bulk Hair",
+            "vendor": "100g · Colours: 1B, 27#, BUG, 613#",
+            "price": "$2.00",
+            "price_label": "Per unit · MOQ 15",
+            "badge_type": "instock",
+            "badge": "In Stock",
+            "filter_key": "deep-wave"
+          }
+        },
+        "fp_c4": {
+          "type": "product_card",
+          "settings": {
+            "title": "Premium Bundles & Frontals",
+            "category": "Human Hair",
+            "vendor": "Raw Virgin · Launching soon",
+            "price": "Notify Me",
+            "price_label": "Pre-register now",
+            "badge_type": "soon",
+            "badge": "Coming Soon",
+            "filter_key": "coming-soon"
+          }
+        }
+      },
+      "block_order": ["fp_f1", "fp_f2", "fp_f3", "fp_f4", "fp_c1", "fp_c2", "fp_c3", "fp_c4"]
+    },
+    "divider_2": {
+      "type": "section-divider",
+      "settings": {}
+    },
+    "buyer_tiers": {
+      "type": "buyer-tiers",
+      "settings": {
+        "eyebrow": "Wholesale Account Tiers",
+        "title": "Structured Pricing.",
+        "title_italic": "Built For Order Volume.",
+        "lead": "Tiered pricing is based on account type and order scale. All prices are confirmed in writing before payment."
+      },
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "tier_number": "Tier 01",
+            "name": "Individual Buyer",
+            "range": "Small quantities · No minimums",
+            "perks": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door",
+            "discount": "Retail",
+            "discount_label": "Standard pricing",
+            "cta_text": "Shop Now",
+            "cta_url": "/collections/all",
+            "featured": false
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "tier_number": "Tier 02",
+            "name": "Salon Owner",
+            "range": "Medium volume · Regular orders",
+            "perks": "Salon-tier pricing across all hair types\nMixed colour orders accepted per product\nMonthly standing order option available\nPriority dispatch and dedicated support\nFirst access to new product launches",
+            "discount": "-15%",
+            "discount_label": "Off retail pricing",
+            "cta_text": "Apply Now",
+            "cta_url": "/pages/contact",
+            "featured": true
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "tier_number": "Tier 03",
+            "name": "Wholesale Distributor",
+            "range": "High volume · Bulk orders",
+            "perks": "Lowest per-unit pricing available\nFull colour and product mix per order\nCustom packaging options available\nDedicated account manager assigned\nNet-30 payment terms for verified accounts\nMulti-state distribution support",
+            "discount": "-35%",
+            "discount_label": "Off retail pricing",
+            "cta_text": "Apply Now",
+            "cta_url": "/pages/contact",
+            "featured": false
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
+    },
+    "how_to_order": {
+      "type": "how-to-order",
+      "settings": {
+        "eyebrow": "Wholesale Order Flow",
+        "title": "Simple Process.",
+        "title_italic": "Four Steps to Dispatch.",
+        "lead": "Every wholesale order follows one clear workflow: request, confirm, pay, and track."
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Share Product Mix And Quantities",
+            "text": "Send your preferred hair type, colour split, and volume requirements for your account. Team confirms availability and MOQ alignment."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Receive Confirmed Wholesale Quote",
+            "text": "Pricing is issued in writing based on your tier, quantities, and any pre-order lines. No hidden charges after confirmation."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Complete Payment And Processing",
+            "text": "Pay via approved channels. Orders move to processing only after payment confirmation, then dispatch scheduling is locked."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "number": "04",
+            "title": "Track Dispatch To Final Delivery",
+            "text": "You receive milestone updates through one channel from dispatch to delivery, including interstate logistics handoff details."
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4"]
+    },
+    "cta_banner": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "Wholesale Accounts Open",
+        "title": "Ready To Buy At Volume?",
+        "title_italic": "Request Your Account Review.",
+        "text": "Apply for a wholesale account to access tier pricing, dedicated support, and priority allocation for incoming stock lines.",
+        "cta1_text": "Request Wholesale Account",
+        "cta1_url": "/pages/contact",
+        "cta2_text": "View Full Catalogue",
+        "cta2_url": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "wholesale_supply_summary",
+    "divider_1",
+    "featured_products",
+    "divider_2",
+    "buyer_tiers",
+    "how_to_order",
+    "cta_banner"
+  ]
+}
