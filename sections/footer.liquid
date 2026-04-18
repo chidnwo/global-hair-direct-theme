@@ -7,22 +7,32 @@
         </div>
         <span class="site-footer__brand-name">{{ section.settings.brand_name | default: shop.name }}</span>
       </div>
-      <p class="site-footer__desc">{{ section.settings.desc | default: 'Quality hair supply for salon owners, distributors, and individual buyers across all 36 Nigerian states.' }}</p>
+      <p class="site-footer__desc">{{ section.settings.desc | default: 'Quality hair supply for salon owners, distributors, and individual buyers across all 36 Nigerian states. Braiding hair, bulk hair, and premium extensions - delivered direct.' }}</p>
     </div>
-
-    {% for block in section.blocks %}
-      {% if block.type == 'link_column' %}
-        <div class="site-footer__col">
-          <h5>{{ block.settings.heading }}</h5>
-          {% assign menu = linklists[block.settings.menu] %}
-          {% if menu %}
-            {% for link in menu.links %}
-              <a href="{{ link.url }}">{{ link.title }}</a>
-            {% endfor %}
-          {% endif %}
-        </div>
-      {% endif %}
-    {% endfor %}
+    <div class="site-footer__col">
+      <h5>Products</h5>
+      <a href="#">Bone Straight 30inch</a>
+      <a href="#">French Curl 22inch</a>
+      <a href="#">Deep Wave Bulk</a>
+      <a href="#">Colour Options</a>
+      <a href="#">Coming Soon</a>
+    </div>
+    <div class="site-footer__col">
+      <h5>Accounts</h5>
+      <a href="#">Wholesale</a>
+      <a href="#">Pre-Order</a>
+      <a href="#">Salon Registration</a>
+      <a href="#">Distributor Access</a>
+      <a href="#">Referral Programme</a>
+    </div>
+    <div class="site-footer__col">
+      <h5>Support</h5>
+      <a href="#">WhatsApp Team</a>
+      <a href="#">Track My Order</a>
+      <a href="#">Return Policy</a>
+      <a href="#">Terms of Sale</a>
+      <a href="#">Privacy Policy</a>
+    </div>
   </div>
 
   <div class="site-footer__bottom">
@@ -43,16 +53,6 @@
     { "type": "text", "id": "brand_name", "label": "Brand Name", "default": "Global Hair Direct Nigeria" },
     { "type": "textarea", "id": "desc", "label": "Brand Description" },
     { "type": "text", "id": "email", "label": "Contact Email", "default": "info@globalhairdirect.com.ng" }
-  ],
-  "blocks": [
-    {
-      "type": "link_column",
-      "name": "Footer Column",
-      "settings": [
-        { "type": "text", "id": "heading", "label": "Column Heading", "default": "Products" },
-        { "type": "link_list", "id": "menu", "label": "Menu" }
-      ]
-    }
   ],
   "presets": [{ "name": "Footer" }]
 }
