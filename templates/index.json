@@ -1,0 +1,441 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "Nigeria's Hair Supplier",
+        "title": "Every Hair Type.\nEvery Texture.",
+        "title_italic": "Delivered Anywhere in Nigeria.",
+        "lead": "<strong>Global Hair Direct</strong> supplies braiding hair, bulk hair, and premium hair extensions directly to salon owners, distributors, and individual buyers across all 36 Nigerian states — with consistent quality, transparent pricing, and accountable delivery every order.",
+        "tagline": "From supplier to your door. No complications.",
+        "cta1_text": "Place Pre-Order",
+        "cta1_url": "/collections/all",
+        "cta2_text": "View Catalogue",
+        "cta2_url": "/collections/all",
+        "cta3_text": "Wholesale Inquiry",
+        "cta3_url": "/pages/contact",
+        "panel_title": "Current Stock",
+        "notice_tag": "Pre-Order Offer — Active Now",
+        "notice_text": "<strong>Bone Straight, French Curl &amp; Deep Wave</strong> — order now and receive 5% discount on your total. Wholesale pricing available for salon and distributor accounts.",
+        "notice_cta_text": "Place Pre-Order",
+        "notice_cta_url": "/collections/all"
+      },
+      "blocks": {
+        "hero_stat_1": {
+          "type": "stat",
+          "settings": { "value": "700", "label": "Units in stock" }
+        },
+        "hero_stat_2": {
+          "type": "stat",
+          "settings": { "value": "3", "label": "Hair types" }
+        },
+        "hero_stat_3": {
+          "type": "stat",
+          "settings": { "value": "36", "label": "States covered" }
+        },
+        "hero_stat_4": {
+          "type": "stat",
+          "settings": { "value": "4+", "label": "Colour options" }
+        },
+        "hero_qual_1": {
+          "type": "qualifier",
+          "settings": {
+            "title": "All Hair Types",
+            "desc": "Braiding hair, bulk hair, bone straight, french curl, deep wave — individual and wholesale quantities."
+          }
+        },
+        "hero_qual_2": {
+          "type": "qualifier",
+          "settings": {
+            "title": "Multiple Colours",
+            "desc": "1B, 27#, BUG, 613# and more — stocked across all product lines for salon and retail buyers."
+          }
+        },
+        "hero_qual_3": {
+          "type": "qualifier",
+          "settings": {
+            "title": "Pre-Order Pricing",
+            "desc": "Reserve stock before it arrives. Fixed price at time of order. 5% discount on pre-order quantities."
+          }
+        },
+        "hero_qual_4": {
+          "type": "qualifier",
+          "settings": {
+            "title": "36-State Delivery",
+            "desc": "Same-day Lagos dispatch. GIG Logistics and DHL nationwide. WhatsApp tracking at every milestone."
+          }
+        }
+      },
+      "block_order": [
+        "hero_stat_1",
+        "hero_stat_2",
+        "hero_stat_3",
+        "hero_stat_4",
+        "hero_qual_1",
+        "hero_qual_2",
+        "hero_qual_3",
+        "hero_qual_4"
+      ]
+    },
+    "what_we_supply": {
+      "type": "what-we-supply",
+      "settings": {
+        "eyebrow": "What We Supply",
+        "title": "Every Hair Type.",
+        "title_italic": "Stocked and Ready to Ship.",
+        "lead": "Global Hair Direct supplies a full range of hair products to salon owners, beauty distributors, and individual buyers across Nigeria. We stock what sells, price it fairly, and deliver it on time — every order."
+      },
+      "blocks": {
+        "supply_1": {
+          "type": "supply_item",
+          "settings": {
+            "number": "01",
+            "title": "Bone Straight Braiding Hair — 30inch 150g",
+            "text": "Available in colours 1B, 27#, BUG, and 613#. Suitable for knotless braids, box braids, and straight styles. Stocked in bulk quantities for salon and wholesale orders. Pre-order pricing available with 5% discount on confirmed orders."
+          }
+        },
+        "supply_2": {
+          "type": "supply_item",
+          "settings": {
+            "number": "02",
+            "title": "French Curl Hair — 22inch 150g",
+            "text": "Available in colours 1B, 27#, BUG, and 613#. Lightweight and manageable for crochet and freeform curl styles. Consistent curl pattern across all colour options. Individual and wholesale quantities available."
+          }
+        },
+        "supply_3": {
+          "type": "supply_item",
+          "settings": {
+            "number": "03",
+            "title": "Deep Wave Bulk Hair — 22inch 100g",
+            "text": "Available in colours 1B, 27#, BUG, and 613#. Ideal for deep wave installs, crochet, and bulk styling. 100g per unit — competitively priced for volume buyers. Salon and distributor discounts available."
+          }
+        },
+        "supply_4": {
+          "type": "supply_item",
+          "settings": {
+            "number": "04",
+            "title": "Coming Soon — Premium Human Hair Extensions",
+            "text": "Global Hair Direct is expanding into premium human hair bundles, HD lace frontals, and closures. Pre-registration for wholesale accounts is open now. Existing customers receive first-access allocation when stock launches."
+          }
+        }
+      },
+      "block_order": ["supply_1", "supply_2", "supply_3", "supply_4"]
+    },
+    "divider_1": { "type": "section-divider", "settings": {} },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Product Catalogue",
+        "title": "Current Stock &",
+        "title_italic": "Pre-Order Lines",
+        "products_limit": 4,
+        "show_view_all": false,
+        "view_all_text": "View Full Catalogue",
+        "view_all_url": "/collections/all"
+      },
+      "blocks": {
+        "fp_f1": { "type": "filter", "settings": { "label": "Braiding Hair", "filter_key": "braiding-hair" } },
+        "fp_f2": { "type": "filter", "settings": { "label": "Curl Hair", "filter_key": "curl-hair" } },
+        "fp_f3": { "type": "filter", "settings": { "label": "Deep Wave", "filter_key": "deep-wave" } },
+        "fp_f4": { "type": "filter", "settings": { "label": "Coming Soon", "filter_key": "coming-soon" } },
+        "fp_c1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Bone Straight 30inch",
+            "category": "Braiding Hair",
+            "vendor": "150g · Colours: 1B, 27#, BUG, 613#",
+            "price": "$1.00",
+            "price_label": "Per unit · MOQ 60",
+            "badge_type": "instock",
+            "badge": "In Stock",
+            "filter_key": "braiding-hair"
+          }
+        },
+        "fp_c2": {
+          "type": "product_card",
+          "settings": {
+            "title": "French Curl 22inch",
+            "category": "Curl Hair",
+            "vendor": "150g · Colours: 1B, 27#, BUG, 613#",
+            "price": "$1.00",
+            "price_label": "Per unit · MOQ 25",
+            "badge_type": "instock",
+            "badge": "In Stock",
+            "filter_key": "curl-hair"
+          }
+        },
+        "fp_c3": {
+          "type": "product_card",
+          "settings": {
+            "title": "Deep Wave Bulk 22inch",
+            "category": "Bulk Hair",
+            "vendor": "100g · Colours: 1B, 27#, BUG, 613#",
+            "price": "$2.00",
+            "price_label": "Per unit · MOQ 15",
+            "badge_type": "instock",
+            "badge": "In Stock",
+            "filter_key": "deep-wave"
+          }
+        },
+        "fp_c4": {
+          "type": "product_card",
+          "settings": {
+            "title": "Premium Bundles & Frontals",
+            "category": "Human Hair",
+            "vendor": "Raw Virgin · Launching soon",
+            "price": "Notify Me",
+            "price_label": "Pre-register now",
+            "badge_type": "soon",
+            "badge": "Coming Soon",
+            "filter_key": "coming-soon"
+          }
+        }
+      },
+      "block_order": ["fp_f1", "fp_f2", "fp_f3", "fp_f4", "fp_c1", "fp_c2", "fp_c3", "fp_c4"]
+    },
+    "divider_2": { "type": "section-divider", "settings": {} },
+    "about_us": {
+      "type": "about-us",
+      "settings": {
+        "left_eyebrow": "About Us",
+        "title": "One Standard.",
+        "title_italic": "Consistently Applied.",
+        "lead": "Global Hair Direct supplies quality hair products directly to Nigerian buyers — salon owners, beauty distributors, and individuals — with fair wholesale pricing, multiple colour options, and reliable nationwide delivery on every order.",
+        "right_eyebrow": "By the Numbers",
+        "cta_text": "Request Wholesale Account",
+        "cta_url": "/pages/contact"
+      },
+      "blocks": {
+        "about_check_1": {
+          "type": "check_item",
+          "settings": {
+            "is_negative": false,
+            "label": "What we are:",
+            "text": "A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states."
+          }
+        },
+        "about_check_2": {
+          "type": "check_item",
+          "settings": {
+            "is_negative": false,
+            "label": "What we supply:",
+            "text": "Braiding hair, bulk hair, and curl hair — with premium human hair extensions launching soon."
+          }
+        },
+        "about_check_3": {
+          "type": "check_item",
+          "settings": {
+            "is_negative": false,
+            "label": "What we offer:",
+            "text": "Wholesale pricing tiers, pre-order discounts, and dedicated support for salon and distributor accounts."
+          }
+        },
+        "about_check_4": {
+          "type": "check_item",
+          "settings": {
+            "is_negative": true,
+            "label": "What we do not do:",
+            "text": "Process unconfirmed orders, substitute colours without approval, or ship outside Nigeria."
+          }
+        },
+        "about_stat_1": {
+          "type": "stat",
+          "settings": { "value": "700+", "label": "Units available in current stock" }
+        },
+        "about_stat_2": {
+          "type": "stat",
+          "settings": { "value": "3", "label": "Hair types stocked — more coming" }
+        },
+        "about_stat_3": {
+          "type": "stat",
+          "settings": { "value": "4+", "label": "Colour options per product line" }
+        },
+        "about_stat_4": {
+          "type": "stat",
+          "settings": { "value": "36", "label": "States covered nationwide" }
+        }
+      },
+      "block_order": [
+        "about_check_1",
+        "about_check_2",
+        "about_check_3",
+        "about_check_4",
+        "about_stat_1",
+        "about_stat_2",
+        "about_stat_3",
+        "about_stat_4"
+      ]
+    },
+    "buyer_tiers": {
+      "type": "buyer-tiers",
+      "settings": {
+        "eyebrow": "Buyer Tiers",
+        "title": "Structured Pricing.",
+        "title_italic": "Three Account Tiers.",
+        "lead": "Pricing reflects order volume and account type. All pricing confirmed in writing before any order is processed. No hidden charges."
+      },
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "tier_number": "Tier 01",
+            "name": "Individual Buyer",
+            "range": "Small quantities · No minimums",
+            "perks": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door",
+            "discount": "Retail",
+            "discount_label": "Standard pricing",
+            "cta_text": "Shop Now",
+            "cta_url": "/collections/all",
+            "featured": false
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "tier_number": "Tier 02",
+            "name": "Salon Owner",
+            "range": "Medium volume · Regular orders",
+            "perks": "Salon-tier pricing across all hair types\nMixed colour orders accepted per product\nMonthly standing order option available\nPriority dispatch and dedicated support\nFirst access to new product launches",
+            "discount": "–15%",
+            "discount_label": "Off retail pricing",
+            "cta_text": "Apply Now",
+            "cta_url": "/pages/contact",
+            "featured": true
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "tier_number": "Tier 03",
+            "name": "Wholesale Distributor",
+            "range": "High volume · Bulk orders",
+            "perks": "Lowest per-unit pricing available\nFull colour and product mix per order\nCustom packaging options available\nDedicated account manager assigned\nNet-30 payment terms for verified accounts\nMulti-state distribution support",
+            "discount": "–35%",
+            "discount_label": "Off retail pricing",
+            "cta_text": "Apply Now",
+            "cta_url": "/pages/contact",
+            "featured": false
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"]
+    },
+    "how_to_order": {
+      "type": "how-to-order",
+      "settings": {
+        "eyebrow": "How to Order",
+        "title": "Simple Process.",
+        "title_italic": "Four Steps to Delivery.",
+        "lead": "Every order — standard or pre-order — follows a documented process with confirmed pricing, clear timelines, and WhatsApp tracking from dispatch to delivery."
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Select Your Products",
+            "text": "Choose your hair type, colour, and quantity from our catalogue. Mix colours within the same product line — 1B, 27#, BUG, and 613# all available. Confirm availability before proceeding."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Confirm Pricing & Pay",
+            "text": "Receive a confirmed price list based on your order and account tier. Pay via Paystack, Flutterwave, or direct bank transfer. Order is confirmed in writing upon cleared payment — no informal commitments."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Track Your Order",
+            "text": "Receive WhatsApp updates at defined milestones — order confirmed, dispatched, and in transit. One communication channel per order. Same-day Lagos dispatch for orders confirmed before 12pm."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "number": "04",
+            "title": "Receive Your Delivery",
+            "text": "Delivered to all 36 states via GIG Logistics and DHL Nigeria. Lagos 24–48 hours. Abuja and Port Harcourt 1–2 days. Remote states 2–4 days. Delivery confirmation issued on completion."
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4"]
+    },
+    "divider_3": { "type": "section-divider", "settings": {} },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "eyebrow": "Common Questions",
+        "title": "What Buyers Ask.",
+        "title_italic": "Answered Directly."
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What hair types do you currently stock?",
+            "answer": "We currently stock three lines — 30inch 150g Bone Straight Braiding Hair, 22inch 150g French Curl Hair, and 22inch 100g Deep Wave Bulk. All three are available in colours 1B, 27#, BUG, and 613#. Premium human hair bundles and frontals are launching soon."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I mix colours in one order?",
+            "answer": "Yes. You can mix colours within the same product line in a single order. Just specify the quantity per colour when placing your order. Minimum quantities apply per colour depending on the product — confirm with our team before ordering."
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the pre-order discount?",
+            "answer": "Pre-orders placed before stock arrives receive a 5% discount off the standard unit price. The discounted price is confirmed in writing at the time of order. Additional wholesale discounts apply for salon and distributor accounts on top of the pre-order rate."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you deliver outside Lagos?",
+            "answer": "Yes — all 36 states and the FCT via GIG Logistics and DHL Nigeria. Lagos orders receive same-day dispatch for payments confirmed before 12pm. Abuja and Port Harcourt typically 1–2 days. Remote states 2–4 days."
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "When are premium human hair bundles launching?",
+            "answer": "Premium human hair bundles, HD lace frontals, and closures are in our product pipeline. Pre-registration for wholesale accounts is open now — registered accounts will receive first-access allocation and launch pricing before general availability."
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5"]
+    },
+    "cta_banner": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "Pre-Order Now Open",
+        "title": "Order Today.",
+        "title_italic": "5% Off Your Entire Order.",
+        "text": "Bone Straight Braiding Hair, French Curl, and Deep Wave Bulk — all in stock and available for immediate pre-order at 5% below standard pricing. Wholesale accounts receive additional discounts. No commitment required to enquire.",
+        "cta1_text": "Place Pre-Order Now",
+        "cta1_url": "/collections/all",
+        "cta2_text": "Speak to Us on WhatsApp",
+        "cta2_url": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "what_we_supply",
+    "divider_1",
+    "featured_products",
+    "divider_2",
+    "about_us",
+    "buyer_tiers",
+    "how_to_order",
+    "divider_3",
+    "faq",
+    "cta_banner"
+  ]
+}
