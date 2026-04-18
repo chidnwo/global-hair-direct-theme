@@ -1,0 +1,67 @@
+{% assign product = product %}
+
+<div class="product-page">
+  <div class="product-page__gallery">
+    {% if product.featured_image %}
+      <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}">
+    {% else %}
+      <div style="aspect-ratio:1;background:var(--bg);display:flex;align-items:center;justify-content:center;border:0.5px solid var(--line)">
+        <svg width="80" height="80" viewBox="0 0 64 64" style="opacity:0.1;fill:var(--navy)"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+      </div>
+    {% endif %}
+    {% if product.images.size > 1 %}
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">
+        {% for image in product.images limit: 4 %}
+          <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" style="border:0.5px solid var(--line);cursor:pointer;aspect-ratio:1;object-fit:cover">
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="product-page__info">
+    <div class="product-page__vendor">{{ product.vendor }}</div>
+    <h1 class="product-page__title">{{ product.title }}</h1>
+    <div class="product-page__price">{{ product.price | money }}</div>
+
+    {% unless product.has_only_default_variant %}
+      {% for option in product.options_with_values %}
+        <div class="product-page__label">{{ option.name }}</div>
+        <div class="product-page__variants">
+          {% for value in option.values %}
+            <button class="variant-btn {% if forloop.first %}active{% endif %}" data-option="{{ option.name }}" data-value="{{ value }}">
+              {{ value }}
+            </button>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% endunless %}
+
+    <div class="product-page__label" style="margin-top:16px">Quantity</div>
+    <div class="product-page__qty">
+      <button class="qty-btn" data-action="minus">−</button>
+      <input type="number" class="qty-input" value="1" min="1">
+      <button class="qty-btn" data-action="plus">+</button>
+    </div>
+
+    <form action="/cart/add" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" class="btn btn--gold btn--full" style="margin-bottom:12px">
+        {% if product.available %}Add to Cart{% else %}Out of Stock{% endif %}
+      </button>
+    </form>
+
+    <a href="/pages/contact" class="btn btn--ghost-dark btn--full" style="border-color:var(--line2);color:var(--muted)">
+      Enquire on WhatsApp
+    </a>
+
+    <div style="margin-top:28px;padding-top:24px;border-top:0.5px solid var(--line)">
+      <div class="product-page__desc">{{ product.description }}</div>
+    </div>
+
+    <div style="margin-top:24px;padding:16px;background:var(--off);border:0.5px solid var(--line)">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px">Delivery</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.7">Same-day Lagos dispatch before 12pm. All 36 states via GIG Logistics and DHL. WhatsApp tracking on every order.</div>
+    </div>
+  </div>
+</div>

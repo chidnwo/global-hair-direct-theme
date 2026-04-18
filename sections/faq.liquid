@@ -1,0 +1,54 @@
+<section class="section">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Common Questions' }}</span>
+  </div>
+  <h2 class="section__title">{{ section.settings.title | default: 'What Buyers Ask.' }} <em>{{ section.settings.title_italic | default: 'Answered Directly.' }}</em></h2>
+
+  <div class="faq-wrap">
+    {% for block in section.blocks %}
+      <div class="faq-item {% if forloop.first %}open{% endif %}">
+        <div class="faq-item__question">
+          <span class="faq-item__question-text">{{ block.settings.question }}</span>
+          <div class="faq-item__toggle">
+            <svg viewBox="0 0 10 10"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          </div>
+        </div>
+        <p class="faq-item__answer">{{ block.settings.answer }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Common Questions" },
+    { "type": "text", "id": "title", "label": "Title", "default": "What Buyers Ask." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Answered Directly." }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What hair types do you stock?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "We currently stock three lines — Bone Straight Braiding Hair, French Curl Hair, and Deep Wave Bulk. All available in 1B, 27#, BUG, and 613#." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "faq_item", "settings": { "question": "What hair types do you currently stock?", "answer": "We currently stock three lines — 30inch 150g Bone Straight Braiding Hair, 22inch 150g French Curl Hair, and 22inch 100g Deep Wave Bulk. All three are available in colours 1B, 27#, BUG, and 613#. Premium human hair bundles and frontals are launching soon." } },
+        { "type": "faq_item", "settings": { "question": "Can I mix colours in one order?", "answer": "Yes. You can mix colours within the same product line in a single order. Just specify the quantity per colour when placing your order. Minimum quantities apply per colour depending on the product — confirm with our team before ordering." } },
+        { "type": "faq_item", "settings": { "question": "What is the pre-order discount?", "answer": "Pre-orders placed before stock arrives receive a 5% discount off the standard unit price. The discounted price is confirmed in writing at the time of order. Additional wholesale discounts apply for salon and distributor accounts on top of the pre-order rate." } },
+        { "type": "faq_item", "settings": { "question": "Do you deliver outside Lagos?", "answer": "Yes — all 36 states and the FCT via GIG Logistics and DHL Nigeria. Lagos orders receive same-day dispatch for payments confirmed before 12pm. Abuja and Port Harcourt typically 1–2 days. Remote states 2–4 days." } },
+        { "type": "faq_item", "settings": { "question": "When are premium human hair bundles launching?", "answer": "Premium human hair bundles, HD lace frontals, and closures are in our product pipeline. Pre-registration for wholesale accounts is open now — registered accounts will receive first-access allocation and launch pricing before general availability." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

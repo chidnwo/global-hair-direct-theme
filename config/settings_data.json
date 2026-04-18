@@ -1,0 +1,19 @@
+{
+  "current": {
+    "colors_solid_button_labels": "#FFFFFF",
+    "colors_accent_1": "#C9970A",
+    "colors_accent_2": "#0B1623",
+    "colors_background_1": "#FFFFFF",
+    "colors_background_2": "#F7F7F5",
+    "colors_text": "#1A1A1A",
+    "typography_font_header__family": "Playfair Display",
+    "typography_font_header__style": "normal",
+    "typography_font_header__weight": "400",
+    "typography_font_body__family": "DM Sans",
+    "typography_font_body__style": "normal",
+    "typography_font_body__weight": "400",
+    "type_header_font_size": 36,
+    "spacing_sections": 80,
+    "logo_max_width": 200
+  }
+}

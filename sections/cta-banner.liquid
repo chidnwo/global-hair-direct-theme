@@ -1,0 +1,31 @@
+<div class="cta-banner">
+  <div class="cta-banner__inner">
+    <div class="eyebrow eyebrow--gold" style="margin-bottom:20px">
+      <div class="eyebrow__line"></div>
+      <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Pre-Order Now Open' }}</span>
+    </div>
+    <h2 class="cta-banner__title">{{ section.settings.title | default: 'Order Today.' }} <em>{{ section.settings.title_italic | default: '5% Off Your Entire Order.' }}</em></h2>
+    <p class="cta-banner__text">{{ section.settings.text | default: 'Bone Straight Braiding Hair, French Curl, and Deep Wave Bulk — all in stock and available for immediate pre-order at 5% below standard pricing. Wholesale accounts receive additional discounts. No commitment required to enquire.' }}</p>
+    <div class="cta-banner__actions">
+      <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn--gold">{{ section.settings.cta1_text | default: 'Place Pre-Order Now' }}</a>
+      <a href="{{ section.settings.cta2_url | default: '/pages/contact' }}" class="btn btn--white">{{ section.settings.cta2_text | default: 'Speak to Us on WhatsApp' }}</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CTA Banner",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pre-Order Now Open" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Order Today." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "5% Off Your Entire Order." },
+    { "type": "textarea", "id": "text", "label": "Body Text" },
+    { "type": "text", "id": "cta1_text", "label": "CTA 1 Text", "default": "Place Pre-Order Now" },
+    { "type": "url", "id": "cta1_url", "label": "CTA 1 URL" },
+    { "type": "text", "id": "cta2_text", "label": "CTA 2 Text", "default": "Speak to Us on WhatsApp" },
+    { "type": "url", "id": "cta2_url", "label": "CTA 2 URL" }
+  ],
+  "presets": [{ "name": "CTA Banner" }]
+}
+{% endschema %}

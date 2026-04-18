@@ -1,0 +1,59 @@
+{% if cart.item_count == 0 %}
+  <div style="text-align:center;padding:80px 52px">
+    <h1 style="font-family:var(--serif);font-size:32px;color:var(--text);margin-bottom:16px">Your cart is empty</h1>
+    <p style="font-size:15px;color:var(--muted);margin-bottom:32px">Add some products to get started.</p>
+    <a href="/collections/all" class="btn btn--navy">View Products</a>
+  </div>
+{% else %}
+  <form action="/cart" method="post" class="cart-page">
+    <div>
+      <h1 class="cart-page__title">Your Order</h1>
+      {% for item in cart.items %}
+        <div class="cart-item">
+          {% if item.image %}
+            <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | escape }}" class="cart-item__image">
+          {% else %}
+            <div class="cart-item__image" style="background:var(--bg);display:flex;align-items:center;justify-content:center">
+              <svg width="32" height="32" viewBox="0 0 64 64" style="opacity:0.15;fill:var(--navy)"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16"/></svg>
+            </div>
+          {% endif %}
+          <div>
+            <div class="cart-item__name">{{ item.product.title }}</div>
+            <div class="cart-item__variant">{{ item.variant.title }} · Qty: {{ item.quantity }}</div>
+            <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+              <a href="/cart/change?line={{ forloop.index }}&quantity=0" style="font-size:12px;color:var(--muted);text-decoration:underline">Remove</a>
+            </div>
+          </div>
+          <div class="cart-item__price">{{ item.line_price | money }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="cart-summary">
+      <h2 class="cart-summary__title">Order Summary</h2>
+      <div class="cart-summary__row">
+        <span>Subtotal</span>
+        <span>{{ cart.total_price | money }}</span>
+      </div>
+      <div class="cart-summary__row">
+        <span>Delivery</span>
+        <span>Calculated at checkout</span>
+      </div>
+      <div class="cart-summary__row" style="border-bottom:none;padding-top:16px">
+        <span style="font-family:var(--serif);font-size:16px;color:var(--text)">Total</span>
+        <span class="cart-summary__total">{{ cart.total_price | money }}</span>
+      </div>
+      <div style="margin-top:20px">
+        <button type="submit" name="checkout" class="btn btn--gold btn--full" style="margin-bottom:10px">
+          Proceed to Checkout
+        </button>
+        <a href="/collections/all" class="btn btn--full" style="border-color:var(--line2);color:var(--muted)">
+          Continue Shopping
+        </a>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--off);border:0.5px solid var(--line)">
+        <div style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6">Paystack · Flutterwave · Bank Transfer · USSD</div>
+      </div>
+    </div>
+  </form>
+{% endif %}

@@ -1,0 +1,45 @@
+{% if section.settings.show_bar %}
+<div class="announcement-bar">
+  <div class="announcement-bar__track">
+    {% for block in section.blocks %}
+      <span class="announcement-bar__item">{{ block.settings.text }}<span class="announcement-bar__sep"> · </span></span>
+    {% endfor %}
+    {% for block in section.blocks %}
+      <span class="announcement-bar__item">{{ block.settings.text }}<span class="announcement-bar__sep"> · </span></span>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    { "type": "checkbox", "id": "show_bar", "label": "Show Announcement Bar", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Announcement Item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Bone Straight Braiding Hair — 30inch" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Bone Straight Braiding Hair — 30inch" } },
+        { "type": "item", "settings": { "text": "French Curl Hair — 22inch" } },
+        { "type": "item", "settings": { "text": "Deep Wave Bulk — 22inch" } },
+        { "type": "item", "settings": { "text": "Colours: 1B · 27# · BUG · 613#" } },
+        { "type": "item", "settings": { "text": "Wholesale Orders Welcome" } },
+        { "type": "item", "settings": { "text": "Pre-Order Now — 5% Discount" } },
+        { "type": "item", "settings": { "text": "Same-Day Dispatch Lagos" } },
+        { "type": "item", "settings": { "text": "All 36 States Covered" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

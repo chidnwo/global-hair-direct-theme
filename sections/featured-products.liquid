@@ -1,0 +1,153 @@
+<section class="section--alt">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Product Catalogue' }}</span>
+  </div>
+  <h2 class="section__title">{{ section.settings.title | default: 'Current Stock &' }} <em>{{ section.settings.title_italic | default: 'Pre-Order Lines' }}</em></h2>
+
+  <div style="margin-top:40px">
+    <div class="product-filters">
+      <button class="product-filter active" data-filter="all">All</button>
+      {% for block in section.blocks %}
+        {% if block.type == 'filter' %}
+          <button class="product-filter" data-filter="{{ block.settings.filter_key }}">{{ block.settings.label }}</button>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="product-grid">
+      {% assign featured_collection = collections[section.settings.collection] %}
+      {% if featured_collection != blank %}
+        {% for product in featured_collection.products limit: section.settings.products_limit %}
+          <a href="{{ product.url }}" class="product-card" data-type="{{ product.type | handleize }}">
+            <div class="product-card__image-wrap">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+              {% else %}
+                <div class="product-card__image-placeholder">
+                  <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+                </div>
+              {% endif %}
+              {% if product.available %}
+                {% if product.tags contains 'pre-order' %}
+                  <span class="product-card__badge product-card__badge--preorder">Pre-Order</span>
+                {% else %}
+                  <span class="product-card__badge product-card__badge--instock">In Stock</span>
+                {% endif %}
+              {% else %}
+                <span class="product-card__badge product-card__badge--soon">Coming Soon</span>
+              {% endif %}
+            </div>
+            <div class="product-card__body">
+              <div class="product-card__category">{{ product.type }}</div>
+              <div class="product-card__title">{{ product.title }}</div>
+              <div class="product-card__vendor">{{ product.vendor }}</div>
+              <div class="product-card__footer">
+                <div>
+                  <div class="product-card__price">{{ product.price | money }}</div>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="product-card__price-label">Was {{ product.compare_at_price | money }}</span>
+                  {% else %}
+                    <span class="product-card__price-label">Per unit</span>
+                  {% endif %}
+                </div>
+                <button class="product-card__add" aria-label="Add to cart">
+                  <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
+                </button>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks %}
+          {% if block.type == 'product_card' %}
+            <div class="product-card" data-type="{{ block.settings.filter_key }}">
+              <div class="product-card__image-wrap">
+                <div class="product-card__image-placeholder">
+                  <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+                </div>
+                <span class="product-card__badge product-card__badge--{{ block.settings.badge_type }}">{{ block.settings.badge }}</span>
+              </div>
+              <div class="product-card__body">
+                <div class="product-card__category">{{ block.settings.category }}</div>
+                <div class="product-card__title">{{ block.settings.title }}</div>
+                <div class="product-card__vendor">{{ block.settings.vendor }}</div>
+                <div class="product-card__footer">
+                  <div>
+                    <div class="product-card__price">{{ block.settings.price }}</div>
+                    <span class="product-card__price-label">{{ block.settings.price_label }}</span>
+                  </div>
+                  <button class="product-card__add">
+                    <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_view_all %}
+      <div style="text-align:center;margin-top:40px">
+        <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="btn btn--navy">
+          {{ section.settings.view_all_text | default: 'View Full Catalogue' }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Product Catalogue" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Current Stock &" },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Pre-Order Lines" },
+    { "type": "collection", "id": "collection", "label": "Collection to display" },
+    { "type": "range", "id": "products_limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show View All button", "default": true },
+    { "type": "text", "id": "view_all_text", "label": "View All Button Text", "default": "View Full Catalogue" },
+    { "type": "url", "id": "view_all_url", "label": "View All URL" }
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Braiding Hair" },
+        { "type": "text", "id": "filter_key", "label": "Filter Key", "default": "braiding-hair" }
+      ]
+    },
+    {
+      "type": "product_card",
+      "name": "Manual Product Card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Product Title", "default": "Bone Straight 30inch" },
+        { "type": "text", "id": "category", "label": "Category", "default": "Braiding Hair" },
+        { "type": "text", "id": "vendor", "label": "Vendor / Description", "default": "150g · Colours: 1B, 27#, BUG, 613#" },
+        { "type": "text", "id": "price", "label": "Price", "default": "$1.00" },
+        { "type": "text", "id": "price_label", "label": "Price Label", "default": "Per unit" },
+        { "type": "select", "id": "badge_type", "label": "Badge Type", "options": [{"value":"instock","label":"In Stock"},{"value":"preorder","label":"Pre-Order"},{"value":"soon","label":"Coming Soon"}], "default": "instock" },
+        { "type": "text", "id": "badge", "label": "Badge Text", "default": "In Stock" },
+        { "type": "text", "id": "filter_key", "label": "Filter Key", "default": "braiding-hair" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products",
+      "blocks": [
+        { "type": "filter", "settings": { "label": "Braiding Hair", "filter_key": "braiding-hair" } },
+        { "type": "filter", "settings": { "label": "Curl Hair", "filter_key": "curl-hair" } },
+        { "type": "filter", "settings": { "label": "Deep Wave", "filter_key": "deep-wave" } },
+        { "type": "product_card", "settings": { "title": "Bone Straight 30inch", "category": "Braiding Hair", "vendor": "150g · Colours: 1B, 27#, BUG, 613#", "price": "$1.00", "price_label": "Per unit · MOQ 60", "badge_type": "instock", "badge": "In Stock", "filter_key": "braiding-hair" } },
+        { "type": "product_card", "settings": { "title": "French Curl 22inch", "category": "Curl Hair", "vendor": "150g · Colours: 1B, 27#, BUG, 613#", "price": "$1.00", "price_label": "Per unit · MOQ 25", "badge_type": "instock", "badge": "In Stock", "filter_key": "curl-hair" } },
+        { "type": "product_card", "settings": { "title": "Deep Wave Bulk 22inch", "category": "Bulk Hair", "vendor": "100g · Colours: 1B, 27#, BUG, 613#", "price": "$2.00", "price_label": "Per unit · MOQ 15", "badge_type": "instock", "badge": "In Stock", "filter_key": "deep-wave" } },
+        { "type": "product_card", "settings": { "title": "Premium Bundles & Frontals", "category": "Human Hair", "vendor": "Raw Virgin · Launching soon", "price": "Notify Me", "price_label": "Pre-register now", "badge_type": "soon", "badge": "Coming Soon", "filter_key": "coming-soon" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

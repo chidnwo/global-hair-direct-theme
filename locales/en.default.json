@@ -1,0 +1,25 @@
+{
+  "general": {
+    "password_page": {
+      "password_label": "Password",
+      "password_placeholder": "Your password",
+      "login_form_submit": "Enter",
+      "signup_form_email_label": "Email",
+      "signup_form_success": "Thanks! We'll let you know when we launch."
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Order",
+      "empty": "Your cart is empty",
+      "checkout": "Proceed to Checkout"
+    }
+  }
+}
