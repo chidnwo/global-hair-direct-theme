@@ -5,11 +5,11 @@
       <span class="hero__eyebrow-text">{{ section.settings.eyebrow | default: "Nigeria's Hair Supplier" }}</span>
     </div>
 
-    <h1 class="hero__title">{{ section.settings.title | default: "Every Hair Type. Every Texture." | newline_to_br }}<br><em>{{ section.settings.title_italic | default: 'Delivered Anywhere in Nigeria.' }}</em></h1>
+    <h1 class="hero__title">{{ section.settings.title | default: "Quality You Can Trust." | newline_to_br }}<br><em>{{ section.settings.title_italic | default: 'From Supplier to Door.' }}</em></h1>
 
     <p class="hero__lead">{{ section.settings.lead | default: 'Global Hair Direct supplies braiding hair, bulk hair, and premium hair extensions directly to salon owners, distributors, and individual buyers across all 36 Nigerian states.' }}</p>
 
-    <p class="hero__tagline">{{ section.settings.tagline | default: 'From supplier to your door. No complications.' }}</p>
+    <p class="hero__tagline">{{ section.settings.tagline | default: 'Transparent pricing. Accountable delivery.' }}</p>
 
     <div class="hero__actions">
       <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn--gold">{{ section.settings.cta1_text | default: 'Place Pre-Order' }}</a>
@@ -54,10 +54,10 @@
   "name": "Hero",
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow Text", "default": "Nigeria's Hair Supplier" },
-    { "type": "textarea", "id": "title", "label": "Hero Title", "default": "Every Hair Type.\nEvery Texture." },
-    { "type": "text", "id": "title_italic", "label": "Title Italic Line", "default": "Delivered Anywhere in Nigeria." },
+    { "type": "textarea", "id": "title", "label": "Hero Title", "default": "Quality You Can Trust." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic Line", "default": "From Supplier to Door." },
     { "type": "textarea", "id": "lead", "label": "Lead Paragraph" },
-    { "type": "text", "id": "tagline", "label": "Tagline", "default": "From supplier to your door. No complications." },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Transparent pricing. Accountable delivery." },
     { "type": "text", "id": "cta1_text", "label": "CTA 1 Text", "default": "Place Pre-Order" },
     { "type": "url", "id": "cta1_url", "label": "CTA 1 URL" },
     { "type": "text", "id": "cta2_text", "label": "CTA 2 Text", "default": "View Catalogue" },
