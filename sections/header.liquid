@@ -5,8 +5,6 @@
   endif
   assign header_logo_max = settings.logo_max_width | default: 200
 %}
-{% capture theme_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
-{% assign theme_contact_url = theme_contact_url | strip %}
 {% liquid
   assign contact_active_handle = 'contact'
   if settings.contact_page != blank
@@ -56,31 +54,19 @@
 
   <nav class="site-header__nav">
     {% assign nav_menu = linklists[section.settings.menu] %}
-    {% assign contact_in_menu = false %}
-    {% for link in nav_menu.links %}
-      {% assign nav_title = link.title | downcase | strip %}
-      {% if nav_title contains 'contact' or link.url contains '/pages/contact' or link.url contains contact_path_check %}
-        {% assign contact_in_menu = true %}
-      {% endif %}
-    {% endfor %}
     {% for link in nav_menu.links %}
       {% assign nav_title = link.title | downcase | strip %}
       {% if nav_title contains 'coming soon' %}
+        {% continue %}
+      {% endif %}
+      {% if nav_title contains 'contact' or link.url contains '/pages/contact' or link.url contains contact_path_check %}
         {% continue %}
       {% endif %}
       <a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}">
         {{ link.title }}
       </a>
     {% endfor %}
-    {% unless contact_in_menu %}
-      <a href="{{ theme_contact_url }}" class="site-header__nav-link{% if request.page_type == 'page' and page.handle == contact_active_handle %} active{% endif %}">Contact Us</a>
-    {% endunless %}
   </nav>
-
-  <div class="site-header__spacer"></div>
-  <a href="{{ routes.cart_url }}" class="btn btn--navy" style="height:34px;font-size:12px;padding:0 16px;margin-right:10px;">
-    Cart ({{ cart.item_count }})
-  </a>
 </div>
 
 {% schema %}
