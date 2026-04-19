@@ -1,0 +1,45 @@
+<div class="customer-page">
+  <h1 class="customer-page__title">Log in</h1>
+  <p class="customer-page__sub">Sign in to view orders, track deliveries, and manage your addresses.</p>
+
+  {% form 'customer_login', return_to: routes.account_url %}
+    {% if form.errors %}
+      <ul class="customer-page__errors">
+        {% for field in form.errors %}
+          <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="customer-form__field">
+      <label for="CustomerEmail">Email</label>
+      <input
+        id="CustomerEmail"
+        class="customer-form__input"
+        type="email"
+        name="customer[email]"
+        autocomplete="email"
+        required
+      >
+    </div>
+    <div class="customer-form__field">
+      <label for="CustomerPassword">Password</label>
+      <input
+        id="CustomerPassword"
+        class="customer-form__input"
+        type="password"
+        name="customer[password]"
+        autocomplete="current-password"
+        required
+      >
+    </div>
+
+    <div class="customer-form__actions">
+      <button type="submit" class="btn btn--gold btn--full">Sign in</button>
+      <div class="customer-form__row">
+        <a class="customer-form__link" href="{{ routes.account_recover_url }}">Forgot password?</a>
+        <a class="customer-form__link" href="{{ routes.account_register_url }}">Create account</a>
+      </div>
+    </div>
+  {% endform %}
+</div>

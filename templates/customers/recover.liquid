@@ -1,0 +1,29 @@
+<div class="customer-page">
+  <h1 class="customer-page__title">Reset password</h1>
+  <p class="customer-page__sub">We will email you a link to reset your password.</p>
+
+  {% form 'recover_customer_password' %}
+    {% if form.posted_successfully? %}
+      <p class="customer-page__success">Check your inbox for instructions to reset your password.</p>
+      <a class="customer-form__link" href="{{ routes.storefront_login_url }}" style="display:inline-block;margin-top:16px">Back to log in</a>
+    {% else %}
+      {% if form.errors %}
+        <ul class="customer-page__errors">
+          {% for field in form.errors %}
+            <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="customer-form__field">
+        <label for="RecoverEmail">Email</label>
+        <input id="RecoverEmail" class="customer-form__input" type="email" name="email" autocomplete="email" required>
+      </div>
+
+      <div class="customer-form__actions">
+        <button type="submit" class="btn btn--gold btn--full">Send reset link</button>
+        <a class="customer-form__link" href="{{ routes.storefront_login_url }}" style="text-align:center">Back to log in</a>
+      </div>
+    {% endif %}
+  {% endform %}
+</div>

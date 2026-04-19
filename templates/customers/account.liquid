@@ -1,0 +1,38 @@
+<div class="customer-page customer-page--wide">
+  <h1 class="customer-page__title">Hello{% if customer.first_name != blank %}, {{ customer.first_name }}{% endif %}</h1>
+  <p class="customer-page__sub">
+    <a class="customer-form__link" href="{{ routes.account_addresses_url }}">Addresses</a>
+    <span aria-hidden="true"> · </span>
+    <a class="customer-form__link" href="{{ routes.account_logout_url }}">Log out</a>
+  </p>
+
+  <div class="customer-orders">
+    <h2 class="customer-orders__title">Order history</h2>
+    {% if customer.orders.size > 0 %}
+      {% paginate customer.orders by 20 %}
+        {% for order in customer.orders %}
+          <div class="customer-order-row">
+            <div>
+              <a href="{{ order.customer_url }}">{{ order.name }}</a>
+              <div class="customer-order-meta">{{ order.created_at | date: '%d %b %Y' }} · {{ order.financial_status_label }}</div>
+            </div>
+            <div>{{ order.total_price | money }}</div>
+          </div>
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+          <div class="customer-form__row" style="margin-top:20px">
+            {% if paginate.previous %}
+              <a class="customer-form__link" href="{{ paginate.previous.url }}">Previous</a>
+            {% endif %}
+            {% if paginate.next %}
+              <a class="customer-form__link" href="{{ paginate.next.url }}">Next</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    {% else %}
+      <p class="customer-page__sub" style="margin-bottom:0">You have not placed any orders yet.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--navy" style="margin-top:16px;display:inline-flex">Browse products</a>
+    {% endif %}
+  </div>
+</div>

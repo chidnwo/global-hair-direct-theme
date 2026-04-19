@@ -1,0 +1,73 @@
+<div class="customer-page customer-page--wide">
+  <p class="customer-page__sub" style="margin-bottom:20px">
+    <a class="customer-form__link" href="{{ routes.account_addresses_url }}">← Back to addresses</a>
+  </p>
+  <h1 class="customer-page__title">{% if address.id %}Edit address{% else %}New address{% endif %}</h1>
+
+  {% form 'customer_address', address %}
+    {% if form.errors %}
+      <ul class="customer-page__errors">
+        {% for field in form.errors %}
+          <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="customer-form__field">
+      <label for="AddressFirstName">First name</label>
+      <input id="AddressFirstName" class="customer-form__input" type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressLastName">Last name</label>
+      <input id="AddressLastName" class="customer-form__input" type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressCompany">Company (optional)</label>
+      <input id="AddressCompany" class="customer-form__input" type="text" name="address[company]" value="{{ form.company }}" autocomplete="organization">
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressPhone">Phone</label>
+      <input id="AddressPhone" class="customer-form__input" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+    </div>
+    <div class="customer-form__field">
+      <label for="Address1">Address line 1</label>
+      <input id="Address1" class="customer-form__input" type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" required>
+    </div>
+    <div class="customer-form__field">
+      <label for="Address2">Address line 2</label>
+      <input id="Address2" class="customer-form__input" type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressCity">City</label>
+      <input id="AddressCity" class="customer-form__input" type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" required>
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressCountry">Country</label>
+      <select id="AddressCountry" class="customer-form__input" name="address[country]" autocomplete="country">
+        {{ all_country_option_tags }}
+      </select>
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressProvince">State / Province</label>
+      <input id="AddressProvince" class="customer-form__input" type="text" name="address[province]" value="{{ form.province }}" autocomplete="address-level1">
+    </div>
+    <div class="customer-form__field">
+      <label for="AddressZip">Postal / ZIP code</label>
+      <input id="AddressZip" class="customer-form__input" type="text" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code">
+    </div>
+
+    <div class="customer-form__field">
+      <label style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:14px;cursor:pointer">
+        <input type="checkbox" name="address[default]" value="1" {% if address == customer.default_address %}checked{% endif %} style="width:auto;height:auto">
+        Set as default address
+      </label>
+    </div>
+
+    <div class="customer-form__actions">
+      <button type="submit" class="btn btn--gold btn--full">Save address</button>
+      {% if address.id %}
+        <input type="submit" class="btn btn--full" name="delete" value="Delete address" style="border-color:var(--line2);color:var(--muted);cursor:pointer;font-family:var(--sans)">
+      {% endif %}
+    </div>
+  {% endform %}
+</div>

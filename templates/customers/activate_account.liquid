@@ -1,0 +1,27 @@
+<div class="customer-page">
+  <h1 class="customer-page__title">Activate account</h1>
+  <p class="customer-page__sub">Create a password to activate your customer account.</p>
+
+  {% form 'activate_customer_password' %}
+    {% if form.errors %}
+      <ul class="customer-page__errors">
+        {% for field in form.errors %}
+          <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="customer-form__field">
+      <label for="ActivatePassword">Password</label>
+      <input id="ActivatePassword" class="customer-form__input" type="password" name="customer[password]" autocomplete="new-password" required>
+    </div>
+    <div class="customer-form__field">
+      <label for="ActivatePasswordConfirm">Confirm password</label>
+      <input id="ActivatePasswordConfirm" class="customer-form__input" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+    </div>
+
+    <div class="customer-form__actions">
+      <button type="submit" class="btn btn--gold btn--full">Activate account</button>
+    </div>
+  {% endform %}
+</div>

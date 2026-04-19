@@ -1,0 +1,45 @@
+<div class="customer-page customer-page--wide">
+  <p class="customer-page__sub" style="margin-bottom:20px">
+    <a class="customer-form__link" href="{{ routes.account_url }}">← Back to account</a>
+  </p>
+  <h1 class="customer-page__title">Order {{ order.name }}</h1>
+  <p class="customer-page__sub">{{ order.created_at | date: '%d %B %Y' }} · {{ order.financial_status_label }}{% if order.fulfillment_status_label != blank %} · {{ order.fulfillment_status_label }}{% endif %}</p>
+
+  <div class="customer-line-items">
+    {% for line_item in order.line_items %}
+      <div class="customer-line-item">
+        <div>
+          {{ line_item.title }}{% if line_item.variant.title != 'Default Title' %} — {{ line_item.variant.title }}{% endif %}
+          <div class="customer-order-meta">Qty {{ line_item.quantity }}</div>
+        </div>
+        <div>{{ line_item.final_line_price | money }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:15px">
+    <div class="customer-line-item" style="border:none;padding:6px 0">
+      <span>Subtotal</span>
+      <span>{{ order.subtotal_price | money }}</span>
+    </div>
+    {% if order.shipping_price > 0 %}
+      <div class="customer-line-item" style="border:none;padding:6px 0">
+        <span>Shipping</span>
+        <span>{{ order.shipping_price | money }}</span>
+      </div>
+    {% endif %}
+    <div class="customer-line-item" style="border:none;padding:12px 0;font-family:var(--serif);font-size:18px">
+      <span>Total</span>
+      <span>{{ order.total_price | money }}</span>
+    </div>
+  </div>
+
+  {% if order.shipping_address %}
+    <div style="margin-top:28px">
+      <h2 class="customer-orders__title">Shipping address</h2>
+      <div class="customer-address-card">
+        {{ order.shipping_address | format_address }}
+      </div>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,36 @@
+<div class="customer-page">
+  <h1 class="customer-page__title">Create account</h1>
+  <p class="customer-page__sub">Register to save addresses and track orders faster.</p>
+
+  {% form 'create_customer' %}
+    {% if form.errors %}
+      <ul class="customer-page__errors">
+        {% for field in form.errors %}
+          <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="customer-form__field">
+      <label for="RegisterFirstName">First name</label>
+      <input id="RegisterFirstName" class="customer-form__input" type="text" name="customer[first_name]" autocomplete="given-name" value="{{ form.first_name }}">
+    </div>
+    <div class="customer-form__field">
+      <label for="RegisterLastName">Last name</label>
+      <input id="RegisterLastName" class="customer-form__input" type="text" name="customer[last_name]" autocomplete="family-name" value="{{ form.last_name }}">
+    </div>
+    <div class="customer-form__field">
+      <label for="RegisterEmail">Email</label>
+      <input id="RegisterEmail" class="customer-form__input" type="email" name="customer[email]" autocomplete="email" required value="{{ form.email }}">
+    </div>
+    <div class="customer-form__field">
+      <label for="RegisterPassword">Password</label>
+      <input id="RegisterPassword" class="customer-form__input" type="password" name="customer[password]" autocomplete="new-password" required>
+    </div>
+
+    <div class="customer-form__actions">
+      <button type="submit" class="btn btn--gold btn--full">Create account</button>
+      <a class="customer-form__link" href="{{ routes.storefront_login_url }}" style="text-align:center">Already have an account? Log in</a>
+    </div>
+  {% endform %}
+</div>
