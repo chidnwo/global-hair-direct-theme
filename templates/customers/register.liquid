@@ -1,3 +1,4 @@
+{% if settings.use_legacy_customer_auth %}
 <div class="customer-page">
   <h1 class="customer-page__title">Create account</h1>
   <p class="customer-page__sub">Register to save addresses and track orders faster. Tell us whether you shop as an individual, salon, or wholesale account.</p>
@@ -63,3 +64,10 @@
     </div>
   {% endform %}
 </div>
+{% else %}
+  {% render 'customer-auth-redirect-hosted',
+    heading: 'Create account',
+    subtext: 'Customer sign-up uses Shopify’s secure page (email code). Redirecting…',
+    cta_label: 'Continue to sign up'
+  %}
+{% endif %}

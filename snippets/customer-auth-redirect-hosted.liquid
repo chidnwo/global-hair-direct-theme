@@ -1,0 +1,10 @@
+<div class="customer-page">
+  <h1 class="customer-page__title">{{ heading | escape }}</h1>
+  <p class="customer-page__sub">{{ subtext | escape }}</p>
+  <p class="customer-form__actions">
+    <a class="btn btn--gold" href="{{ routes.storefront_login_url }}">{{ cta_label | escape }}</a>
+  </p>
+</div>
+<script>
+  window.location.replace({{ routes.storefront_login_url | json }});
+</script>

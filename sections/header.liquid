@@ -78,9 +78,14 @@
     {% if customer %}
       <a href="{{ routes.account_url }}" class="site-header__nav-link site-header__nav-link--account">Account</a>
       <a href="{{ routes.account_logout_url }}" class="site-header__account-text">Log out</a>
-    {% else %}
-      <a href="{{ routes.storefront_login_url }}" class="site-header__nav-link site-header__nav-link--account" data-login-modal-open>Log in</a>
-      <a href="{{ routes.account_register_url }}" class="btn btn--sm btn--navy site-header__register" data-register-modal-open>Create account</a>
+    {% elsif shop.customer_accounts_enabled %}
+      {% if settings.use_legacy_customer_auth %}
+        <a href="{{ routes.storefront_login_url }}" class="site-header__nav-link site-header__nav-link--account" data-login-modal-open>Log in</a>
+        <a href="{{ routes.account_register_url }}" class="btn btn--sm btn--navy site-header__register" data-register-modal-open>Create account</a>
+      {% else %}
+        <a href="{{ routes.storefront_login_url }}" class="site-header__nav-link site-header__nav-link--account">Log in</a>
+        <a href="{{ routes.storefront_login_url }}" class="btn btn--sm btn--navy site-header__register">Create account</a>
+      {% endif %}
     {% endif %}
   </div>
 </div>

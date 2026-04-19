@@ -1,3 +1,4 @@
+{% if settings.use_legacy_customer_auth %}
 <div class="customer-page">
   <h1 class="customer-page__title">Log in</h1>
   <p class="customer-page__sub">Sign in to view orders, track deliveries, and manage your addresses.</p>
@@ -42,3 +43,10 @@
     </div>
   {% endform %}
 </div>
+{% else %}
+  {% render 'customer-auth-redirect-hosted',
+    heading: 'Sign in',
+    subtext: 'Redirecting you to secure sign-in (email code or Shop).',
+    cta_label: 'Continue to sign in'
+  %}
+{% endif %}

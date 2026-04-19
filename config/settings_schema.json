@@ -167,6 +167,17 @@
       },
       {
         "type": "header",
+        "content": "Customer accounts"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_legacy_customer_auth",
+        "label": "Legacy storefront login & register forms",
+        "default": false,
+        "info": "Turn on only if your store still uses legacy customer accounts (password login and /account/register on your theme). New stores and upgraded accounts use Shopify-hosted sign-in (email one-time code). Leave off for new customer accounts (recommended)."
+      },
+      {
+        "type": "header",
         "content": "Track order page"
       },
       {
