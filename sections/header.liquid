@@ -1,20 +1,80 @@
+{% liquid
+  assign header_logo = section.settings.logo_image
+  if header_logo == blank
+    assign header_logo = settings.logo
+  endif
+  assign header_logo_max = settings.logo_max_width | default: 200
+%}
+{% capture theme_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
+{% assign theme_contact_url = theme_contact_url | strip %}
+{% liquid
+  assign contact_active_handle = 'contact'
+  if settings.contact_page != blank
+    assign contact_active_handle = settings.contact_page
+  endif
+  assign contact_path_check = '/pages/' | append: contact_active_handle
+%}
 <div class="site-header">
-  <a href="/" class="site-header__logo">
-    <div class="site-header__logo-mark">
-      <svg viewBox="0 0 16 16"><path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 3c.8 0 1.4.6 1.4 1.4S8.8 6.8 8 6.8 6.6 6.2 6.6 5.4 7.2 4 8 4zm0 8.5c-1.8 0-3.3-.8-4.3-2.1.6-.8 3-1.3 4.3-1.3s3.7.5 4.3 1.3c-1 1.3-2.5 2.1-4.3 2.1z"/></svg>
-    </div>
-    <div class="site-header__logo-text">
-      <span class="site-header__logo-main">{{ section.settings.logo_text | default: shop.name }}</span>
-      <span class="site-header__logo-sub">{{ section.settings.logo_sub | default: 'Nigeria' }}</span>
-    </div>
+  <a
+    href="{{ routes.root_url }}"
+    class="site-header__logo{% if header_logo %} site-header__logo--image{% endif %}"
+    {% if header_logo %}
+      style="--header-logo-max: {{ header_logo_max }}px;"
+    {% endif %}
+  >
+    {% if header_logo %}
+      {% assign logo_alt = section.settings.logo_text | default: shop.name %}
+      {% if section.settings.logo_sub != blank %}
+        {% assign logo_alt = logo_alt | append: ' ' | append: section.settings.logo_sub %}
+      {% endif %}
+      <img
+        class="site-header__logo-img"
+        src="{{ header_logo | image_url: width: 600 }}"
+        srcset="
+          {{ header_logo | image_url: width: 200 }} 200w,
+          {{ header_logo | image_url: width: 300 }} 300w,
+          {{ header_logo | image_url: width: 400 }} 400w,
+          {{ header_logo | image_url: width: 600 }} 600w
+        "
+        sizes="(max-width: 480px) 55vw, {{ header_logo_max }}px"
+        alt="{{ logo_alt | escape }}"
+        width="{{ header_logo.width }}"
+        height="{{ header_logo.height }}"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% else %}
+      <div class="site-header__logo-mark">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 3c.8 0 1.4.6 1.4 1.4S8.8 6.8 8 6.8 6.6 6.2 6.6 5.4 7.2 4 8 4zm0 8.5c-1.8 0-3.3-.8-4.3-2.1.6-.8 3-1.3 4.3-1.3s3.7.5 4.3 1.3c-1 1.3-2.5 2.1-4.3 2.1z"/></svg>
+      </div>
+      <div class="site-header__logo-text">
+        <span class="site-header__logo-main">{{ section.settings.logo_text | default: shop.name }}</span>
+        <span class="site-header__logo-sub">{{ section.settings.logo_sub | default: 'Nigeria' }}</span>
+      </div>
+    {% endif %}
   </a>
 
   <nav class="site-header__nav">
-    {% for link in linklists[section.settings.menu].links %}
+    {% assign nav_menu = linklists[section.settings.menu] %}
+    {% assign contact_in_menu = false %}
+    {% for link in nav_menu.links %}
+      {% assign nav_title = link.title | downcase | strip %}
+      {% if nav_title contains 'contact' or link.url contains '/pages/contact' or link.url contains contact_path_check %}
+        {% assign contact_in_menu = true %}
+      {% endif %}
+    {% endfor %}
+    {% for link in nav_menu.links %}
+      {% assign nav_title = link.title | downcase | strip %}
+      {% if nav_title contains 'coming soon' %}
+        {% continue %}
+      {% endif %}
       <a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}">
         {{ link.title }}
       </a>
     {% endfor %}
+    {% unless contact_in_menu %}
+      <a href="{{ theme_contact_url }}" class="site-header__nav-link{% if request.page_type == 'page' and page.handle == contact_active_handle %} active{% endif %}">Contact Us</a>
+    {% endunless %}
   </nav>
 
   <div class="site-header__spacer"></div>
@@ -27,8 +87,22 @@
 {
   "name": "Header",
   "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image (optional override)",
+      "info": "Overrides the logo in Theme settings → Layout → Logo image. Leave empty to use the theme logo."
+    },
     { "type": "text", "id": "logo_text", "label": "Brand Name", "default": "Global Hair Direct" },
     { "type": "text", "id": "logo_sub", "label": "Sub text", "default": "Nigeria" },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
     { "type": "link_list", "id": "menu", "label": "Navigation Menu", "default": "main-menu" }
   ]
 }

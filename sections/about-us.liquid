@@ -9,6 +9,8 @@
     endif
   endfor
 %}
+{% capture default_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
+{% assign default_contact_url = default_contact_url | strip %}
 <section class="section">
   <div class="about-cols">
     <div>
@@ -84,7 +86,7 @@
           </div>
         {% endif %}
       </div>
-      <a href="{{ section.settings.cta_url | default: '/pages/contact' }}" class="btn btn--navy btn--full" style="margin-top:24px;">
+      <a href="{{ section.settings.cta_url | default: default_contact_url }}" class="btn btn--navy btn--full" style="margin-top:24px;">
         {{ section.settings.cta_text | default: 'Request Wholesale Account' }}
       </a>
     </div>

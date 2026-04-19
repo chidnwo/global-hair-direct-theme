@@ -1,0 +1,12 @@
+{%- liquid
+  assign _contact_url = '/pages/contact'
+  if settings.contact_page != blank
+    assign _p = pages[settings.contact_page]
+    if _p != blank
+      assign _contact_url = _p.url
+    endif
+  elsif pages.contact != blank
+    assign _contact_url = pages.contact.url
+  endif
+  echo _contact_url
+-%}

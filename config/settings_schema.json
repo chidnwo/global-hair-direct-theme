@@ -121,6 +121,16 @@
         "default": 80
       },
       {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image",
+        "info": "Upload your logo here (Theme settings). It appears in the header top left. PNG or SVG with transparency works best."
+      },
+      {
         "type": "range",
         "id": "logo_max_width",
         "min": 50,
@@ -129,6 +139,21 @@
         "unit": "px",
         "label": "Logo max width",
         "default": 200
+      }
+    ]
+  },
+  {
+    "name": "Contact",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Contact page"
+      },
+      {
+        "type": "page",
+        "id": "contact_page",
+        "label": "Contact page",
+        "info": "Used for “Contact Us” in the header, footer, and default CTAs. If empty, the theme uses a page with handle “contact”, or /pages/contact."
       }
     ]
   }
