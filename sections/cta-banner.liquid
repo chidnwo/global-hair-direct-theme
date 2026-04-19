@@ -1,5 +1,8 @@
 {% capture default_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
 {% assign default_contact_url = default_contact_url | strip %}
+{% capture default_cta2_url %}{% render 'whatsapp-or-contact-url' %}{% endcapture %}
+{% assign default_cta2_url = default_cta2_url | strip %}
+{% assign cta2_href = section.settings.cta2_url | default: default_cta2_url %}
 <div class="cta-banner">
   <div class="cta-banner__inner">
     <div class="eyebrow eyebrow--gold" style="margin-bottom:20px">
@@ -9,8 +12,11 @@
     <h2 class="cta-banner__title">{{ section.settings.title | default: 'Order Today.' }} <em>{{ section.settings.title_italic | default: '5% Off Your Entire Order.' }}</em></h2>
     <p class="cta-banner__text">{{ section.settings.text | default: 'Bone Straight Braiding Hair, French Curl, and Deep Wave Bulk — all in stock and available for immediate pre-order at 5% below standard pricing. Wholesale accounts receive additional discounts. No commitment required to enquire.' }}</p>
     <div class="cta-banner__actions">
+      {% comment %} Place Pre-Order — hidden per request {% endcomment %}
+      {% comment %}
       <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn--gold">{{ section.settings.cta1_text | default: 'Place Pre-Order Now' }}</a>
-      <a href="{{ section.settings.cta2_url | default: default_contact_url }}" class="btn btn--white">{{ section.settings.cta2_text | default: 'Speak to Us on WhatsApp' }}</a>
+      {% endcomment %}
+      <a href="{{ cta2_href }}" class="btn btn--white"{% if cta2_href contains 'wa.me' or cta2_href contains 'whatsapp.com' %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ section.settings.cta2_text | default: 'Speak to Us on WhatsApp' }}</a>
     </div>
   </div>
 </div>

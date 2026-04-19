@@ -1,0 +1,8 @@
+{%- liquid
+  assign wa = settings.whatsapp_url | strip
+  if wa != blank
+    echo wa
+  else
+    render 'theme-contact-url'
+  endif
+-%}

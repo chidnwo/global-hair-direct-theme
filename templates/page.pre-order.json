@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Pre-order",
+        "title": "Pre-Orders.",
+        "title_italic": "Reserve stock before it lands.",
+        "lead": "Pre-order lets you lock in allocation on incoming lines. Discounts and dates are confirmed in writing when you place the order.",
+        "body": "<p>When a line is offered on pre-order, you can register interest or place a confirmed order depending on what we have opened. A pre-order discount may apply on selected SKUs; the exact rate is confirmed on your quote or invoice.</p><p>Payment and cancellation rules follow what we send you at checkout or by email—please read that message carefully. If stock arrival shifts, we will update you on the same channel we use for your order.</p><p>For wholesale pre-registration on new categories (for example premium bundles), mention “pre-order” or “pre-registration” when you <a href=\"/pages/contact\">contact us</a>.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Referrals",
+        "title": "Referral Programme.",
+        "title_italic": "Informal overview.",
+        "lead": "This page is a working draft for customers and partners. Final eligibility, rewards, and timelines will be confirmed by the team in writing.",
+        "body": "<p>We are building a referral programme so salon owners, stylists, and partners who send serious buyers our way can share in the value. Details such as qualifying orders, payout method, and verification steps are still being finalised.</p><p>If you would like to be notified when the programme opens, reach out through <a href=\"/pages/contact\">Contact</a> or WhatsApp and mention “referral programme” in your message.</p><p><strong>Note:</strong> Nothing on this page is a binding offer. Reward rules will be published again before launch.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

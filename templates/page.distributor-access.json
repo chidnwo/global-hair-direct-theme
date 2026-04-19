@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Partners",
+        "title": "Distributor Access.",
+        "title_italic": "How we work with distributors.",
+        "lead": "Distributor accounts are for verified businesses ordering at scale across states. This summary is informal; pricing, MOQs, and terms are agreed per account.",
+        "body": "<p>We supply braiding hair, curl and bulk lines, and (soon) premium human hair to distributors who can move volume and maintain consistent reorder patterns. Access includes tiered pricing, mixed colour baskets where available, and dispatch coordination through our logistics partners.</p><p>New distributor relationships start with a short review: business details, typical monthly volume, and delivery states. We then issue a written quote structure before your first wholesale order.</p><p>To apply or ask questions, use <a href=\"/pages/contact\">Contact</a> with “Distributor” in the subject line, or message us on WhatsApp.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

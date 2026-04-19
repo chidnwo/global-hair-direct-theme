@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Privacy",
+        "title": "Privacy.",
+        "title_italic": "Informal notice.",
+        "lead": "We respect your personal information. This informal notice describes the basics. A fuller policy may follow for compliance with Nigerian law and platform requirements.",
+        "body": "<h3>What we collect</h3><p>We may collect name, phone number, email, delivery address, order history, and messages you send us (including WhatsApp). Payment details are handled by our payment partners where applicable—we do not store full card data on our servers.</p><h3>How we use it</h3><p>To process and deliver orders, communicate about your purchase, improve our service, and comply with law. We may send operational messages about your order; marketing messages only where you have agreed.</p><h3>Sharing</h3><p>We share data with service providers who help us run the store and deliver goods (for example logistics and payments). We do not sell your personal information.</p><h3>Your choices</h3><p>You can ask to access or correct your details, or raise a concern, by contacting us through <a href=\"/pages/contact\">Contact</a> or WhatsApp.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

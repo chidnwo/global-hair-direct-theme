@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Legal",
+        "title": "Terms of sale.",
+        "title_italic": "Informal summary.",
+        "lead": "These points summarise how we expect orders to work. They are not a substitute for legal advice. A fuller terms document may be published later.",
+        "body": "<h3>Orders and pricing</h3><p>Product descriptions, prices, and availability can change. The price and terms on your confirmed order or invoice are the ones that apply to that purchase.</p><h3>Payment</h3><p>We accept the methods shown at checkout or agreed for your account (for example Paystack, transfer, or other channels we confirm). Orders move to processing after we confirm payment where required.</p><h3>Delivery</h3><p>Delivery timelines are estimates and depend on couriers and location. Risk of loss passes as set out in your order communication or carrier terms.</p><h3>Contact</h3><p>For disputes or questions, contact us first through <a href=\"/pages/contact\">Contact</a> or WhatsApp so we can resolve things quickly.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

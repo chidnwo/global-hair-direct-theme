@@ -28,19 +28,20 @@
     </div>
     <div class="site-footer__col">
       <h5>Accounts</h5>
-      <a href="#">Wholesale</a>
-      <a href="#">Pre-Order</a>
+      <a href="/pages/wholesale">Wholesale</a>
+      <a href="/pages/pre-order">Pre-Order</a>
       <a href="#">Salon Registration</a>
-      <a href="#">Distributor Access</a>
-      <a href="#">Referral Programme</a>
+      <a href="/pages/distributor-access">Distributor Access</a>
+      <a href="/pages/referral-programme">Referral Programme</a>
     </div>
     <div class="site-footer__col">
       <h5>Support</h5>
-      <a href="#">WhatsApp Team</a>
-      <a href="#">Track My Order</a>
-      <a href="#">Return Policy</a>
-      <a href="#">Terms of Sale</a>
-      <a href="#">Privacy Policy</a>
+      {% capture footer_whatsapp_href %}{% render 'whatsapp-or-contact-url' %}{% endcapture %}
+      <a href="{{ footer_whatsapp_href }}"{% if footer_whatsapp_href contains 'wa.me' or footer_whatsapp_href contains 'whatsapp.com' %} target="_blank" rel="noopener noreferrer"{% endif %}>WhatsApp Team</a>
+      <a href="{{ routes.account_url }}">Track My Order</a>
+      <a href="/pages/return-policy">Return Policy</a>
+      <a href="/pages/terms-of-sale">Terms of Sale</a>
+      <a href="/pages/privacy-policy">Privacy Policy</a>
     </div>
   </div>
 

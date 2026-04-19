@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Support",
+        "title": "Returns & satisfaction.",
+        "title_italic": "Informal policy draft.",
+        "lead": "We want you happy with every order. This is a plain-language summary; a formal version may replace it later. If something is wrong, contact us first—we will sort it fairly.",
+        "body": "<h3>Individual buyers</h3><p>Report damage, wrong items, or major quality concerns within 7 days of delivery, with photos where possible. We may offer replacement, store credit, or refund depending on the case and stock.</p><p>Hair that has been installed, chemically treated, or clearly used outside normal inspection cannot usually be returned.</p><h3>Wholesale & distributors</h3><p>Bulk orders are checked against agreed specs. Raise issues within the window stated on your order confirmation or invoice. Resolution may be replacement on the next shipment, credit, or another remedy we both agree in writing.</p><p><strong>How to start:</strong> WhatsApp or email with your order reference and photos. We reply with next steps.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

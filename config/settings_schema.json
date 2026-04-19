@@ -154,6 +154,16 @@
         "id": "contact_page",
         "label": "Contact page",
         "info": "Used for “Contact Us” in the header, footer, and default CTAs. If empty, the theme uses a page with handle “contact”, or /pages/contact."
+      },
+      {
+        "type": "header",
+        "content": "WhatsApp"
+      },
+      {
+        "type": "url",
+        "id": "whatsapp_url",
+        "label": "WhatsApp chat link",
+        "info": "Opens WhatsApp when customers tap “Speak to Us on WhatsApp”, footer “WhatsApp Team”, and product “Enquire on WhatsApp”. Use https://wa.me/234XXXXXXXXX (country code, digits only after wa.me/). If empty, those links use your contact page instead."
       }
     ]
   }
