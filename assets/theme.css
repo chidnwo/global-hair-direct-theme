@@ -143,6 +143,46 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .customer-form__textarea { min-height: 120px; padding-top: 12px; padding-bottom: 12px; resize: vertical; height: auto; }
 .contact-form-section__optional { font-weight: 400; color: var(--faint); text-transform: none; letter-spacing: 0; font-size: 12px; }
 
+.track-order-section__hint {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 28px;
+  padding: 16px 18px;
+  background: var(--off);
+  border: 0.5px solid var(--line);
+  border-radius: 2px;
+}
+.track-order-section__signed-in {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+.track-order-section__signed-in a {
+  color: var(--navy);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.track-order-section__signed-in a:hover { color: var(--gold); }
+.track-order-section__secondary {
+  margin-top: 36px;
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.85;
+}
+.track-order-section__secondary p { margin-bottom: 10px; }
+.track-order-section__secondary p:last-child { margin-bottom: 0; }
+.track-order-section__secondary a {
+  color: var(--navy);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.track-order-section__secondary a:hover { color: var(--gold); }
+
 /* ── HERO ── */
 .hero {
   background: var(--navy);
@@ -440,9 +480,15 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 }
 .register-form__radio input { margin-top: 3px; flex-shrink: 0; accent-color: var(--navy); }
 
-/* Compact layout so the full form fits one viewport without scrolling */
-.register-modal.welcome-popup { align-items: flex-start; padding: 12px; padding-top: max(12px, env(safe-area-inset-top)); }
-.register-modal .welcome-popup__dialog.register-modal__dialog {
+/* Compact layout so auth modals fit one viewport without scrolling */
+.register-modal.welcome-popup,
+.login-modal.welcome-popup {
+  align-items: flex-start;
+  padding: 12px;
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+.register-modal .welcome-popup__dialog.register-modal__dialog,
+.login-modal .welcome-popup__dialog.register-modal__dialog {
   max-width: 440px;
   max-height: none;
   overflow: visible;
@@ -459,7 +505,12 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
   line-height: 1.4;
   margin-bottom: 12px;
 }
-.register-modal .welcome-popup__errors { margin-bottom: 10px !important; padding: 8px 10px; font-size: 12px; }
+.register-modal .welcome-popup__errors,
+.login-modal .welcome-popup__errors {
+  margin-bottom: 10px !important;
+  padding: 8px 10px;
+  font-size: 12px;
+}
 .register-modal__form { margin-top: 0; }
 .register-modal__fieldset.register-form__fieldset { margin-bottom: 8px; }
 .register-modal__fieldset .register-form__legend { margin-bottom: 6px; font-size: 10px; letter-spacing: 0.08em; }
@@ -498,13 +549,19 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
   margin-bottom: 3px;
   letter-spacing: 0.06em;
 }
-.register-modal .customer-form__input {
+.register-modal .customer-form__input,
+.login-modal .customer-form__input {
   height: 38px;
   padding: 0 10px;
   font-size: 14px;
 }
 .register-modal__actions.customer-form__actions { margin-top: 10px; gap: 8px; }
 .register-modal__actions .btn { min-height: 42px; padding-top: 0; padding-bottom: 0; }
+.register-modal__actions > .customer-form__link {
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.35;
+}
 .register-modal__fine.welcome-popup__fine { margin-top: 8px; font-size: 10px; line-height: 1.35; }
 
 @media (max-width: 420px) {
@@ -515,7 +572,8 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 
 /* Unusually short viewports: allow scroll instead of clipping */
 @media (max-height: 640px) {
-  .register-modal .welcome-popup__dialog.register-modal__dialog {
+  .register-modal .welcome-popup__dialog.register-modal__dialog,
+  .login-modal .welcome-popup__dialog.register-modal__dialog {
     max-height: calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;

@@ -1,0 +1,156 @@
+{% liquid
+  assign on_login_page = false
+  assign login_path = request.path | default: ''
+  if login_path contains 'account/login'
+    assign on_login_page = true
+  endif
+%}
+{% if section.settings.enable and on_login_page == false %}
+  {% unless section.settings.hide_for_logged_in and customer %}
+    <div
+      id="login-modal-{{ section.id }}"
+      class="welcome-popup login-modal"
+      hidden
+      data-login-modal
+    >
+      <div class="welcome-popup__backdrop" data-login-modal-close tabindex="-1" aria-hidden="true"></div>
+      <div
+        class="welcome-popup__dialog register-modal__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-modal-title-{{ section.id }}"
+        aria-describedby="login-modal-desc-{{ section.id }}"
+      >
+        <button
+          type="button"
+          class="welcome-popup__close"
+          data-login-modal-close
+          aria-label="{{ section.settings.close_label | escape }}"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        {% if section.settings.heading != blank %}
+          <h2 id="login-modal-title-{{ section.id }}" class="welcome-popup__title register-modal__title">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.lead != blank %}
+          <p id="login-modal-desc-{{ section.id }}" class="welcome-popup__lead register-modal__lead">{{ section.settings.lead | escape }}</p>
+        {% endif %}
+
+        {% form 'customer_login', id: 'LoginModalForm', class: 'welcome-popup__form register-modal__form', return_to: routes.account_url %}
+          {% if form.errors %}
+            <ul class="customer-page__errors welcome-popup__errors" role="alert">
+              {% for field in form.errors %}
+                <li>
+                  {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                  {{ form.errors.messages[field] }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="customer-form__field register-modal__field-tight">
+            <label for="LoginModal-Email">Email</label>
+            <input
+              id="LoginModal-Email"
+              class="customer-form__input"
+              type="email"
+              name="customer[email]"
+              autocomplete="email"
+              required
+              value="{{ form.email }}"
+            >
+          </div>
+          <div class="customer-form__field register-modal__field-tight">
+            <label for="LoginModal-Password">Password</label>
+            <input
+              id="LoginModal-Password"
+              class="customer-form__input"
+              type="password"
+              name="customer[password]"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <div class="customer-form__actions register-modal__actions">
+            <button type="submit" class="btn btn--gold btn--full">{{ section.settings.submit_label | escape }}</button>
+            <a class="customer-form__link" href="{{ routes.account_recover_url }}">{{ section.settings.forgot_label | escape }}</a>
+            <a class="customer-form__link" href="{{ routes.account_register_url }}" data-register-modal-open>{{ section.settings.register_link_label | escape }}</a>
+          </div>
+        {% endform %}
+
+        {% assign login_modal_fine = section.settings.fine_print | strip %}
+        {% if login_modal_fine != blank %}
+          <p class="welcome-popup__fine register-modal__fine">{{ login_modal_fine | escape }}</p>
+        {% endif %}
+      </div>
+    </div>
+  {% endunless %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Login modal",
+  "tag": "section",
+  "class": "section-login-modal",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable login modal",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_for_logged_in",
+      "label": "Hide for logged-in customers",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Log in"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Short description",
+      "default": "Sign in to track orders and manage your addresses."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button",
+      "default": "Sign in"
+    },
+    {
+      "type": "text",
+      "id": "forgot_label",
+      "label": "Forgot password link",
+      "default": "Forgot password?"
+    },
+    {
+      "type": "text",
+      "id": "register_link_label",
+      "label": "Create account link",
+      "default": "Create account"
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close button (screen readers)",
+      "default": "Close"
+    },
+    {
+      "type": "textarea",
+      "id": "fine_print",
+      "label": "Fine print (optional)",
+      "info": "Shown under the form. Clear this field in the theme editor to hide.",
+      "default": "Use the same email you used when you placed an order or registered."
+    }
+  ],
+  "presets": [{ "name": "Login modal" }]
+}
+{% endschema %}

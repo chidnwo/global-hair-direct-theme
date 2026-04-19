@@ -1,0 +1,225 @@
+{% capture track_whatsapp_href %}{% render 'whatsapp-or-contact-url' %}{% endcapture %}
+{% assign track_whatsapp_href = track_whatsapp_href | strip %}
+
+<section class="section contact-form-section track-order-section">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Orders' }}</span>
+  </div>
+  <h1 class="section__title informal-page__title">{{ section.settings.title | default: 'Track your order.' }} <em>{{ section.settings.title_italic | default: 'We’ll help you find it.' }}</em></h1>
+  {% if section.settings.lead != blank %}
+    <p class="section__lead informal-page__lead contact-form-section__lead">{{ section.settings.lead }}</p>
+  {% endif %}
+
+  <div class="track-order-section__hint" role="note">
+    {{ section.settings.hint | default: 'Fastest option: open your order confirmation email and use the “View your order” link — that page updates when your order ships.' }}
+  </div>
+
+  {% if customer %}
+    <p class="track-order-section__signed-in">
+      You’re signed in —
+      <a href="{{ routes.account_url }}">view your orders in your account</a>.
+    </p>
+  {% endif %}
+
+  {% if page.content != blank %}
+    <div class="informal-page__body contact-form-section__page rte">{{ page.content }}</div>
+  {% endif %}
+
+  <div class="contact-form-section__form-wrap">
+    {% form 'contact', id: 'TrackOrderContactForm' %}
+      {% if form.posted_successfully? %}
+        <p class="customer-page__success" role="status">{{ section.settings.success_message }}</p>
+      {% else %}
+        {% if form.errors %}
+          <ul class="customer-page__errors">
+            {% for field in form.errors %}
+              <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <div class="customer-form__field">
+          <label for="TrackOrderEmail">{{ section.settings.label_email | default: 'Email used at checkout' }}</label>
+          <input
+            id="TrackOrderEmail"
+            class="customer-form__input"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            required
+          >
+        </div>
+
+        <div class="customer-form__field">
+          <label for="TrackOrderNumber">{{ section.settings.label_order | default: 'Order number' }}</label>
+          <input
+            id="TrackOrderNumber"
+            class="customer-form__input"
+            type="text"
+            name="contact[order_number]"
+            autocomplete="off"
+            inputmode="text"
+            placeholder="{{ section.settings.placeholder_order | default: 'e.g. #1001 or GHD-1024' }}"
+            value="{% if form.order_number %}{{ form.order_number }}{% endif %}"
+            required
+          >
+        </div>
+
+        <div class="customer-form__field">
+          <label for="TrackOrderBody">{{ section.settings.label_note | default: 'Anything else? (optional)' }}</label>
+          <textarea
+            id="TrackOrderBody"
+            class="customer-form__input customer-form__textarea"
+            name="contact[body]"
+            rows="4"
+            placeholder="{{ section.settings.placeholder_note | default: 'Optional — e.g. delivery city or phone number on the order.' }}"
+          >{{ form.body }}</textarea>
+        </div>
+
+        <div class="customer-form__actions">
+          <button type="submit" class="btn btn--gold btn--full">{{ section.settings.submit_label | default: 'Send tracking request' }}</button>
+        </div>
+      {% endif %}
+    {% endform %}
+    <script>
+      (function () {
+        var form = document.getElementById('TrackOrderContactForm');
+        if (!form) return;
+        form.addEventListener('submit', function () {
+          var body = document.getElementById('TrackOrderBody');
+          var orderEl = document.getElementById('TrackOrderNumber');
+          if (!body || !orderEl) return;
+          var order = orderEl.value.trim();
+          if (!body.value || !String(body.value).trim()) {
+            body.value = order ? 'Track order request for ' + order + '.' : 'Track order request.';
+          }
+        });
+      })();
+    </script>
+  </div>
+
+  <div class="track-order-section__secondary">
+    <p>
+      {{ section.settings.secondary_text | default: 'Have an account?' }}
+      <a href="{{ routes.storefront_login_url }}">{{ section.settings.secondary_login | default: 'Sign in' }}</a>
+      · <a href="{{ routes.account_register_url }}">{{ section.settings.secondary_register | default: 'Create account' }}</a>
+    </p>
+    {% if track_whatsapp_href != blank %}
+      <p>
+        {{ section.settings.secondary_whatsapp_lead | default: 'Need a quick answer?' }}
+        <a
+          href="{{ track_whatsapp_href }}"
+          {% if track_whatsapp_href contains 'wa.me' or track_whatsapp_href contains 'whatsapp.com' %}
+            target="_blank" rel="noopener noreferrer"
+          {% endif %}
+        >{{ section.settings.secondary_whatsapp_label | default: 'Message us on WhatsApp' }}</a>
+      </p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Track order",
+  "tag": "section",
+  "class": "section-track-order",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Orders" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Track your order." },
+    { "type": "text", "id": "title_italic", "label": "Title (italic part)", "default": "We’ll help you find it." },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Intro",
+      "default": "Tell us the email you used at checkout and your order number. Our team will reply with status or tracking — usually within one business day."
+    },
+    {
+      "type": "textarea",
+      "id": "hint",
+      "label": "Hint box (above form)",
+      "default": "Fastest option: open your order confirmation email and use the “View your order” link — that page updates when your order ships."
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Email field label",
+      "default": "Email used at checkout"
+    },
+    {
+      "type": "text",
+      "id": "label_order",
+      "label": "Order number field label",
+      "default": "Order number"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_order",
+      "label": "Order number placeholder",
+      "default": "e.g. #1001 or GHD-1024"
+    },
+    {
+      "type": "text",
+      "id": "label_note",
+      "label": "Notes field label",
+      "default": "Anything else? (optional)"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_note",
+      "label": "Notes placeholder",
+      "default": "Optional — e.g. delivery city or phone number on the order."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button",
+      "default": "Send tracking request"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thanks — we received your request. We’ll email you shortly with an update."
+    },
+    {
+      "type": "header",
+      "content": "Footer links (under form)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_text",
+      "label": "Account line",
+      "default": "Have an account?"
+    },
+    {
+      "type": "text",
+      "id": "secondary_login",
+      "label": "Sign in link text",
+      "default": "Sign in"
+    },
+    {
+      "type": "text",
+      "id": "secondary_register",
+      "label": "Create account link text",
+      "default": "Create account"
+    },
+    {
+      "type": "text",
+      "id": "secondary_whatsapp_lead",
+      "label": "WhatsApp line (lead text)",
+      "default": "Need a quick answer?"
+    },
+    {
+      "type": "text",
+      "id": "secondary_whatsapp_label",
+      "label": "WhatsApp link text",
+      "default": "Message us on WhatsApp"
+    }
+  ],
+  "presets": [{ "name": "Track order" }]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+{%- liquid
+  assign track_url = '/pages/track-order'
+  if settings.track_order_page != blank
+    assign _p = pages[settings.track_order_page]
+    if _p != blank
+      assign track_url = _p.url
+    endif
+  elsif pages['track-order'] != blank
+    assign track_url = pages['track-order'].url
+  endif
+  echo track_url
+-%}

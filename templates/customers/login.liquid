@@ -11,7 +11,7 @@
       </ul>
     {% endif %}
 
-    <div class="customer-form__field">
+    <div class="customer-form__field register-modal__field-tight">
       <label for="CustomerEmail">Email</label>
       <input
         id="CustomerEmail"
@@ -20,9 +20,10 @@
         name="customer[email]"
         autocomplete="email"
         required
+        value="{{ form.email }}"
       >
     </div>
-    <div class="customer-form__field">
+    <div class="customer-form__field register-modal__field-tight">
       <label for="CustomerPassword">Password</label>
       <input
         id="CustomerPassword"
@@ -34,12 +35,10 @@
       >
     </div>
 
-    <div class="customer-form__actions">
+    <div class="customer-form__actions register-modal__actions">
       <button type="submit" class="btn btn--gold btn--full">Sign in</button>
-      <div class="customer-form__row">
-        <a class="customer-form__link" href="{{ routes.account_recover_url }}">Forgot password?</a>
-        <a class="customer-form__link" href="{{ routes.account_register_url }}" data-register-modal-open>Create account</a>
-      </div>
+      <a class="customer-form__link" href="{{ routes.account_recover_url }}">Forgot password?</a>
+      <a class="customer-form__link" href="{{ routes.account_register_url }}" data-register-modal-open>Create account</a>
     </div>
   {% endform %}
 </div>

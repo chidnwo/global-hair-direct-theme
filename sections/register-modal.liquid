@@ -98,7 +98,7 @@
 
           <div class="customer-form__actions register-modal__actions">
             <button type="submit" class="btn btn--gold btn--full">{{ section.settings.submit_label | escape }}</button>
-            <a class="customer-form__link" href="{{ routes.storefront_login_url }}" style="text-align:center">{{ section.settings.login_link_label | escape }}</a>
+            <a class="customer-form__link" href="{{ routes.storefront_login_url }}" data-login-modal-open>{{ section.settings.login_link_label | escape }}</a>
           </div>
         {% endform %}
 

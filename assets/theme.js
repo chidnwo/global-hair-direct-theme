@@ -199,36 +199,74 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // ── REGISTER MODAL (create account) ──
+  // ── AUTH MODALS (login + register) ──
+  function closeAuthModals() {
+    document.querySelectorAll('[data-register-modal], [data-login-modal]').forEach(function (el) {
+      el.setAttribute('hidden', '');
+    });
+    document.body.style.overflow = '';
+  }
+
+  function openRegisterModal(e) {
+    var modal = document.querySelector('[data-register-modal]');
+    if (!modal) return false;
+    if (e) e.preventDefault();
+    var login = document.querySelector('[data-login-modal]');
+    if (login) login.setAttribute('hidden', '');
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    var focusTarget = modal.querySelector('[data-register-modal-close]');
+    if (focusTarget) focusTarget.focus();
+    return true;
+  }
+
+  function openLoginModal(e) {
+    var modal = document.querySelector('[data-login-modal]');
+    if (!modal) return false;
+    if (e) e.preventDefault();
+    var reg = document.querySelector('[data-register-modal]');
+    if (reg) reg.setAttribute('hidden', '');
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    var focusTarget = modal.querySelector('[data-login-modal-close]');
+    if (focusTarget) focusTarget.focus();
+    return true;
+  }
+
   document.querySelectorAll('[data-register-modal-open]').forEach(function (trigger) {
     trigger.addEventListener('click', function (e) {
-      var modal = document.querySelector('[data-register-modal]');
-      if (!modal) return;
-      e.preventDefault();
-      modal.removeAttribute('hidden');
-      document.body.style.overflow = 'hidden';
-      var focusTarget = modal.querySelector('[data-register-modal-close]');
-      if (focusTarget) focusTarget.focus();
+      if (!openRegisterModal(e)) return;
+    });
+  });
+
+  document.querySelectorAll('[data-login-modal-open]').forEach(function (trigger) {
+    trigger.addEventListener('click', function (e) {
+      if (!openLoginModal(e)) return;
     });
   });
 
   document.querySelectorAll('[data-register-modal]').forEach(function (root) {
-    function closeModal() {
-      root.setAttribute('hidden', '');
-      document.body.style.overflow = '';
-    }
-
     root.querySelectorAll('[data-register-modal-close]').forEach(function (el) {
       el.addEventListener('click', function () {
-        closeModal();
+        root.setAttribute('hidden', '');
+        document.body.style.overflow = '';
       });
     });
+  });
 
-    document.addEventListener('keydown', function (ev) {
-      if (ev.key === 'Escape' && !root.hasAttribute('hidden')) {
-        closeModal();
-      }
+  document.querySelectorAll('[data-login-modal]').forEach(function (root) {
+    root.querySelectorAll('[data-login-modal-close]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        root.setAttribute('hidden', '');
+        document.body.style.overflow = '';
+      });
     });
+  });
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Escape') return;
+    var open = document.querySelector('[data-register-modal]:not([hidden]), [data-login-modal]:not([hidden])');
+    if (open) closeAuthModals();
   });
 
 });
