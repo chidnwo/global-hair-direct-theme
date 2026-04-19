@@ -71,6 +71,39 @@
         </div>
 
         <div class="customer-form__field">
+          <label for="ContactForm-enquiry-type">{{ section.settings.enquiry_type_label }}</label>
+          <select
+            id="ContactForm-enquiry-type"
+            class="customer-form__input"
+            name="contact[enquiry_type]"
+            autocomplete="off"
+            required
+          >
+            <option value="" disabled {% if form.enquiry_type == blank %}selected{% endif %}>{{ section.settings.enquiry_type_placeholder }}</option>
+            <option value="Wholesale or distributor" {% if form.enquiry_type == 'Wholesale or distributor' %}selected{% endif %}>{{ section.settings.option_wholesale }}</option>
+            <option value="Individual retail" {% if form.enquiry_type == 'Individual retail' %}selected{% endif %}>{{ section.settings.option_individual }}</option>
+            <option value="Salon or stylist" {% if form.enquiry_type == 'Salon or stylist' %}selected{% endif %}>{{ section.settings.option_salon }}</option>
+            <option value="Order delivery or return" {% if form.enquiry_type == 'Order delivery or return' %}selected{% endif %}>{{ section.settings.option_order }}</option>
+            <option value="Other or general" {% if form.enquiry_type == 'Other or general' %}selected{% endif %}>{{ section.settings.option_other }}</option>
+          </select>
+        </div>
+
+        <div class="customer-form__field">
+          <label for="ContactForm-reply-preference">{{ section.settings.reply_preference_label }} <span class="contact-form-section__optional">(optional)</span></label>
+          <select
+            id="ContactForm-reply-preference"
+            class="customer-form__input"
+            name="contact[reply_preference]"
+            autocomplete="off"
+          >
+            <option value="" {% if form.reply_preference == blank %}selected{% endif %}>{{ section.settings.reply_preference_placeholder }}</option>
+            <option value="Email" {% if form.reply_preference == 'Email' %}selected{% endif %}>Email</option>
+            <option value="Phone" {% if form.reply_preference == 'Phone' %}selected{% endif %}>Phone</option>
+            <option value="WhatsApp" {% if form.reply_preference == 'WhatsApp' %}selected{% endif %}>WhatsApp</option>
+          </select>
+        </div>
+
+        <div class="customer-form__field">
           <label for="ContactForm-message">Message</label>
           <textarea
             id="ContactForm-message"

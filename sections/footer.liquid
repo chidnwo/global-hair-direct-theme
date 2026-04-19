@@ -1,3 +1,8 @@
+{% capture footer_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
+{% assign footer_contact_url = footer_contact_url | strip %}
+{% capture footer_whatsapp_href %}{% render 'whatsapp-or-contact-url' %}{% endcapture %}
+{% assign footer_whatsapp_href = footer_whatsapp_href | strip %}
+
 <footer class="site-footer">
   <div class="site-footer__grid">
     <div>
@@ -19,12 +24,12 @@
       {% endif %}
     </div>
     <div class="site-footer__col">
-      <h5>Products</h5>
-      <a href="#">Bone Straight 30inch</a>
-      <a href="#">French Curl 22inch</a>
-      <a href="#">Deep Wave Bulk</a>
+      <h5>Sitemap</h5>
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{{ routes.collections_url }}">Browse Collections</a>
+      <a href="{{ routes.all_products_collection_url }}">All Products</a>
       <a href="/pages/common-questions">Common Questions</a>
-      <a href="{% render 'theme-contact-url' %}">Contact Us</a>
+      <a href="{{ footer_contact_url }}">Contact Us</a>
     </div>
     <div class="site-footer__col">
       <h5>Accounts</h5>
@@ -36,9 +41,8 @@
     </div>
     <div class="site-footer__col">
       <h5>Support</h5>
-      {% capture footer_whatsapp_href %}{% render 'whatsapp-or-contact-url' %}{% endcapture %}
       <a href="{{ footer_whatsapp_href }}"{% if footer_whatsapp_href contains 'wa.me' or footer_whatsapp_href contains 'whatsapp.com' %} target="_blank" rel="noopener noreferrer"{% endif %}>WhatsApp Team</a>
-      <a href="{{ routes.account_url }}">Track My Order</a>
+      <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.storefront_login_url }}{% endif %}">Track My Order</a>
       <a href="/pages/return-policy">Return Policy</a>
       <a href="/pages/terms-of-sale">Terms of Sale</a>
       <a href="/pages/privacy-policy">Privacy Policy</a>

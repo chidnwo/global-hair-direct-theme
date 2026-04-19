@@ -1,0 +1,250 @@
+{% if section.settings.enable %}
+  {% unless section.settings.show_only_home and template.name != 'index' %}
+    {% unless section.settings.hide_for_logged_in and customer %}
+      <div
+        id="welcome-popup-{{ section.id }}"
+        class="welcome-popup"
+        hidden
+        data-welcome-popup
+        data-delay-ms="{{ section.settings.delay_seconds | times: 1000 }}"
+        data-dismiss-days="{{ section.settings.remember_days }}"
+        data-force-open="{% if form.posted_successfully? or form.errors %}true{% else %}false{% endif %}"
+      >
+        <div class="welcome-popup__backdrop" data-welcome-popup-close tabindex="-1" aria-hidden="true"></div>
+        <div
+          class="welcome-popup__dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="welcome-popup-title-{{ section.id }}"
+          aria-describedby="welcome-popup-desc-{{ section.id }}"
+        >
+          <button
+            type="button"
+            class="welcome-popup__close"
+            data-welcome-popup-close
+            aria-label="{{ section.settings.close_label | escape }}"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+          {% if section.settings.heading != blank %}
+            <h2 id="welcome-popup-title-{{ section.id }}" class="welcome-popup__title">{{ section.settings.heading | escape }}</h2>
+          {% endif %}
+          {% if section.settings.lead != blank %}
+            <p id="welcome-popup-desc-{{ section.id }}" class="welcome-popup__lead">{{ section.settings.lead | escape }}</p>
+          {% endif %}
+
+          {% if form.posted_successfully? %}
+            <p class="customer-page__success welcome-popup__success" role="status">{{ section.settings.success_message }}</p>
+          {% else %}
+            {% form 'customer', id: 'WelcomePopupForm', class: 'welcome-popup__form', return_to: 'back' %}
+              <input type="hidden" name="contact[tags]" value="{{ section.settings.customer_tag | escape }}">
+
+              {% if form.errors %}
+                <ul class="customer-page__errors welcome-popup__errors" role="alert">
+                  {% for field in form.errors %}
+                    <li>
+                      {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                      {{ form.errors.messages[field] }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+              <div class="customer-form__field">
+                <label for="WelcomePopup-email-{{ section.id }}">{{ section.settings.label_email | escape }}</label>
+                <input
+                  id="WelcomePopup-email-{{ section.id }}"
+                  class="customer-form__input"
+                  type="email"
+                  name="contact[email]"
+                  autocomplete="email"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  placeholder="{{ section.settings.placeholder_email | escape }}"
+                  required
+                >
+              </div>
+
+              <div class="customer-form__field">
+                <label for="WelcomePopup-phone-{{ section.id }}">{{ section.settings.label_phone | escape }}</label>
+                <input
+                  id="WelcomePopup-phone-{{ section.id }}"
+                  class="customer-form__input"
+                  type="tel"
+                  name="contact[phone]"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  data-welcome-popup-phone
+                  value="{% if form.phone %}{{ form.phone }}{% elsif customer and customer.phone != blank %}{{ customer.phone }}{% endif %}"
+                  placeholder="{{ section.settings.placeholder_phone | escape }}"
+                  title="{{ section.settings.phone_validation_hint | escape }}"
+                  required
+                >
+              </div>
+
+              <div class="welcome-popup__consent">
+                <label class="welcome-popup__check">
+                  <input type="checkbox" name="contact[accepts_marketing]" value="true" required>
+                  <span>{{ section.settings.consent_email | escape }}</span>
+                </label>
+                {% if section.settings.show_sms_consent %}
+                  <label class="welcome-popup__check">
+                    <input type="checkbox" name="contact[accepts_sms_marketing]" value="true">
+                    <span>{{ section.settings.consent_sms | escape }}</span>
+                  </label>
+                {% endif %}
+              </div>
+
+              <div class="customer-form__actions">
+                <button type="submit" class="btn btn--gold btn--full">{{ section.settings.submit_label | escape }}</button>
+              </div>
+            {% endform %}
+          {% endif %}
+
+          {% if section.settings.fine_print != blank %}
+            <p class="welcome-popup__fine">{{ section.settings.fine_print | escape }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endunless %}
+  {% endunless %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Welcome popup",
+  "tag": "section",
+  "class": "section-welcome-popup",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable welcome popup",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_only_home",
+      "label": "Show only on home page",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_for_logged_in",
+      "label": "Hide for logged-in customers",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Delay before showing",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "remember_days",
+      "min": 1,
+      "max": 101,
+      "step": 1,
+      "unit": "d",
+      "label": "After close, hide again for",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "customer_tag",
+      "label": "Customer tag (for filtering in admin)",
+      "default": "welcome-popup"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome to Global Hair Direct"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Short description",
+      "default": "Join our list for restocks, wholesale tips, and exclusive offers. Add your email and phone below."
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_email",
+      "label": "Email placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "type": "text",
+      "id": "label_phone",
+      "label": "Phone label",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_phone",
+      "label": "Phone placeholder",
+      "default": "+234 …"
+    },
+    {
+      "type": "text",
+      "id": "phone_validation_hint",
+      "label": "Phone validation hint (native tooltip)",
+      "default": "Use 8–15 digits. Country code with + is OK (e.g. +2348012345678)."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close button (screen readers)",
+      "default": "Close"
+    },
+    {
+      "type": "textarea",
+      "id": "consent_email",
+      "label": "Email marketing consent",
+      "default": "I agree to receive marketing emails from this store."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sms_consent",
+      "label": "Show SMS marketing consent checkbox",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "consent_sms",
+      "label": "SMS marketing consent",
+      "default": "I agree to receive marketing text messages at the number provided."
+    },
+    {
+      "type": "textarea",
+      "id": "fine_print",
+      "label": "Fine print (optional)",
+      "default": "You can unsubscribe at any time. We respect your privacy."
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you — you are subscribed."
+    }
+  ],
+  "presets": [{ "name": "Welcome popup" }]
+}
+{% endschema %}

@@ -1,31 +1,60 @@
 <div class="customer-page">
   <h1 class="customer-page__title">Create account</h1>
-  <p class="customer-page__sub">Register to save addresses and track orders faster.</p>
+  <p class="customer-page__sub">Register to save addresses and track orders faster. Tell us whether you shop as an individual, salon, or wholesale account.</p>
 
-  {% form 'create_customer' %}
+  {% form 'create_customer', return_to: routes.account_url %}
     {% if form.errors %}
-      <ul class="customer-page__errors">
+      <ul class="customer-page__errors" role="alert">
         {% for field in form.errors %}
-          <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+          <li>
+            {{ form.errors.translated_fields[field] | default: field | capitalize }}
+            {{ form.errors.messages[field] }}
+          </li>
         {% endfor %}
       </ul>
     {% endif %}
 
+    <fieldset class="customer-form__field register-form__fieldset">
+      <legend class="register-form__legend">I am registering as</legend>
+      <div class="register-form__account-type">
+        <label class="register-form__radio">
+          <input type="radio" name="customer[note]" value="Buyer type: Individual buyer" required>
+          <span>Individual buyer</span>
+        </label>
+        <label class="register-form__radio">
+          <input type="radio" name="customer[note]" value="Buyer type: Salon">
+          <span>Salon</span>
+        </label>
+        <label class="register-form__radio">
+          <input type="radio" name="customer[note]" value="Buyer type: Wholesale / distributor">
+          <span>Wholesale / distributor</span>
+        </label>
+      </div>
+    </fieldset>
+
     <div class="customer-form__field">
-      <label for="RegisterFirstName">First name</label>
-      <input id="RegisterFirstName" class="customer-form__input" type="text" name="customer[first_name]" autocomplete="given-name" value="{{ form.first_name }}">
+      <label for="RegisterPage-FirstName">First name</label>
+      <input id="RegisterPage-FirstName" class="customer-form__input" type="text" name="customer[first_name]" autocomplete="given-name" value="{{ form.first_name }}">
     </div>
     <div class="customer-form__field">
-      <label for="RegisterLastName">Last name</label>
-      <input id="RegisterLastName" class="customer-form__input" type="text" name="customer[last_name]" autocomplete="family-name" value="{{ form.last_name }}">
+      <label for="RegisterPage-LastName">Last name</label>
+      <input id="RegisterPage-LastName" class="customer-form__input" type="text" name="customer[last_name]" autocomplete="family-name" value="{{ form.last_name }}">
     </div>
     <div class="customer-form__field">
-      <label for="RegisterEmail">Email</label>
-      <input id="RegisterEmail" class="customer-form__input" type="email" name="customer[email]" autocomplete="email" required value="{{ form.email }}">
+      <label for="RegisterPage-Email">Email</label>
+      <input id="RegisterPage-Email" class="customer-form__input" type="email" name="customer[email]" autocomplete="email" required value="{{ form.email }}">
     </div>
     <div class="customer-form__field">
-      <label for="RegisterPassword">Password</label>
-      <input id="RegisterPassword" class="customer-form__input" type="password" name="customer[password]" autocomplete="new-password" required>
+      <label for="RegisterPage-Phone">Phone</label>
+      <input id="RegisterPage-Phone" class="customer-form__input" type="tel" name="customer[phone]" autocomplete="tel" inputmode="tel" value="{{ form.phone }}">
+    </div>
+    <div class="customer-form__field">
+      <label for="RegisterPage-Password">Password</label>
+      <input id="RegisterPage-Password" class="customer-form__input" type="password" name="customer[password]" autocomplete="new-password" required>
+    </div>
+    <div class="customer-form__field">
+      <label for="RegisterPage-PasswordConfirm">Confirm password</label>
+      <input id="RegisterPage-PasswordConfirm" class="customer-form__input" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
     </div>
 
     <div class="customer-form__actions">

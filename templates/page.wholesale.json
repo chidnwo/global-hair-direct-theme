@@ -127,60 +127,6 @@
       "type": "section-divider",
       "settings": {}
     },
-    "buyer_tiers": {
-      "type": "buyer-tiers",
-      "settings": {
-        "eyebrow": "Wholesale Account Tiers",
-        "title": "Structured Pricing.",
-        "title_italic": "Built For Order Volume.",
-        "lead": "Tiered pricing is based on account type and order scale. All prices are confirmed in writing before payment."
-      },
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "tier_number": "Tier 01",
-            "name": "Individual Buyer",
-            "range": "Small quantities · No minimums",
-            "perks": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door",
-            "discount": "Retail",
-            "discount_label": "Standard pricing",
-            "cta_text": "Shop Now",
-            "cta_url": "/collections/all",
-            "featured": false
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "tier_number": "Tier 02",
-            "name": "Salon Owner",
-            "range": "Medium volume · Regular orders",
-            "perks": "Salon-tier pricing across all hair types\nMixed colour orders accepted per product\nMonthly standing order option available\nPriority dispatch and dedicated support\nFirst access to new product launches",
-            "discount": "-15%",
-            "discount_label": "Off retail pricing",
-            "cta_text": "Apply Now",
-            "cta_url": "/pages/contact",
-            "featured": true
-          }
-        },
-        "tier_3": {
-          "type": "tier",
-          "settings": {
-            "tier_number": "Tier 03",
-            "name": "Wholesale Distributor",
-            "range": "High volume · Bulk orders",
-            "perks": "Lowest per-unit pricing available\nFull colour and product mix per order\nCustom packaging options available\nDedicated account manager assigned\nNet-30 payment terms for verified accounts\nMulti-state distribution support",
-            "discount": "-35%",
-            "discount_label": "Off retail pricing",
-            "cta_text": "Apply Now",
-            "cta_url": "/pages/contact",
-            "featured": false
-          }
-        }
-      },
-      "block_order": ["tier_1", "tier_2", "tier_3"]
-    },
     "how_to_order": {
       "type": "how-to-order",
       "settings": {
@@ -244,7 +190,6 @@
     "divider_1",
     "featured_products",
     "divider_2",
-    "buyer_tiers",
     "how_to_order",
     "cta_banner"
   ]

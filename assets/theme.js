@@ -84,4 +84,151 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // ── WELCOME POPUP (customer newsletter form) ──
+  var STORAGE_KEY = 'ghd_welcome_popup_v1';
+
+  function readPopupState() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function writePopupState(data) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  document.querySelectorAll('[data-welcome-popup]').forEach(function (root) {
+    var delayMs = parseInt(root.getAttribute('data-delay-ms'), 10);
+    if (isNaN(delayMs)) delayMs = 4000;
+    var dismissDays = parseInt(root.getAttribute('data-dismiss-days'), 10);
+    if (isNaN(dismissDays)) dismissDays = 30;
+    var forceOpen = root.getAttribute('data-force-open') === 'true';
+    var successEl = root.querySelector('.welcome-popup__success');
+    var timer;
+
+    function openPopup() {
+      root.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      var focusTarget = root.querySelector('.welcome-popup__close');
+      if (focusTarget) focusTarget.focus();
+    }
+
+    function closePopup(markDismissed) {
+      root.setAttribute('hidden', '');
+      document.body.style.overflow = '';
+      if (markDismissed && !root.querySelector('.welcome-popup__success')) {
+        var state = readPopupState();
+        state.dismissedAt = Date.now();
+        writePopupState(state);
+      }
+    }
+
+    function shouldSkip() {
+      var state = readPopupState();
+      if (state.completed) return true;
+      if (!state.dismissedAt) return false;
+      var ms = dismissDays * 24 * 60 * 60 * 1000;
+      return Date.now() - state.dismissedAt < ms;
+    }
+
+    if (successEl) {
+      var st = readPopupState();
+      st.completed = true;
+      writePopupState(st);
+      openPopup();
+    } else if (forceOpen) {
+      openPopup();
+    } else if (shouldSkip()) {
+      return;
+    } else {
+      timer = window.setTimeout(function () {
+        openPopup();
+      }, delayMs);
+    }
+
+    root.querySelectorAll('[data-welcome-popup-close]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (timer) window.clearTimeout(timer);
+        closePopup(true);
+      });
+    });
+
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && !root.hasAttribute('hidden')) {
+        if (timer) window.clearTimeout(timer);
+        closePopup(true);
+      }
+    });
+
+    var popupForm = root.querySelector('.welcome-popup__form');
+    var phoneInput = root.querySelector('[data-welcome-popup-phone]');
+    if (popupForm && phoneInput) {
+      function welcomePopupPhoneDigits(value) {
+        return String(value || '').replace(/\D/g, '');
+      }
+
+      function validateWelcomePhone() {
+        var digits = welcomePopupPhoneDigits(phoneInput.value);
+        if (digits.length < 8 || digits.length > 15) {
+          phoneInput.setCustomValidity('Enter a valid phone number: 8–15 digits (digits only count; + and spaces are OK).');
+          return false;
+        }
+        phoneInput.setCustomValidity('');
+        return true;
+      }
+
+      phoneInput.addEventListener('input', function () {
+        phoneInput.setCustomValidity('');
+      });
+
+      popupForm.addEventListener('submit', function (e) {
+        if (!validateWelcomePhone()) {
+          e.preventDefault();
+          phoneInput.reportValidity();
+          return;
+        }
+        var digits = welcomePopupPhoneDigits(phoneInput.value);
+        var trimmed = phoneInput.value.trim();
+        phoneInput.value = trimmed.charAt(0) === '+' ? '+' + digits : digits;
+      });
+    }
+  });
+
+  // ── REGISTER MODAL (create account) ──
+  document.querySelectorAll('[data-register-modal-open]').forEach(function (trigger) {
+    trigger.addEventListener('click', function (e) {
+      var modal = document.querySelector('[data-register-modal]');
+      if (!modal) return;
+      e.preventDefault();
+      modal.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+      var focusTarget = modal.querySelector('[data-register-modal-close]');
+      if (focusTarget) focusTarget.focus();
+    });
+  });
+
+  document.querySelectorAll('[data-register-modal]').forEach(function (root) {
+    function closeModal() {
+      root.setAttribute('hidden', '');
+      document.body.style.overflow = '';
+    }
+
+    root.querySelectorAll('[data-register-modal-close]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        closeModal();
+      });
+    });
+
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && !root.hasAttribute('hidden')) {
+        closeModal();
+      }
+    });
+  });
+
 });
