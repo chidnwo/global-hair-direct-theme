@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "colors_solid_button_labels": "#FFFFFF",
@@ -14,6 +23,14 @@
     "typography_font_body__weight": "400",
     "type_header_font_size": 36,
     "spacing_sections": 80,
-    "logo_max_width": 200
+    "logo_max_width": 200,
+    "content_for_index": [],
+    "blocks": {
+      "6864468922717759293": {
+        "type": "shopify://apps/privy-pop-ups-email-sms/blocks/privy-convert-production/1d8599fa-4edf-4071-bda6-4d5d6d82de9c",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   }
 }
