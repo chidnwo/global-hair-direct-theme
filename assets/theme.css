@@ -134,6 +134,15 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .informal-page__body a:hover { color: var(--gold); }
 .informal-page__body strong { font-weight: 500; }
 
+.contact-form-section__lead { margin-bottom: 12px; }
+.contact-form-section__email { font-size: 14px; margin-bottom: 28px; max-width: 680px; }
+.contact-form-section__email a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
+.contact-form-section__email a:hover { color: var(--gold); }
+.contact-form-section__page { margin-bottom: 40px; max-width: 720px; }
+.contact-form-section__form-wrap { max-width: 520px; }
+.customer-form__textarea { min-height: 120px; padding-top: 12px; padding-bottom: 12px; resize: vertical; height: auto; }
+.contact-form-section__optional { font-weight: 400; color: var(--faint); text-transform: none; letter-spacing: 0; font-size: 12px; }
+
 /* ── HERO ── */
 .hero {
   background: var(--navy);

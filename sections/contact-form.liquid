@@ -1,0 +1,128 @@
+<section class="section contact-form-section">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow }}</span>
+  </div>
+  <h1 class="section__title informal-page__title">{{ section.settings.title }} <em>{{ section.settings.title_italic }}</em></h1>
+  {% if section.settings.lead != blank %}
+    <p class="section__lead informal-page__lead contact-form-section__lead">{{ section.settings.lead }}</p>
+  {% endif %}
+  {% if section.settings.show_email and shop.email != blank %}
+    <p class="contact-form-section__email">
+      <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
+    </p>
+  {% endif %}
+
+  {% if page.content != blank %}
+    <div class="informal-page__body contact-form-section__page rte">{{ page.content }}</div>
+  {% endif %}
+
+  <div class="contact-form-section__form-wrap">
+    {% form 'contact' %}
+      {% if form.posted_successfully? %}
+        <p class="customer-page__success" role="status">{{ section.settings.success_message }}</p>
+      {% else %}
+        {% if form.errors %}
+          <ul class="customer-page__errors">
+            {% for field in form.errors %}
+              <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <div class="customer-form__field">
+          <label for="ContactForm-name">Name</label>
+          <input
+            id="ContactForm-name"
+            class="customer-form__input"
+            type="text"
+            name="contact[name]"
+            autocomplete="name"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            required
+          >
+        </div>
+
+        <div class="customer-form__field">
+          <label for="ContactForm-email">Email</label>
+          <input
+            id="ContactForm-email"
+            class="customer-form__input"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            required
+          >
+        </div>
+
+        <div class="customer-form__field">
+          <label for="ContactForm-phone">Phone <span class="contact-form-section__optional">(optional)</span></label>
+          <input
+            id="ContactForm-phone"
+            class="customer-form__input"
+            type="tel"
+            name="contact[phone]"
+            autocomplete="tel"
+            value="{% if form.phone %}{{ form.phone }}{% endif %}"
+          >
+        </div>
+
+        <div class="customer-form__field">
+          <label for="ContactForm-message">Message</label>
+          <textarea
+            id="ContactForm-message"
+            class="customer-form__input customer-form__textarea"
+            name="contact[body]"
+            rows="6"
+            required
+          >{{ form.body }}</textarea>
+        </div>
+
+        <div class="customer-form__actions">
+          <button type="submit" class="btn btn--gold btn--full">{{ section.settings.submit_label }}</button>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "section",
+  "class": "section-contact-form",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Contact us." },
+    { "type": "text", "id": "title_italic", "label": "Title (italic part)", "default": "We will get back to you." },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Intro",
+      "default": "Send a message for wholesale enquiries, order questions, or general support. You can also reach us on WhatsApp for faster replies during business hours."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email",
+      "label": "Show store email above the form",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you — your message was sent. We will reply as soon as we can."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Send message"
+    }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}
