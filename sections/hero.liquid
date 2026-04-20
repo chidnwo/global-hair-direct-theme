@@ -1,3 +1,31 @@
+{% liquid
+  assign stats_cat = collections[section.settings.stats_collection]
+  assign hero_units = 0
+  assign hero_types_count = 0
+  assign hero_in_stock = 0
+  assign hero_pre = 0
+  assign hero_show_live = false
+  if section.settings.use_live_catalog_stats and stats_cat != blank
+    assign hero_show_live = true
+    assign hero_types = stats_cat.products | map: 'type' | uniq
+    for t in hero_types
+      if t != blank
+        assign hero_types_count = hero_types_count | plus: 1
+      endif
+    endfor
+    for product in stats_cat.products limit: 250
+      if product.tags contains 'pre-order'
+        assign hero_pre = hero_pre | plus: 1
+      elsif product.available
+        assign hero_in_stock = hero_in_stock | plus: 1
+      endif
+      for variant in product.variants
+        assign q = variant.inventory_quantity | default: 0
+        assign hero_units = hero_units | plus: q
+      endfor
+    endfor
+  endif
+%}
 <section class="hero">
   <div class="hero__content">
     <div class="hero__eyebrow">
@@ -24,19 +52,38 @@
       <span class="hero__panel-title">{{ section.settings.panel_title | default: 'Current Stock' }}</span>
       <div class="hero__panel-live">
         <div class="hero__panel-dot"></div>
-        Updated today
+        {% if hero_show_live %}Live from catalogue{% else %}Updated today{% endif %}
       </div>
     </div>
 
     <div class="hero__stats">
-      {% for block in section.blocks %}
-        {% if block.type == 'stat' %}
-          <div class="hero__stat">
-            <div class="hero__stat-val">{{ block.settings.value }}</div>
-            <div class="hero__stat-lbl">{{ block.settings.label }}</div>
-          </div>
-        {% endif %}
-      {% endfor %}
+      {% if hero_show_live %}
+        <div class="hero__stat">
+          <div class="hero__stat-val">{{ hero_units }}</div>
+          <div class="hero__stat-lbl">Units in catalogue</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">{{ hero_types_count }}</div>
+          <div class="hero__stat-lbl">Product types</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">{{ hero_in_stock }}</div>
+          <div class="hero__stat-lbl">In stock now</div>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">{{ hero_pre }}</div>
+          <div class="hero__stat-lbl">Pre-order lines</div>
+        </div>
+      {% else %}
+        {% for block in section.blocks %}
+          {% if block.type == 'stat' %}
+            <div class="hero__stat" {{ block.shopify_attributes }}>
+              <div class="hero__stat-val">{{ block.settings.value }}</div>
+              <div class="hero__stat-lbl">{{ block.settings.label }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </div>
 
     <div class="hero__panel-notice">
@@ -68,7 +115,9 @@
     { "type": "text", "id": "notice_tag", "label": "Notice Tag", "default": "Pre-Order Offer — Active Now" },
     { "type": "textarea", "id": "notice_text", "label": "Notice Text" },
     { "type": "text", "id": "notice_cta_text", "label": "Notice CTA Text", "default": "Place Pre-Order" },
-    { "type": "url", "id": "notice_cta_url", "label": "Notice CTA URL" }
+    { "type": "url", "id": "notice_cta_url", "label": "Notice CTA URL" },
+    { "type": "checkbox", "id": "use_live_catalog_stats", "label": "Use live stats from catalogue (collection)", "default": true },
+    { "type": "collection", "id": "stats_collection", "label": "Catalogue for hero panel stats" }
   ],
   "blocks": [
     {

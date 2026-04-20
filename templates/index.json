@@ -18,7 +18,9 @@
         "notice_tag": "Pre-Order Offer — Active Now",
         "notice_text": "<strong>Bone Straight, French Curl &amp; Deep Wave</strong> — order now and receive 5% discount on your total. Wholesale pricing available for salon and distributor accounts.",
         "notice_cta_text": "Place Pre-Order",
-        "notice_cta_url": "/collections/all"
+        "notice_cta_url": "/collections/all",
+        "use_live_catalog_stats": false,
+        "stats_collection": "all"
       },
       "blocks": {
         "hero_stat_1": {
@@ -51,70 +53,16 @@
         "eyebrow": "Product Catalogue",
         "title": "Current Stock &",
         "title_italic": "Pre-Order Lines",
-        "products_limit": 4,
-        "show_view_all": false,
+        "collection": "all",
+        "auto_filters_from_catalog": true,
+        "show_catalog_summary": true,
+        "products_limit": 8,
+        "show_view_all": true,
         "view_all_text": "View Full Catalogue",
         "view_all_url": "/collections/all"
       },
-      "blocks": {
-        "fp_f1": { "type": "filter", "settings": { "label": "Braiding Hair", "filter_key": "braiding-hair" } },
-        "fp_f2": { "type": "filter", "settings": { "label": "Curl Hair", "filter_key": "curl-hair" } },
-        "fp_f3": { "type": "filter", "settings": { "label": "Deep Wave", "filter_key": "deep-wave" } },
-        "fp_f4": { "type": "filter", "settings": { "label": "Coming Soon", "filter_key": "coming-soon" } },
-        "fp_c1": {
-          "type": "product_card",
-          "settings": {
-            "title": "Bone Straight 30inch",
-            "category": "Braiding Hair",
-            "vendor": "150g · Colours: 1B, 27#, BUG, 613#",
-            "price": "Notify Me",
-            "price_label": "Pre-register now",
-            "badge_type": "soon",
-            "badge": "Coming Soon",
-            "filter_key": "braiding-hair"
-          }
-        },
-        "fp_c2": {
-          "type": "product_card",
-          "settings": {
-            "title": "French Curl 22inch",
-            "category": "Curl Hair",
-            "vendor": "150g · Colours: 1B, 27#, BUG, 613#",
-            "price": "Notify Me",
-            "price_label": "Pre-register now",
-            "badge_type": "soon",
-            "badge": "Coming Soon",
-            "filter_key": "curl-hair"
-          }
-        },
-        "fp_c3": {
-          "type": "product_card",
-          "settings": {
-            "title": "Deep Wave Bulk 22inch",
-            "category": "Bulk Hair",
-            "vendor": "100g · Colours: 1B, 27#, BUG, 613#",
-            "price": "Notify Me",
-            "price_label": "Pre-register now",
-            "badge_type": "soon",
-            "badge": "Coming Soon",
-            "filter_key": "deep-wave"
-          }
-        },
-        "fp_c4": {
-          "type": "product_card",
-          "settings": {
-            "title": "Premium Bundles & Frontals",
-            "category": "Human Hair",
-            "vendor": "Raw Virgin · Launching soon",
-            "price": "Notify Me",
-            "price_label": "Pre-register now",
-            "badge_type": "soon",
-            "badge": "Coming Soon",
-            "filter_key": "coming-soon"
-          }
-        }
-      },
-      "block_order": ["fp_f1", "fp_f2", "fp_f3", "fp_f4", "fp_c1", "fp_c2", "fp_c3", "fp_c4"]
+      "blocks": {},
+      "block_order": []
     },
     "about_us": {
       "type": "about-us",
@@ -125,7 +73,10 @@
         "lead": "Global Hair Direct supplies quality hair products directly to Nigerian buyers — salon owners, beauty distributors, and individuals — with fair wholesale pricing, multiple colour options, and reliable nationwide delivery on every order.",
         "right_eyebrow": "By the Numbers",
         "cta_text": "Request Wholesale Account",
-        "cta_url": "/pages/contact"
+        "cta_url": "/pages/contact",
+        "use_live_catalog_stats": false,
+        "stats_collection": "all",
+        "static_states_covered": "36"
       },
       "blocks": {
         "about_check_1": {

@@ -1,22 +1,52 @@
+{% liquid
+  assign featured_collection = collections[section.settings.collection]
+  assign live_in_stock = 0
+  assign live_pre = 0
+  assign total_units = 0
+  if featured_collection != blank
+    for product in featured_collection.products limit: 250
+      if product.tags contains 'pre-order'
+        assign live_pre = live_pre | plus: 1
+      elsif product.available
+        assign live_in_stock = live_in_stock | plus: 1
+      endif
+      for variant in product.variants
+        assign q = variant.inventory_quantity | default: 0
+        assign total_units = total_units | plus: q
+      endfor
+    endfor
+  endif
+%}
 <section class="section--alt">
   <div class="eyebrow">
     <div class="eyebrow__line"></div>
     <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Product Catalogue' }}</span>
   </div>
   <h2 class="section__title">{{ section.settings.title | default: 'Current Stock &' }} <em>{{ section.settings.title_italic | default: 'Pre-Order Lines' }}</em></h2>
+  {% if section.settings.show_catalog_summary and featured_collection != blank %}
+    <p class="section__catalog-summary">{{ live_in_stock }} in stock · {{ live_pre }} pre-order · {{ total_units }} units · {{ featured_collection.all_products_count }} products</p>
+  {% endif %}
 
   <div style="margin-top:40px">
     <div class="product-filters">
       <button class="product-filter active" data-filter="all">All</button>
-      {% for block in section.blocks %}
-        {% if block.type == 'filter' %}
-          <button class="product-filter" data-filter="{{ block.settings.filter_key }}">{{ block.settings.label }}</button>
-        {% endif %}
-      {% endfor %}
+      {% if featured_collection != blank and section.settings.auto_filters_from_catalog %}
+        {% assign catalog_types = featured_collection.products | map: 'type' | uniq %}
+        {% for t in catalog_types %}
+          {% if t != blank %}
+            <button class="product-filter" data-filter="{{ t | handleize }}">{{ t }}</button>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks %}
+          {% if block.type == 'filter' %}
+            <button class="product-filter" data-filter="{{ block.settings.filter_key }}">{{ block.settings.label }}</button>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </div>
 
     <div class="product-grid">
-      {% assign featured_collection = collections[section.settings.collection] %}
       {% if featured_collection != blank %}
         {% for product in featured_collection.products limit: section.settings.products_limit %}
           <a href="{{ product.url }}" class="product-card" data-type="{{ product.type | handleize }}">
@@ -106,6 +136,8 @@
     { "type": "text", "id": "title", "label": "Title", "default": "Current Stock &" },
     { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Pre-Order Lines" },
     { "type": "collection", "id": "collection", "label": "Collection to display" },
+    { "type": "checkbox", "id": "auto_filters_from_catalog", "label": "Build filters from product types (catalog)", "default": true },
+    { "type": "checkbox", "id": "show_catalog_summary", "label": "Show live counts under heading (from catalog)", "default": true },
     { "type": "range", "id": "products_limit", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
     { "type": "checkbox", "id": "show_view_all", "label": "Show View All button", "default": true },
     { "type": "text", "id": "view_all_text", "label": "View All Button Text", "default": "View Full Catalogue" },

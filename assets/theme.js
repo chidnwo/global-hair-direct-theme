@@ -103,6 +103,18 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!variant) return;
       var input = productPage.querySelector('[data-variant-input]');
       if (input) input.value = String(variant.id);
+      var addBtn = productPage.querySelector('[data-add-to-cart]');
+      if (addBtn) {
+        if (variant.available) {
+          addBtn.disabled = false;
+          addBtn.removeAttribute('aria-disabled');
+          addBtn.textContent = 'Add to Cart';
+        } else {
+          addBtn.disabled = true;
+          addBtn.setAttribute('aria-disabled', 'true');
+          addBtn.textContent = 'Out of Stock';
+        }
+      }
       if (variant.image) {
         setMainImage(variant.image, '');
         syncThumbActiveByUrl(variant.image);

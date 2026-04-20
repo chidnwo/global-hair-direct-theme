@@ -8,6 +8,30 @@
       assign stat_count = stat_count | plus: 1
     endif
   endfor
+  assign about_stats_cat = collections[section.settings.stats_collection]
+  assign about_units = 0
+  assign about_types_count = 0
+  assign about_in_stock = 0
+  assign about_pre = 0
+  if section.settings.use_live_catalog_stats and about_stats_cat != blank
+    assign about_types = about_stats_cat.products | map: 'type' | uniq
+    for t in about_types
+      if t != blank
+        assign about_types_count = about_types_count | plus: 1
+      endif
+    endfor
+    for product in about_stats_cat.products limit: 250
+      if product.tags contains 'pre-order'
+        assign about_pre = about_pre | plus: 1
+      elsif product.available
+        assign about_in_stock = about_in_stock | plus: 1
+      endif
+      for variant in product.variants
+        assign q = variant.inventory_quantity | default: 0
+        assign about_units = about_units | plus: q
+      endfor
+    endfor
+  endif
 %}
 {% capture default_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
 {% assign default_contact_url = default_contact_url | strip %}
@@ -58,7 +82,28 @@
         <span class="eyebrow__text">{{ section.settings.right_eyebrow | default: 'By the Numbers' }}</span>
       </div>
       <div class="stats-block">
-        {% if stat_count > 0 %}
+        {% if section.settings.use_live_catalog_stats and about_stats_cat != blank %}
+          <div class="stat-row">
+            <span class="stat-row__val">{{ about_units }}</span>
+            <span class="stat-row__lbl">Units in catalogue</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">{{ about_types_count }}</span>
+            <span class="stat-row__lbl">Product types</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">{{ about_in_stock }}</span>
+            <span class="stat-row__lbl">In stock now</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">{{ about_pre }}</span>
+            <span class="stat-row__lbl">Pre-order lines</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-row__val">{{ section.settings.static_states_covered | default: '36' }}</span>
+            <span class="stat-row__lbl">States covered nationwide</span>
+          </div>
+        {% elsif stat_count > 0 %}
           {% for block in section.blocks %}
             {% if block.type == 'stat' %}
               <div class="stat-row" {{ block.shopify_attributes }}>
@@ -103,7 +148,10 @@
     { "type": "textarea", "id": "lead", "label": "Lead Text" },
     { "type": "text", "id": "right_eyebrow", "label": "Right Eyebrow", "default": "By the Numbers" },
     { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Request Wholesale Account" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" }
+    { "type": "url", "id": "cta_url", "label": "CTA URL" },
+    { "type": "checkbox", "id": "use_live_catalog_stats", "label": "Use live stats from catalogue (collection)", "default": true },
+    { "type": "collection", "id": "stats_collection", "label": "Catalogue for stats" },
+    { "type": "text", "id": "static_states_covered", "label": "States covered (shown with live stats)", "default": "36" }
   ],
   "blocks": [
     {
