@@ -40,14 +40,103 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ── VARIANT SELECTOR ──
-  document.querySelectorAll('.variant-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var group = this.closest('.product-page__variants');
-      group.querySelectorAll('.variant-btn').forEach(function (b) { b.classList.remove('active'); });
-      this.classList.add('active');
+  // ── PRODUCT PAGE: gallery + variant → image & cart id ──
+  var productPage = document.querySelector('[data-product-page]');
+  var variantsJsonEl = document.getElementById('product-variants-data');
+  if (productPage && variantsJsonEl) {
+    var variants;
+    try {
+      variants = JSON.parse(variantsJsonEl.textContent);
+    } catch (e) {
+      variants = [];
+    }
+
+    function normOpt(x) {
+      if (x === undefined || x === null || x === '') return null;
+      return String(x);
+    }
+
+    function selectedOptionValues() {
+      var groups = productPage.querySelectorAll('.product-page__variants');
+      var out = [null, null, null];
+      groups.forEach(function (group) {
+        var active = group.querySelector('.variant-btn.active');
+        if (!active) return;
+        var idx = parseInt(active.getAttribute('data-option-index'), 10);
+        if (isNaN(idx) || idx < 0 || idx > 2) return;
+        out[idx] = active.getAttribute('data-value');
+      });
+      return out;
+    }
+
+    function findVariant() {
+      var sel = selectedOptionValues();
+      var o1 = normOpt(sel[0]);
+      var o2 = normOpt(sel[1]);
+      var o3 = normOpt(sel[2]);
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        if (normOpt(v.option1) !== o1) continue;
+        if (normOpt(v.option2) !== o2) continue;
+        if (normOpt(v.option3) !== o3) continue;
+        return v;
+      }
+      return variants[0] || null;
+    }
+
+    function setMainImage(src, alt) {
+      var main = document.getElementById('product-main-image');
+      if (!main || !src) return;
+      main.src = src;
+      if (alt !== undefined && alt !== null) main.alt = alt;
+    }
+
+    function syncThumbActiveByUrl(url) {
+      if (!url) return;
+      productPage.querySelectorAll('.product-page__thumb').forEach(function (thumb) {
+        var full = thumb.getAttribute('data-full-src');
+        thumb.classList.toggle('is-active', full === url);
+      });
+    }
+
+    function applyVariant(variant) {
+      if (!variant) return;
+      var input = productPage.querySelector('[data-variant-input]');
+      if (input) input.value = String(variant.id);
+      if (variant.image) {
+        setMainImage(variant.image, '');
+        syncThumbActiveByUrl(variant.image);
+      }
+    }
+
+    productPage.querySelectorAll('.variant-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var group = this.closest('.product-page__variants');
+        group.querySelectorAll('.variant-btn').forEach(function (b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        applyVariant(findVariant());
+      });
     });
-  });
+
+    productPage.querySelectorAll('.product-page__thumb').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        var src = this.getAttribute('data-full-src');
+        var alt = this.getAttribute('data-image-alt') || '';
+        setMainImage(src, alt);
+        productPage.querySelectorAll('.product-page__thumb').forEach(function (t) { t.classList.remove('is-active'); });
+        this.classList.add('is-active');
+      });
+    });
+  } else {
+    document.querySelectorAll('.variant-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var group = this.closest('.product-page__variants');
+        if (!group) return;
+        group.querySelectorAll('.variant-btn').forEach(function (b) { b.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+  }
 
   // ── QUANTITY BUTTONS ──
   var qtyInput = document.querySelector('.qty-input');
