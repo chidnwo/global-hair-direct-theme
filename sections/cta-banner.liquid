@@ -3,21 +3,112 @@
 {% capture default_cta2_url %}{% render 'whatsapp-or-contact-url' %}{% endcapture %}
 {% assign default_cta2_url = default_cta2_url | strip %}
 {% assign cta2_href = section.settings.cta2_url | default: default_cta2_url %}
-<div class="cta-banner">
+{% assign cta_newsletter_form_id = 'CtaBannerNewsletter-' | append: section.id %}
+
+<div class="cta-banner{% unless section.settings.newsletter_layout == false %} cta-banner--newsletter{% endunless %}">
   <div class="cta-banner__inner">
-    <div class="eyebrow eyebrow--gold" style="margin-bottom:20px">
-      <div class="eyebrow__line"></div>
-      <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Pre-Order Now Open' }}</span>
-    </div>
-    <h2 class="cta-banner__title">{{ section.settings.title | default: 'Order Today.' }} <em>{{ section.settings.title_italic | default: '5% Off Your Entire Order.' }}</em></h2>
-    <p class="cta-banner__text">{{ section.settings.text | default: 'Bone Straight Braiding Hair, French Curl, and Deep Wave Bulk — all in stock and available for immediate pre-order at 5% below standard pricing. Wholesale accounts receive additional discounts. No commitment required to enquire.' }}</p>
-    <div class="cta-banner__actions">
-      {% comment %} Place Pre-Order — hidden per request {% endcomment %}
-      {% comment %}
-      <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn--gold">{{ section.settings.cta1_text | default: 'Place Pre-Order Now' }}</a>
-      {% endcomment %}
-      <a href="{{ cta2_href }}" class="btn btn--white"{% if cta2_href contains 'wa.me' or cta2_href contains 'whatsapp.com' %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ section.settings.cta2_text | default: 'Speak to Us on WhatsApp' }}</a>
-    </div>
+    {% unless section.settings.newsletter_layout == false %}
+      {% form 'customer', id: cta_newsletter_form_id, class: 'cta-banner__form', return_to: 'back' %}
+        <input type="hidden" name="contact[tags]" value="{{ section.settings.customer_tag | default: 'newsletter, cta-banner' | escape }}">
+
+        <div class="eyebrow eyebrow--gold">
+          <div class="eyebrow__line"></div>
+          <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Newsletter' | escape }}</span>
+        </div>
+
+        <h2 class="cta-banner__title">
+          {{ section.settings.title | default: 'Stay up to date' | escape }}
+          {% if section.settings.title_italic != blank %}
+            <em>{{ section.settings.title_italic | escape }}</em>
+          {% endif %}
+        </h2>
+
+        {% if form.posted_successfully? %}
+          <p class="cta-banner__text cta-banner__success-msg" role="status">
+            {{ section.settings.success_message | default: 'Thank you for subscribing.' | escape }}
+          </p>
+        {% else %}
+          {% if form.errors %}
+            <ul class="cta-banner__errors customer-page__errors" role="alert">
+              {% for field in form.errors %}
+                <li>
+                  {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                  {{ form.errors.messages[field] }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="cta-banner__newsletter-split">
+            <div class="cta-banner__text cta-banner__richtext cta-banner__newsletter-copy">
+              {% if section.settings.newsletter_description != blank %}
+                {{ section.settings.newsletter_description }}
+              {% else %}
+                <p>
+                  Sign up for restocks, new lines, and exclusive offers. We use your personal data as described in our
+                  <a href="/pages/privacy-policy">Privacy Policy</a>.
+                </p>
+              {% endif %}
+            </div>
+            <div class="cta-banner__newsletter-stack">
+              <div class="cta-banner__newsletter-row">
+                <label class="cta-banner__label" for="CtaBanner-email-{{ section.id }}">
+                  {{ section.settings.email_label | default: 'Your e-mail address' | escape }}
+                </label>
+                <input
+                  id="CtaBanner-email-{{ section.id }}"
+                  class="cta-banner__input cta-banner__input--classic"
+                  type="email"
+                  name="contact[email]"
+                  autocomplete="email"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  placeholder="{{ section.settings.email_placeholder | default: '' | escape }}"
+                  required
+                >
+                <input type="hidden" name="contact[accepts_marketing]" value="true">
+                <button type="submit" class="btn btn--white">
+                  {{ section.settings.submit_label | default: 'Subscribe' | escape }}
+                </button>
+              </div>
+              {% if section.settings.fine_print != blank %}
+                <p class="cta-banner__fine-print">{{ section.settings.fine_print | escape }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endform %}
+    {% else %}
+      {% comment %} Classic layout (e.g. wholesale page) {% endcomment %}
+      <div class="eyebrow eyebrow--gold" style="margin-bottom: 20px">
+        <div class="eyebrow__line"></div>
+        <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Pre-Order Now Open' }}</span>
+      </div>
+      <h2 class="cta-banner__title">
+        {{ section.settings.title | default: 'Order Today.' }}
+        <em>{{ section.settings.title_italic | default: '5% Off Your Entire Order.' }}</em>
+      </h2>
+      <p class="cta-banner__text">
+        {{
+          section.settings.text
+          | default: 'Bone Straight Braiding Hair, French Curl, and Deep Wave Bulk — all in stock and available for immediate pre-order at 5% below standard pricing. Wholesale accounts receive additional discounts. No commitment required to enquire.'
+        }}
+      </p>
+      <div class="cta-banner__actions">
+        {% comment %} Place Pre-Order — hidden per request {% endcomment %}
+        {% comment %}
+          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn--gold">{{ section.settings.cta1_text | default: 'Place Pre-Order Now' }}</a>
+        {% endcomment %}
+        <a
+          href="{{ cta2_href }}"
+          class="btn btn--white"
+          {% if cta2_href contains 'wa.me' or cta2_href contains 'whatsapp.com' %}
+            target="_blank" rel="noopener noreferrer"
+          {% endif %}
+        >
+          {{ section.settings.cta2_text | default: 'Speak to Us on WhatsApp' }}
+        </a>
+      </div>
+    {% endunless %}
   </div>
 </div>
 
@@ -25,14 +116,113 @@
 {
   "name": "CTA Banner",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pre-Order Now Open" },
-    { "type": "text", "id": "title", "label": "Title", "default": "Order Today." },
-    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "5% Off Your Entire Order." },
-    { "type": "textarea", "id": "text", "label": "Body Text" },
-    { "type": "text", "id": "cta1_text", "label": "CTA 1 Text", "default": "Place Pre-Order Now" },
-    { "type": "url", "id": "cta1_url", "label": "CTA 1 URL" },
-    { "type": "text", "id": "cta2_text", "label": "CTA 2 Text", "default": "Speak to Us on WhatsApp" },
-    { "type": "url", "id": "cta2_url", "label": "CTA 2 URL" }
+    {
+      "type": "checkbox",
+      "id": "newsletter_layout",
+      "label": "Newsletter signup layout",
+      "default": true,
+      "info": "Two-column “Stay up to date” block with email signup. Turn off to use the classic headline + WhatsApp CTA instead."
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "richtext",
+      "id": "newsletter_description",
+      "label": "Description",
+      "default": "<p>Sign up for restocks, new lines, and exclusive offers. We use your personal data as described in our <a href=\"/pages/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email field label",
+      "default": "Your e-mail address"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder (optional)"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Subscribe button",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you for subscribing."
+    },
+    {
+      "type": "textarea",
+      "id": "fine_print",
+      "label": "Trust line (under the form)",
+      "default": "No spam — only restocks, new lines, and offers. Unsubscribe anytime.",
+      "info": "Short reassurance below the button. Leave blank to hide."
+    },
+    {
+      "type": "text",
+      "id": "customer_tag",
+      "label": "Customer tags",
+      "default": "newsletter, cta-banner",
+      "info": "Applied to new signups (comma-separated)."
+    },
+    {
+      "type": "header",
+      "content": "Shared copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow (optional)",
+      "info": "Small gold line + text. Leave blank on the newsletter layout for a cleaner look."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Stay up to date"
+    },
+    {
+      "type": "text",
+      "id": "title_italic",
+      "label": "Title emphasis (italic)",
+      "info": "Optional second line or italic segment. Classic layout default in theme JSON: wholesale / home promos."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text (classic layout only)"
+    },
+    {
+      "type": "header",
+      "content": "Classic layout — buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta1_text",
+      "label": "CTA 1 Text",
+      "default": "Place Pre-Order Now"
+    },
+    {
+      "type": "url",
+      "id": "cta1_url",
+      "label": "CTA 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "cta2_text",
+      "label": "CTA 2 Text",
+      "default": "Speak to Us on WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "CTA 2 URL"
+    }
   ],
   "presets": [{ "name": "CTA Banner" }]
 }

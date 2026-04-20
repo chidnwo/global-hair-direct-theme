@@ -174,6 +174,7 @@
     "cta_banner": {
       "type": "cta-banner",
       "settings": {
+        "newsletter_layout": false,
         "eyebrow": "Wholesale Accounts Open",
         "title": "Ready To Buy At Volume?",
         "title_italic": "Request Your Account Review.",

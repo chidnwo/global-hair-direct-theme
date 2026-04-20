@@ -289,14 +289,16 @@
     "cta_banner": {
       "type": "cta-banner",
       "settings": {
-        "eyebrow": "Pre-Order Now Open",
-        "title": "Order Today.",
-        "title_italic": "5% Off Your Entire Order.",
-        "text": "Bone Straight Braiding Hair, French Curl, and Deep Wave Bulk — all in stock and available for immediate pre-order at 5% below standard pricing. Wholesale accounts receive additional discounts. No commitment required to enquire.",
+        "newsletter_layout": true,
+        "eyebrow": "",
+        "title": "Stay up to date",
+        "title_italic": "",
+        "text": "",
         "cta1_text": "Place Pre-Order Now",
         "cta1_url": "/collections/all",
         "cta2_text": "Speak to Us on WhatsApp",
-        "cta2_url": "/pages/contact"
+        "cta2_url": "/pages/contact",
+        "fine_print": "No spam — only restocks, new lines, and offers. Unsubscribe anytime."
       }
     }
   },

@@ -4,6 +4,10 @@
     assign header_logo = settings.logo
   endif
   assign header_logo_max = settings.logo_max_width | default: 200
+  assign logo_alt = section.settings.logo_text | default: shop.name
+  if section.settings.logo_sub != blank
+    assign logo_alt = logo_alt | append: ' ' | append: section.settings.logo_sub
+  endif
 %}
 {% liquid
   assign contact_active_handle = 'contact'
@@ -15,16 +19,10 @@
 <div class="site-header">
   <a
     href="{{ routes.root_url }}"
-    class="site-header__logo{% if header_logo %} site-header__logo--image{% endif %}"
-    {% if header_logo %}
-      style="--header-logo-max: {{ header_logo_max }}px;"
-    {% endif %}
+    class="site-header__logo site-header__logo--image site-header__logo--with-wordmark"
+    style="--header-logo-max: {{ header_logo_max }}px;"
   >
     {% if header_logo %}
-      {% assign logo_alt = section.settings.logo_text | default: shop.name %}
-      {% if section.settings.logo_sub != blank %}
-        {% assign logo_alt = logo_alt | append: ' ' | append: section.settings.logo_sub %}
-      {% endif %}
       <img
         class="site-header__logo-img"
         src="{{ header_logo | image_url: width: 600 }}"
@@ -42,14 +40,23 @@
         fetchpriority="high"
       >
     {% else %}
-      <div class="site-header__logo-mark">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 3c.8 0 1.4.6 1.4 1.4S8.8 6.8 8 6.8 6.6 6.2 6.6 5.4 7.2 4 8 4zm0 8.5c-1.8 0-3.3-.8-4.3-2.1.6-.8 3-1.3 4.3-1.3s3.7.5 4.3 1.3c-1 1.3-2.5 2.1-4.3 2.1z"/></svg>
-      </div>
-      <div class="site-header__logo-text">
-        <span class="site-header__logo-main">{{ section.settings.logo_text | default: shop.name }}</span>
-        <span class="site-header__logo-sub">{{ section.settings.logo_sub | default: 'Nigeria' }}</span>
-      </div>
+      <img
+        class="site-header__logo-img"
+        src="{{ 'global-hair-direct-logo.png' | asset_url }}"
+        alt="{{ logo_alt | escape }}"
+        width="1024"
+        height="682"
+        loading="eager"
+        fetchpriority="high"
+      >
     {% endif %}
+    <div class="site-header__logo-text">
+      <span class="site-header__logo-main">{{ section.settings.logo_text | default: 'Global Hair Direct' | escape }}</span>
+      {% assign logo_sub_display = section.settings.logo_sub | default: 'Nigeria' | strip %}
+      {% if logo_sub_display != blank %}
+        <span class="site-header__logo-sub">{{ logo_sub_display | escape }}</span>
+      {% endif %}
+    </div>
   </a>
 
   <nav class="site-header__nav">
@@ -76,15 +83,12 @@
       {% endif %}
     </a>
     {% if customer %}
-      <a href="{{ routes.account_url }}" class="site-header__nav-link site-header__nav-link--account">Account</a>
-      <a href="{{ routes.account_logout_url }}" class="site-header__account-text">Log out</a>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--sm btn--navy site-header__auth-btn">Log out</a>
     {% elsif shop.customer_accounts_enabled %}
       {% if settings.use_legacy_customer_auth %}
-        <a href="{{ routes.storefront_login_url }}" class="site-header__nav-link site-header__nav-link--account" data-login-modal-open>Log in</a>
-        <a href="{{ routes.account_register_url }}" class="btn btn--sm btn--navy site-header__register" data-register-modal-open>Create account</a>
+        <a href="{{ routes.storefront_login_url }}" class="btn btn--sm btn--navy site-header__auth-btn" data-login-modal-open>Log in</a>
       {% else %}
-        <a href="{{ routes.storefront_login_url }}" class="site-header__nav-link site-header__nav-link--account">Log in</a>
-        <a href="{{ routes.storefront_login_url }}" class="btn btn--sm btn--navy site-header__register">Create account</a>
+        <a href="{{ routes.storefront_login_url }}" class="btn btn--sm btn--navy site-header__auth-btn">Log in</a>
       {% endif %}
     {% endif %}
   </div>
@@ -104,8 +108,8 @@
       "label": "Logo image (optional override)",
       "info": "Overrides the logo in Theme settings → Layout → Logo image. Leave empty to use the theme logo."
     },
-    { "type": "text", "id": "logo_text", "label": "Brand Name", "default": "Global Hair Direct" },
-    { "type": "text", "id": "logo_sub", "label": "Sub text", "default": "Nigeria" },
+    { "type": "text", "id": "logo_text", "label": "Brand name", "default": "Global Hair Direct" },
+    { "type": "text", "id": "logo_sub", "label": "Tag line under brand name", "default": "Nigeria", "info": "Shown below the brand name in small caps (e.g. NIGERIA)." },
     {
       "type": "header",
       "content": "Navigation"

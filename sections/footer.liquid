@@ -9,8 +9,14 @@
   <div class="site-footer__grid">
     <div>
       <div class="site-footer__brand">
-        <div class="site-footer__logo-mark">
-          <svg viewBox="0 0 16 16"><path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 3c.8 0 1.4.6 1.4 1.4S8.8 6.8 8 6.8 6.6 6.2 6.6 5.4 7.2 4 8 4zm0 8.5c-1.8 0-3.3-.8-4.3-2.1.6-.8 3-1.3 4.3-1.3s3.7.5 4.3 1.3c-1 1.3-2.5 2.1-4.3 2.1z"/></svg>
+        <div class="site-footer__logo-mark site-footer__logo-mark--image">
+          <img
+            src="{{ 'global-hair-direct-logo.png' | asset_url }}"
+            alt="{{ section.settings.brand_name | default: shop.name | escape }}"
+            width="1024"
+            height="682"
+            loading="lazy"
+          >
         </div>
         <span class="site-footer__brand-name">{{ section.settings.brand_name | default: shop.name }}</span>
       </div>
