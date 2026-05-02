@@ -27,6 +27,14 @@
         {% for item in search.results %}
           {% if item.object_type == 'product' %}
             {% assign product = item %}
+            {% assign product_sellable = false %}
+            {% for variant in product.variants %}
+              {% assign v_qty = variant.inventory_quantity | default: 0 %}
+              {% if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank %}
+                {% assign product_sellable = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
             <a href="{{ product.url }}" class="product-card">
               <div class="product-card__image-wrap">
                 {% if product.featured_image %}
@@ -36,7 +44,7 @@
                     <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
                   </div>
                 {% endif %}
-                {% if product.available %}
+                {% if product_sellable %}
                   {% if product.tags contains 'pre-order' %}
                     <span class="product-card__badge product-card__badge--preorder">Pre-Order</span>
                   {% else %}

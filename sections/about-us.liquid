@@ -21,9 +21,17 @@
       endif
     endfor
     for product in about_stats_cat.products limit: 250
+      assign product_sellable = false
+      for variant in product.variants
+        assign v_qty = variant.inventory_quantity | default: 0
+        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
+          assign product_sellable = true
+          break
+        endif
+      endfor
       if product.tags contains 'pre-order'
         assign about_pre = about_pre | plus: 1
-      elsif product.available
+      elsif product_sellable
         assign about_in_stock = about_in_stock | plus: 1
       endif
       for variant in product.variants
