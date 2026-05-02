@@ -1,0 +1,88 @@
+<div class="collection-header">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">Shop</span>
+  </div>
+  <h1 class="collection-header__title">Search</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form" style="max-width:520px;margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:stretch">
+    <input
+      id="SearchPage-Input"
+      class="customer-form__input"
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="Search products..."
+      autocomplete="off"
+      aria-label="Search products"
+      style="flex:1;min-width:200px"
+    >
+    <button type="submit" class="btn btn--navy btn--sm" style="height:44px">Search</button>
+  </form>
+</div>
+
+{% paginate search.results by 24 %}
+  {% if search.performed %}
+    {% if search.results_count > 0 %}
+      <div class="collection-grid">
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+            {% assign product = item %}
+            <a href="{{ product.url }}" class="product-card">
+              <div class="product-card__image-wrap">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+                {% else %}
+                  <div class="product-card__image-placeholder">
+                    <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+                  </div>
+                {% endif %}
+                {% if product.available %}
+                  {% if product.tags contains 'pre-order' %}
+                    <span class="product-card__badge product-card__badge--preorder">Pre-Order</span>
+                  {% else %}
+                    <span class="product-card__badge product-card__badge--instock">In Stock</span>
+                  {% endif %}
+                {% else %}
+                  <span class="product-card__badge product-card__badge--soon">Coming Soon</span>
+                {% endif %}
+              </div>
+              <div class="product-card__body">
+                <div class="product-card__category">{{ product.type }}</div>
+                <div class="product-card__title">{{ product.title }}</div>
+                <div class="product-card__vendor">{{ product.vendor }}</div>
+                <div class="product-card__footer">
+                  <div>
+                    <div class="product-card__price">{{ product.price | money }}</div>
+                    <span class="product-card__price-label">Per unit</span>
+                  </div>
+                  <div class="product-card__add">
+                    <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
+                  </div>
+                </div>
+              </div>
+            </a>
+          {% else %}
+            <a href="{{ item.url }}" class="product-card" style="padding:24px;justify-content:center">
+              <div class="product-card__body" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+                <div class="product-card__category" style="text-transform:capitalize">{{ item.object_type }}</div>
+                <div class="product-card__title">{{ item.title }}</div>
+              </div>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="padding:24px 52px;color:var(--muted);font-size:15px">No products matched your search.</p>
+    {% endif %}
+    {% if paginate.pages > 1 %}
+      <div style="display:flex;justify-content:center;gap:8px;padding:40px 52px">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="btn btn--navy btn--sm">← Previous</a>
+        {% endif %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="btn btn--navy btn--sm">Next →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endpaginate %}

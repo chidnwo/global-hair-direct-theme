@@ -9,13 +9,12 @@
     assign logo_alt = logo_alt | append: ' ' | append: section.settings.logo_sub
   endif
 %}
-{% liquid
-  assign contact_active_handle = 'contact'
-  if settings.contact_page != blank
-    assign contact_active_handle = settings.contact_page
-  endif
-  assign contact_path_check = '/pages/' | append: contact_active_handle
-%}
+{% capture header_account_icon %}
+  <svg class="site-header__account-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M6 20v-1a4 4 0 014-4h4a4 4 0 014 4v1"/></svg>
+{% endcapture %}
+{% capture nav_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
+{% assign nav_contact_url = nav_contact_url | strip %}
+<div class="site-header-shell">
 <div class="site-header">
   <a
     href="{{ routes.root_url }}"
@@ -61,21 +60,84 @@
 
   <nav class="site-header__nav">
     {% assign nav_menu = linklists[section.settings.menu] %}
+    {% assign menu_has_collections_link = false %}
+    {% for link in nav_menu.links %}
+      {% assign nt_scan = link.title | downcase | strip %}
+      {% if nt_scan contains 'coming soon' or nt_scan == 'home' %}
+        {% continue %}
+      {% endif %}
+      {% if nt_scan contains 'collection' or nt_scan contains 'catalog' %}
+        {% assign menu_has_collections_link = true %}
+      {% endif %}
+      {% if link.url contains '/collections' %}
+        {% assign menu_has_collections_link = true %}
+      {% endif %}
+    {% endfor %}
+    {% assign collections_nav_injected = false %}
+    {% assign collections_path = routes.collections_url %}
     {% for link in nav_menu.links %}
       {% assign nav_title = link.title | downcase | strip %}
       {% if nav_title contains 'coming soon' %}
         {% continue %}
       {% endif %}
-      {% if nav_title contains 'contact' or link.url contains '/pages/contact' or link.url contains contact_path_check %}
+      {% if nav_title == 'home' %}
         {% continue %}
       {% endif %}
+      {% assign is_contact_link = false %}
+      {% if nav_title contains 'contact' %}
+        {% assign is_contact_link = true %}
+      {% endif %}
+      {% if link.url == nav_contact_url %}
+        {% assign is_contact_link = true %}
+      {% endif %}
+      {% unless menu_has_collections_link %}
+        {% if is_contact_link %}
+          {% unless collections_nav_injected %}
+            <a
+              href="{{ collections_path }}"
+              class="site-header__nav-link {% if request.path == collections_path %}active{% endif %}"
+            >
+              Collections
+            </a>
+            {% assign collections_nav_injected = true %}
+          {% endunless %}
+        {% endif %}
+      {% endunless %}
+      {% assign display_title = link.title | strip %}
+      {% assign display_title_upper = display_title | upcase %}
+      {% if display_title == display_title_upper %}
+        {% if nav_title == 'faq' %}
+          {% assign display_title = 'FAQ' %}
+        {% else %}
+          {% assign words = display_title | downcase | split: ' ' %}
+          {% capture display_title %}
+            {% for word in words %}
+              {{ word | capitalize }}{% unless forloop.last %} {% endunless %}
+            {% endfor %}
+          {% endcapture %}
+          {% assign display_title = display_title | strip %}
+        {% endif %}
+      {% endif %}
       <a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}">
-        {{ link.title }}
+        {{ display_title }}
       </a>
     {% endfor %}
+    {% unless menu_has_collections_link %}
+      {% unless collections_nav_injected %}
+        <a
+          href="{{ collections_path }}"
+          class="site-header__nav-link {% if request.path == collections_path %}active{% endif %}"
+        >
+          Collections
+        </a>
+      {% endunless %}
+    {% endunless %}
   </nav>
 
   <div class="site-header__actions">
+    <a href="{{ routes.search_url }}" class="site-header__search" aria-label="Search">
+      <svg class="site-header__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg>
+    </a>
     <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="{% if cart.item_count > 0 %}Cart, {{ cart.item_count }} items{% else %}Cart{% endif %}">
       <svg class="site-header__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12L6 6z"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/><circle cx="9" cy="20" r="1" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1" fill="currentColor" stroke="none"/></svg>
       {% if cart.item_count > 0 %}
@@ -83,15 +145,16 @@
       {% endif %}
     </a>
     {% if customer %}
-      <a href="{{ routes.account_logout_url }}" class="btn btn--sm btn--navy site-header__auth-btn">Log out</a>
+      <a href="{{ routes.account_url }}" class="site-header__account" aria-label="Account">{{ header_account_icon }}</a>
     {% elsif shop.customer_accounts_enabled %}
       {% if settings.use_legacy_customer_auth %}
-        <a href="{{ routes.storefront_login_url }}" class="btn btn--sm btn--navy site-header__auth-btn" data-login-modal-open>Log in</a>
+        <a href="{{ routes.storefront_login_url }}" class="site-header__account" aria-label="Log in" data-login-modal-open>{{ header_account_icon }}</a>
       {% else %}
-        <a href="{{ routes.storefront_login_url }}" class="btn btn--sm btn--navy site-header__auth-btn">Log in</a>
+        <a href="{{ routes.storefront_login_url }}" class="site-header__account" aria-label="Log in">{{ header_account_icon }}</a>
       {% endif %}
     {% endif %}
   </div>
+</div>
 </div>
 
 {% schema %}
