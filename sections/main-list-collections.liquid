@@ -1,0 +1,127 @@
+{% liquid
+  assign per_page = section.settings.collections_per_page | default: 24
+  assign hide_frontpage = section.settings.hide_frontpage
+%}
+
+{% paginate collections by per_page %}
+  <div class="collection-header">
+    <div class="eyebrow">
+      <div class="eyebrow__line"></div>
+      <span class="eyebrow__text">{{ section.settings.eyebrow | escape }}</span>
+    </div>
+    <h1 class="collection-header__title">{{ section.settings.title | escape }}</h1>
+    {% if section.settings.lead != blank %}
+      <p class="collection-header__desc">{{ section.settings.lead | escape }}</p>
+    {% endif %}
+  </div>
+
+  {% if collections.size == 0 %}
+    <div class="collections-index-empty">
+      <p class="collections-index-empty__text">No collections are available yet.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--navy">Browse catalog</a>
+    </div>
+  {% else %}
+    <div class="collections-index-grid">
+      {% for collection in collections %}
+        {% if hide_frontpage and collection.handle == 'frontpage' %}
+          {% continue %}
+        {% endif %}
+        <a href="{{ collection.url }}" class="collection-index-card">
+          <div class="collection-index-card__image-wrap">
+            {% if collection.featured_image %}
+              <img
+                src="{{ collection.featured_image | image_url: width: 800 }}"
+                alt="{{ collection.featured_image.alt | default: collection.title | escape }}"
+                loading="lazy"
+                width="{{ collection.featured_image.width }}"
+                height="{{ collection.featured_image.height }}"
+              >
+            {% elsif collection.products.first and collection.products.first.featured_image %}
+              {% assign _fp = collection.products.first %}
+              <img
+                src="{{ _fp.featured_image | image_url: width: 800 }}"
+                alt="{{ _fp.featured_image.alt | default: collection.title | escape }}"
+                loading="lazy"
+                width="{{ _fp.featured_image.width }}"
+                height="{{ _fp.featured_image.height }}"
+              >
+            {% else %}
+              <div class="collection-index-card__placeholder">
+                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+              </div>
+            {% endif %}
+          </div>
+          <div class="collection-index-card__body">
+            <h2 class="collection-index-card__title">{{ collection.title }}</h2>
+            <p class="collection-index-card__meta">
+              {% if collection.all_products_count == 1 %}
+                1 product
+              {% else %}
+                {{ collection.all_products_count }} products
+              {% endif %}
+            </p>
+            <span class="collection-index-card__cta">View collection</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <div class="collections-index-pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="btn btn--navy btn--sm">← Previous</a>
+        {% endif %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="btn btn--navy btn--sm">Next →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Collections list page",
+  "tag": "section",
+  "class": "section-main-list-collections",
+  "enabled_on": {
+    "templates": ["list-collections"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Browse"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop by collection"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Description",
+      "default": "Explore our hair ranges — each collection groups products by style, length, or line."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_frontpage",
+      "label": "Hide “Home page” collection",
+      "default": true,
+      "info": "Hides Shopify’s default storefront collection from this grid when it’s not renamed."
+    },
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "min": 6,
+      "max": 48,
+      "step": 6,
+      "default": 24,
+      "label": "Collections per page"
+    }
+  ]
+}
+{% endschema %}

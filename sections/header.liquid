@@ -14,6 +14,20 @@
 {% endcapture %}
 {% capture nav_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
 {% assign nav_contact_url = nav_contact_url | strip %}
+{% liquid
+  assign nav_catalog_url = routes.all_products_collection_url
+  if section.settings.catalog_collection != blank
+    assign nav_catalog_collection = collections[section.settings.catalog_collection]
+    if nav_catalog_collection != blank
+      assign nav_catalog_url = nav_catalog_collection.url
+    endif
+  endif
+  assign nav_collections_url = routes.collections_url
+  assign nav_wholesale_url = '/pages/wholesale'
+  if pages.wholesale != blank
+    assign nav_wholesale_url = pages.wholesale.url
+  endif
+%}
 <div class="site-header-shell">
 <div class="site-header">
   <a
@@ -59,79 +73,30 @@
   </a>
 
   <nav class="site-header__nav">
-    {% assign nav_menu = linklists[section.settings.menu] %}
-    {% assign menu_has_collections_link = false %}
-    {% for link in nav_menu.links %}
-      {% assign nt_scan = link.title | downcase | strip %}
-      {% if nt_scan contains 'coming soon' or nt_scan == 'home' %}
-        {% continue %}
-      {% endif %}
-      {% if nt_scan contains 'collection' or nt_scan contains 'catalog' %}
-        {% assign menu_has_collections_link = true %}
-      {% endif %}
-      {% if link.url contains '/collections' %}
-        {% assign menu_has_collections_link = true %}
-      {% endif %}
-    {% endfor %}
-    {% assign collections_nav_injected = false %}
-    {% assign collections_path = routes.collections_url %}
-    {% for link in nav_menu.links %}
-      {% assign nav_title = link.title | downcase | strip %}
-      {% if nav_title contains 'coming soon' %}
-        {% continue %}
-      {% endif %}
-      {% if nav_title == 'home' %}
-        {% continue %}
-      {% endif %}
-      {% assign is_contact_link = false %}
-      {% if nav_title contains 'contact' %}
-        {% assign is_contact_link = true %}
-      {% endif %}
-      {% if link.url == nav_contact_url %}
-        {% assign is_contact_link = true %}
-      {% endif %}
-      {% unless menu_has_collections_link %}
-        {% if is_contact_link %}
-          {% unless collections_nav_injected %}
-            <a
-              href="{{ collections_path }}"
-              class="site-header__nav-link {% if request.path == collections_path %}active{% endif %}"
-            >
-              Collections
-            </a>
-            {% assign collections_nav_injected = true %}
-          {% endunless %}
-        {% endif %}
-      {% endunless %}
-      {% assign display_title = link.title | strip %}
-      {% assign display_title_upper = display_title | upcase %}
-      {% if display_title == display_title_upper %}
-        {% if nav_title == 'faq' %}
-          {% assign display_title = 'FAQ' %}
-        {% else %}
-          {% assign words = display_title | downcase | split: ' ' %}
-          {% capture display_title %}
-            {% for word in words %}
-              {{ word | capitalize }}{% unless forloop.last %} {% endunless %}
-            {% endfor %}
-          {% endcapture %}
-          {% assign display_title = display_title | strip %}
-        {% endif %}
-      {% endif %}
-      <a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}">
-        {{ display_title }}
-      </a>
-    {% endfor %}
-    {% unless menu_has_collections_link %}
-      {% unless collections_nav_injected %}
-        <a
-          href="{{ collections_path }}"
-          class="site-header__nav-link {% if request.path == collections_path %}active{% endif %}"
-        >
-          Collections
-        </a>
-      {% endunless %}
-    {% endunless %}
+    <a
+      href="{{ nav_catalog_url }}"
+      class="site-header__nav-link {% if request.path == nav_catalog_url %}active{% endif %}"
+    >
+      Catalog
+    </a>
+    <a
+      href="{{ nav_collections_url }}"
+      class="site-header__nav-link {% if request.path == nav_collections_url %}active{% endif %}"
+    >
+      Collections
+    </a>
+    <a
+      href="{{ nav_wholesale_url }}"
+      class="site-header__nav-link {% if request.path == nav_wholesale_url %}active{% endif %}"
+    >
+      Wholesale
+    </a>
+    <a
+      href="{{ nav_contact_url }}"
+      class="site-header__nav-link {% if request.path == nav_contact_url %}active{% endif %}"
+    >
+      Contact
+    </a>
   </nav>
 
   <div class="site-header__actions">
@@ -177,7 +142,16 @@
       "type": "header",
       "content": "Navigation"
     },
-    { "type": "link_list", "id": "menu", "label": "Navigation Menu", "default": "main-menu" }
+    {
+      "type": "paragraph",
+      "content": "Primary links are fixed in order: Catalog, Collections, Wholesale, Contact."
+    },
+    {
+      "type": "collection",
+      "id": "catalog_collection",
+      "label": "Catalog collection",
+      "info": "Optional. Defaults to the store’s All products collection if empty."
+    }
   ]
 }
 {% endschema %}

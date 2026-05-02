@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "eyebrow": "Browse",
+        "title": "Shop by collection",
+        "lead": "Explore our hair ranges — each collection groups products by style, length, or line.",
+        "hide_frontpage": true,
+        "collections_per_page": 24
+      }
+    }
+  },
+  "order": ["main"]
+}
