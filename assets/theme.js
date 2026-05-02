@@ -121,6 +121,38 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
+    function mergeAvailabilityFromShopifyProduct(productData) {
+      if (!productData || !productData.variants) return;
+      var byId = {};
+      for (var j = 0; j < productData.variants.length; j++) {
+        var pv = productData.variants[j];
+        byId[pv.id] = pv.available;
+      }
+      for (var k = 0; k < variants.length; k++) {
+        var vid = variants[k].id;
+        if (Object.prototype.hasOwnProperty.call(byId, vid)) {
+          variants[k].available = byId[vid];
+        }
+      }
+    }
+
+    var productHandle = productPage.getAttribute('data-product-handle');
+    if (productHandle) {
+      var routesRoot = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+      var base = routesRoot.replace(/\/?$/, '/');
+      fetch(base + 'products/' + encodeURIComponent(productHandle) + '.js')
+        .then(function (res) {
+          if (!res.ok) return null;
+          return res.json();
+        })
+        .then(function (data) {
+          if (!data) return;
+          mergeAvailabilityFromShopifyProduct(data);
+          applyVariant(findVariant());
+        })
+        .catch(function () {});
+    }
+
     productPage.querySelectorAll('.variant-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var group = this.closest('.product-page__variants');
