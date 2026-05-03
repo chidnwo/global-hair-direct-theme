@@ -17,6 +17,33 @@
 <body class="template-{{ template.name }}">
 
   {% liquid
+    assign ghd_force_country_ng = false
+    unless settings.allow_visitor_detected_country
+      unless request.design_mode
+        if localization.country.iso_code != 'NG'
+          for ghd_c in localization.available_countries
+            if ghd_c.iso_code == 'NG'
+              assign ghd_force_country_ng = true
+              break
+            endif
+          endfor
+        endif
+      endunless
+    endunless
+  %}
+  {% if ghd_force_country_ng %}
+    {% form 'localization', id: 'ghd-localization-default-ng', return_to: 'back' %}
+      <input type="hidden" name="country_code" value="NG">
+    {% endform %}
+    <script>
+      (function () {
+        var f = document.getElementById('ghd-localization-default-ng');
+        if (f) f.submit();
+      })();
+    </script>
+  {% endif %}
+
+  {% liquid
     assign ghd_local_theme_preview = false
     if request.host contains '127.0.0.1' or request.host contains 'localhost'
       assign ghd_local_theme_preview = true

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "informal-page",
+      "settings": {
+        "eyebrow": "Care",
+        "title": "Hair care guide.",
+        "title_italic": "Get the most from every pack.",
+        "lead": "These tips apply to our braiding, curl, and bulk lines. If your stylist uses a different routine, follow their advice for install day—then use this as your at-home baseline.",
+        "body": "<h3>Before you install</h3><p>Let the hair air out, then finger-comb or wide-tooth comb from ends upward. Check colour under natural light. Avoid harsh brushing on tight curls before install.</p><h3>Washing</h3><p>Use cool to lukewarm water and a mild, sulfate-free shampoo. Smooth shampoo down the hair in one direction—do not scrub in circles. Rinse fully. If your line allows conditioner, apply mid-lengths to ends only, then rinse.</p><h3>Drying and heat</h3><p>Blot with a microfibre towel; do not wring. Prefer air drying on a hanger or mannequin head. If you use heat, start low and use heat protectant—especially on coloured hair (27#, BUG, 613#).</p><h3>Humidity and storage (Nigeria)</h3><p>Humidity can increase frizz on textured lines. Store hair completely dry in a satin or mesh bag, away from bathroom steam. For longer storage, loosely braid or twist long lengths to limit tangling.</p><h3>Lighter colours (including 613#)</h3><p>Lighter tones can be more sensitive to heat, sun, and chlorine. Minimise high heat, cover in strong sun, and rinse after swimming. Only deep-condition if it suits that fibre—ask us if unsure.</p><h3>Questions</h3><p>Product-specific notes beat general advice. <a href=\"/pages/contact\">Contact us</a> or WhatsApp with your exact product name and we will confirm what applies.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

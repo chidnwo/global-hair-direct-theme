@@ -167,6 +167,17 @@
       },
       {
         "type": "header",
+        "content": "Markets"
+      },
+      {
+        "type": "checkbox",
+        "id": "allow_visitor_detected_country",
+        "label": "Let shoppers keep their detected country",
+        "default": false,
+        "info": "When off (default), the theme switches the storefront to Nigeria (NG) if Shopify opened the session in another country—fixes “Coming soon / 0 stock” on local theme preview and keeps Nigeria-only stores consistent. Turn on only if you actively sell to multiple countries."
+      },
+      {
+        "type": "header",
         "content": "Email addresses"
       },
       {
@@ -188,7 +199,7 @@
         "id": "email_wholesale",
         "label": "Wholesale",
         "default": "wholesale@globalhairdirect.com.ng",
-        "info": "Optional. Distributors, salon tier accounts, and bulk pricing enquiries."
+        "info": "Optional reference (not shown in the theme footer). Use on your wholesale page copy or mail clients as needed."
       },
       {
         "type": "header",

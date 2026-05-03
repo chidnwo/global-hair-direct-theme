@@ -23,6 +23,10 @@
     endif
   endif
   assign nav_collections_url = routes.collections_url
+  assign nav_care_guide_url = '/pages/care-guide'
+  if pages['care-guide'] != blank
+    assign nav_care_guide_url = pages['care-guide'].url
+  endif
   assign nav_wholesale_url = '/pages/wholesale'
   if pages.wholesale != blank
     assign nav_wholesale_url = pages.wholesale.url
@@ -86,6 +90,12 @@
       Collections
     </a>
     <a
+      href="{{ nav_care_guide_url }}"
+      class="site-header__nav-link {% if request.path == nav_care_guide_url %}active{% endif %}"
+    >
+      Care guide
+    </a>
+    <a
       href="{{ nav_wholesale_url }}"
       class="site-header__nav-link {% if request.path == nav_wholesale_url %}active{% endif %}"
     >
@@ -144,7 +154,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Primary links are fixed in order: Catalog, Collections, Wholesale, Contact."
+      "content": "Primary links are fixed in order: Catalog, Collections, Care guide, Wholesale, Contact."
     },
     {
       "type": "collection",

@@ -590,16 +590,6 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .site-footer__col h5 { font-size: 9px; color: rgba(255,255,255,0.22); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 16px; }
 .site-footer__col a { display: block; font-size: 13px; color: rgba(255,255,255,0.42); margin-bottom: 9px; transition: color 0.15s; }
 .site-footer__col a:hover { color: #fff; }
-.site-footer__col-mail {
-  display: block;
-  font-size: 12px;
-  color: rgba(255,255,255,0.38);
-  margin: -4px 0 9px;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  word-break: break-all;
-}
-.site-footer__col-mail:hover { color: var(--gold); }
 
 .site-footer__bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
 .site-footer__copy { font-size: 11px; color: rgba(255,255,255,0.18); }

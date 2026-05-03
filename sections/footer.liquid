@@ -6,7 +6,6 @@
 {% assign footer_track_url = footer_track_url | strip %}
 {% liquid
   assign footer_email_info = settings.email_info | strip
-  assign footer_email_wholesale = settings.email_wholesale | strip
   if footer_email_info == blank
     assign footer_email_info = section.settings.email | strip
   endif
@@ -60,9 +59,6 @@
     <div class="site-footer__col">
       <h5>Accounts</h5>
       <a href="/pages/wholesale">Wholesale</a>
-      {% if footer_email_wholesale != blank %}
-        <a href="mailto:{{ footer_email_wholesale }}" class="site-footer__col-mail">{{ footer_email_wholesale }}</a>
-      {% endif %}
       <a href="/pages/pre-order">Pre-Order</a>
       <a href="#">Salon Registration</a>
       <a href="/pages/distributor-access">Distributor Access</a>
