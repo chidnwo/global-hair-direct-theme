@@ -167,6 +167,31 @@
       },
       {
         "type": "header",
+        "content": "Email addresses"
+      },
+      {
+        "type": "text",
+        "id": "email_info",
+        "label": "General (info)",
+        "default": "info@globalhairdirect.com.ng",
+        "info": "Shown next to Instagram in the footer. The contact form sends to your store contact email (Shopify Admin → Settings → Store details)."
+      },
+      {
+        "type": "text",
+        "id": "email_orders",
+        "label": "Orders / invoices",
+        "default": "orders@globalhairdirect.com.ng",
+        "info": "Use plural orders@ (not order@). For invoices and order questions. Shopify’s own order emails are set under Settings → Notifications; you can forward copies to this inbox in your mail host."
+      },
+      {
+        "type": "text",
+        "id": "email_wholesale",
+        "label": "Wholesale",
+        "default": "wholesale@globalhairdirect.com.ng",
+        "info": "Optional. Distributors, salon tier accounts, and bulk pricing enquiries."
+      },
+      {
+        "type": "header",
         "content": "Customer accounts"
       },
       {

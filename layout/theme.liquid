@@ -16,6 +16,41 @@
 </head>
 <body class="template-{{ template.name }}">
 
+  {% liquid
+    assign ghd_local_theme_preview = false
+    if request.host contains '127.0.0.1' or request.host contains 'localhost'
+      assign ghd_local_theme_preview = true
+    endif
+  %}
+  {% if ghd_local_theme_preview %}
+    <div
+      class="ghd-local-preview-bar"
+      style="position:sticky;top:0;z-index:9999;background:#1a1a1a;color:#f5f5f5;font:12px/1.45 system-ui,-apple-system,sans-serif;padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid #333;"
+      role="region"
+      aria-label="Local theme preview"
+    >
+      <strong style="letter-spacing:0.04em;text-transform:uppercase;font-size:10px;">Local preview</strong>
+      <span style="opacity:0.9;">Inventory follows the selected country/market. If stock looks empty, choose <strong>NG</strong> (or your primary market) below.</span>
+      {% if localization.available_countries.size > 0 %}
+        {% form 'localization', id: 'ghd-dev-localization-form', class: 'ghd-local-preview-bar__form', return_to: request.path %}
+          <label for="ghd-dev-country-select" style="clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;position:absolute;white-space:nowrap;">Country</label>
+          <select
+            id="ghd-dev-country-select"
+            name="country_code"
+            style="padding:5px 10px;border-radius:4px;border:1px solid #ccc;background:#fff;color:#111;max-width:min(320px,100vw);"
+            onchange="this.form.submit()"
+          >
+            {% for country in localization.available_countries %}
+              <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>
+                {{ country.name }} ({{ country.iso_code }})
+              </option>
+            {% endfor %}
+          </select>
+        {% endform %}
+      {% endif %}
+    </div>
+  {% endif %}
+
   {% section 'header' %}
   {% section 'announcement-bar' %}
 

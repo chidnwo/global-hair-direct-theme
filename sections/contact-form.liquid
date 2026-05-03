@@ -7,11 +7,6 @@
   {% if section.settings.lead != blank %}
     <p class="section__lead informal-page__lead contact-form-section__lead">{{ section.settings.lead }}</p>
   {% endif %}
-  {% if section.settings.show_email and shop.email != blank %}
-    <p class="contact-form-section__email">
-      <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
-    </p>
-  {% endif %}
 
   {% if page.content != blank %}
     <div class="informal-page__body contact-form-section__page rte">{{ page.content }}</div>
@@ -198,12 +193,6 @@
       "id": "reply_preference_placeholder",
       "label": "Reply preference placeholder",
       "default": "No preference"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_email",
-      "label": "Show store email above the form",
-      "default": true
     },
     {
       "type": "text",

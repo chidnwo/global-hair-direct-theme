@@ -189,9 +189,6 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .informal-page__body strong { font-weight: 500; }
 
 .contact-form-section__lead { margin-bottom: 12px; }
-.contact-form-section__email { font-size: 14px; margin-bottom: 28px; max-width: 680px; }
-.contact-form-section__email a { color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
-.contact-form-section__email a:hover { color: var(--gold); }
 .contact-form-section__page { margin-bottom: 40px; max-width: 720px; }
 .contact-form-section__form-wrap { max-width: 520px; }
 .customer-form__textarea { min-height: 120px; padding-top: 12px; padding-bottom: 12px; resize: vertical; height: auto; }
@@ -578,7 +575,7 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
   align-self: center;
 }
 .site-footer__desc { font-size: 13px; color: rgba(255,255,255,0.28); line-height: 1.8; max-width: 250px; }
-.site-footer__social { margin-top: 18px; }
+.site-footer__social { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
 .site-footer__social-link {
   display: inline-flex;
   align-items: center;
@@ -593,6 +590,17 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .site-footer__col h5 { font-size: 9px; color: rgba(255,255,255,0.22); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 16px; }
 .site-footer__col a { display: block; font-size: 13px; color: rgba(255,255,255,0.42); margin-bottom: 9px; transition: color 0.15s; }
 .site-footer__col a:hover { color: #fff; }
+.site-footer__col-mail {
+  display: block;
+  font-size: 12px;
+  color: rgba(255,255,255,0.38);
+  margin: -4px 0 9px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-all;
+}
+.site-footer__col-mail:hover { color: var(--gold); }
+
 .site-footer__bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
 .site-footer__copy { font-size: 11px; color: rgba(255,255,255,0.18); }
 .site-footer__payments { display: flex; gap: 6px; }
