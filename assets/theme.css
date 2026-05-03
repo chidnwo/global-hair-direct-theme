@@ -350,20 +350,157 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .stat-row__lbl { font-size: 12px; color: var(--muted); text-align: right; max-width: 160px; line-height: 1.5; }
 
 /* ── TIERS ── */
-.tiers-wrap { margin-top: 48px; border-top: 1px solid rgba(255,255,255,0.08); }
-.tier-row { padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.07); display: grid; grid-template-columns: 180px 1fr 120px; gap: 36px; align-items: start; max-width: 960px; }
-.tier-row__num { font-size: 10px; color: rgba(255,255,255,0.22); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-.tier-row__name { font-family: var(--serif); font-size: 19px; color: #fff; margin-bottom: 3px; }
-.tier-row__range { font-size: 11px; color: rgba(255,255,255,0.28); }
-.tier-row__perks { list-style: none; }
-.tier-row__perk { font-size: 13px; color: rgba(255,255,255,0.38); padding: 5px 0; padding-left: 12px; position: relative; line-height: 1.5; }
-.tier-row__perk::before { content: '—'; position: absolute; left: 0; color: rgba(255,255,255,0.15); font-size: 11px; }
-.tier-row__disc { font-family: var(--serif); font-size: 32px; color: #fff; line-height: 1; text-align: right; }
-.tier-row__disc-lbl { font-size: 10px; color: rgba(255,255,255,0.28); text-align: right; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-.tier-row__cta { display: block; margin-top: 14px; padding: 7px 14px; border: 0.5px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.45); font-size: 10px; background: transparent; border-radius: 2px; letter-spacing: 1px; text-transform: uppercase; text-align: center; transition: all 0.15s; width: 100%; }
-.tier-row__cta:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
-.tier-row__cta--featured { background: var(--gold); border-color: var(--gold); color: #fff; }
-.tier-row__cta--featured:hover { background: var(--gold2); }
+/* Buyer tiers: three pricing cards (alternative to row / split layouts) */
+.buyer-tiers.section--dark {
+  padding: 72px 40px;
+}
+.buyer-tiers .buyer-tiers__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.buyer-tiers .eyebrow { margin-bottom: 16px; }
+.buyer-tiers .section__title.section__title--light {
+  font-size: 34px;
+  margin-bottom: 14px;
+  line-height: 1.18;
+}
+.buyer-tiers .section__lead--light {
+  font-size: 15px;
+  line-height: 1.75;
+  max-width: 40rem;
+}
+.buyer-tiers .tiers-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 40px;
+  align-items: stretch;
+}
+.buyer-tiers .tier-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 24px 20px 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.buyer-tiers .tier-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.055);
+}
+.buyer-tiers .tier-card--featured {
+  border-color: rgba(201, 151, 10, 0.55);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+}
+.buyer-tiers .tier-card__head {
+  text-align: center;
+  padding-bottom: 18px;
+  margin-bottom: 4px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+.buyer-tiers .tier-card__num {
+  margin: 0 0 8px;
+  font-size: 10px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2.2px;
+}
+.buyer-tiers .tier-card__name {
+  margin: 0 0 8px;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.2;
+}
+.buyer-tiers .tier-card__range {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.38);
+  line-height: 1.45;
+}
+.buyer-tiers .tier-card__highlight {
+  text-align: center;
+  padding: 16px 0 18px;
+}
+.buyer-tiers .tier-card__disc {
+  display: block;
+  font-family: var(--serif);
+  font-size: 36px;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.buyer-tiers .tier-card__disc-lbl {
+  display: block;
+  margin-top: 8px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.buyer-tiers .tier-card__perks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+.buyer-tiers .tier-card__perk {
+  position: relative;
+  margin: 0;
+  padding: 6px 0 6px 14px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.44);
+  line-height: 1.5;
+  text-align: left;
+}
+.buyer-tiers .tier-card__perk::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  color: rgba(255, 255, 255, 0.18);
+  font-size: 11px;
+}
+.buyer-tiers .tier-card__cta {
+  display: block;
+  margin-top: auto;
+  padding: 11px 16px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+  border: 0.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 2px;
+  background: transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.buyer-tiers .tier-card__cta:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.buyer-tiers .tier-card__cta--featured {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+.buyer-tiers .tier-card__cta--featured:hover {
+  background: var(--gold2);
+  border-color: var(--gold2);
+}
+@media (max-width: 960px) {
+  .buyer-tiers .tiers-cards {
+    grid-template-columns: 1fr;
+    max-width: min(480px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 /* ── PROCESS ── */
 .process-list { margin-top: 48px; border-top: 1px solid var(--line); }
@@ -981,7 +1118,6 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
   .collections-index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 24px 20px 40px; }
   .collections-index-pagination { padding: 0 20px 40px; }
   .collections-index-empty { padding: 32px 20px 56px; }
-  .tier-row { grid-template-columns: 1fr; }
   .testimonial-item { grid-template-columns: 1fr; }
   .site-footer { padding-left: 24px; padding-right: 24px; }
   .site-footer__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 20px; }

@@ -1,40 +1,42 @@
-<section class="section--dark">
-  <div class="eyebrow eyebrow--gold">
-    <div class="eyebrow__line"></div>
-    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Buyer Tiers' }}</span>
-  </div>
-  <h2 class="section__title section__title--light">{{ section.settings.title | default: 'Structured Pricing.' }}<br><em>{{ section.settings.title_italic | default: 'Three Account Tiers.' }}</em></h2>
-  <p class="section__lead section__lead--light">{{ section.settings.lead | default: 'Pricing reflects order volume and account type. All pricing confirmed in writing before any order is processed. No hidden charges.' }}</p>
+<section class="section--dark buyer-tiers">
+  <div class="buyer-tiers__inner">
+    <div class="eyebrow eyebrow--gold">
+      <div class="eyebrow__line"></div>
+      <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Buyer Tiers' }}</span>
+    </div>
+    <h2 class="section__title section__title--light">{{ section.settings.title | default: 'Structured Pricing.' }}<br><em>{{ section.settings.title_italic | default: 'Three Account Tiers.' }}</em></h2>
+    <p class="section__lead section__lead--light">{{ section.settings.lead | default: 'Pricing reflects order volume and account type. All pricing confirmed in writing before any order is processed. No hidden charges.' }}</p>
 
-  <div class="tiers-wrap">
-    {% for block in section.blocks %}
-      {% if block.type == 'tier' %}
-        <div class="tier-row" {{ block.shopify_attributes }}>
-          <div>
-            <div class="tier-row__num">{{ block.settings.tier_number }}</div>
-            <div class="tier-row__name">{{ block.settings.name }}</div>
-            <div class="tier-row__range">{{ block.settings.range }}</div>
-          </div>
-          <ul class="tier-row__perks">
-            {% assign perk_html = block.settings.perks | newline_to_br %}
-            {% assign perk_lines = perk_html | split: '<br />' %}
-            {% for line in perk_lines %}
-              {% assign trimmed = line | strip | strip_html %}
-              {% if trimmed != blank %}
-                <li class="tier-row__perk">{{ trimmed }}</li>
-              {% endif %}
-            {% endfor %}
-          </ul>
-          <div>
-            <div class="tier-row__disc">{{ block.settings.discount }}</div>
-            <div class="tier-row__disc-lbl">{{ block.settings.discount_label }}</div>
+    <div class="tiers-cards">
+      {% for block in section.blocks %}
+        {% if block.type == 'tier' %}
+          <article class="tier-card{% if block.settings.featured %} tier-card--featured{% endif %}" {{ block.shopify_attributes }}>
+            <header class="tier-card__head">
+              <p class="tier-card__num">{{ block.settings.tier_number }}</p>
+              <h3 class="tier-card__name">{{ block.settings.name }}</h3>
+              <p class="tier-card__range">{{ block.settings.range }}</p>
+            </header>
+            <div class="tier-card__highlight">
+              <span class="tier-card__disc">{{ block.settings.discount }}</span>
+              <span class="tier-card__disc-lbl">{{ block.settings.discount_label }}</span>
+            </div>
+            <ul class="tier-card__perks">
+              {% assign perk_html = block.settings.perks | newline_to_br %}
+              {% assign perk_lines = perk_html | split: '<br />' %}
+              {% for line in perk_lines %}
+                {% assign trimmed = line | strip | strip_html %}
+                {% if trimmed != blank %}
+                  <li class="tier-card__perk">{{ trimmed }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
             {% if block.settings.cta_text != blank %}
-              <a href="{{ block.settings.cta_url | default: '#' }}" class="tier-row__cta{% if block.settings.featured %} tier-row__cta--featured{% endif %}">{{ block.settings.cta_text }}</a>
+              <a href="{{ block.settings.cta_url | default: '#' }}" class="tier-card__cta{% if block.settings.featured %} tier-card__cta--featured{% endif %}">{{ block.settings.cta_text }}</a>
             {% endif %}
-          </div>
-        </div>
-      {% endif %}
-    {% endfor %}
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
 </section>
 
@@ -60,7 +62,7 @@
         { "type": "text", "id": "discount_label", "label": "Discount Label", "default": "Standard pricing" },
         { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Shop Now" },
         { "type": "url", "id": "cta_url", "label": "CTA URL" },
-        { "type": "checkbox", "id": "featured", "label": "Featured CTA", "default": false }
+        { "type": "checkbox", "id": "featured", "label": "Featured tier (highlight card)", "default": false }
       ]
     }
   ],
