@@ -50,130 +50,132 @@
     endif
   endif
 %}
-<section class="section--alt">
-  <div class="eyebrow">
-    <div class="eyebrow__line"></div>
-    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Product Catalogue' }}</span>
-  </div>
-  <h2 class="section__title">{{ section.settings.title | default: 'Current Stock &' }} <em>{{ section.settings.title_italic | default: 'Pre-Order Lines' }}</em></h2>
-  {% if section.settings.show_catalog_summary and featured_collection != blank %}
-    <p class="section__catalog-summary">{{ live_in_stock }} in stock · {{ live_pre }} pre-order · {{ catalog_display_count }}{% if catalog_count_is_sku_fallback %} sellable SKUs{% else %} units{% endif %} · {{ featured_collection.all_products_count }} products</p>
-  {% endif %}
-
-  <div style="margin-top:40px">
-    <div class="product-filters">
-      <button class="product-filter active" data-filter="all">All</button>
-      {% if featured_collection != blank and section.settings.auto_filters_from_catalog %}
-        {% assign catalog_types = featured_collection.products | map: 'type' | uniq %}
-        {% for t in catalog_types %}
-          {% if t != blank %}
-            <button class="product-filter" data-filter="{{ t | handleize }}">{{ t }}</button>
-          {% endif %}
-        {% endfor %}
-      {% else %}
-        {% for block in section.blocks %}
-          {% if block.type == 'filter' %}
-            <button class="product-filter" data-filter="{{ block.settings.filter_key }}">{{ block.settings.label }}</button>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+<section class="section--alt featured-products">
+  <div class="featured-products__inner">
+    <div class="eyebrow">
+      <div class="eyebrow__line"></div>
+      <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Product Catalogue' }}</span>
     </div>
+    <h2 class="section__title">{{ section.settings.title | default: 'Current Stock &' }} <em>{{ section.settings.title_italic | default: 'Pre-Order Lines' }}</em></h2>
+    {% if section.settings.show_catalog_summary and featured_collection != blank %}
+      <p class="section__catalog-summary">{{ live_in_stock }} in stock · {{ live_pre }} pre-order · {{ catalog_display_count }}{% if catalog_count_is_sku_fallback %} sellable SKUs{% else %} units{% endif %} · {{ featured_collection.all_products_count }} products</p>
+    {% endif %}
 
-    <div class="product-grid">
-      {% if featured_collection != blank %}
-        {% for product in featured_collection.products limit: section.settings.products_limit %}
-          {% assign product_sellable = false %}
-          {% if product.available %}
-            {% assign product_sellable = true %}
-          {% endif %}
-          {% unless product_sellable %}
-            {% for variant in product.variants %}
-              {% assign v_qty = variant.inventory_quantity | default: 0 %}
-              {% if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank %}
-                {% assign product_sellable = true %}
-                {% break %}
-              {% endif %}
-            {% endfor %}
-          {% endunless %}
-          {% if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
+    <div class="featured-products__catalog">
+      <div class="product-filters">
+        <button class="product-filter active" data-filter="all">All</button>
+        {% if featured_collection != blank and section.settings.auto_filters_from_catalog %}
+          {% assign catalog_types = featured_collection.products | map: 'type' | uniq %}
+          {% for t in catalog_types %}
+            {% if t != blank %}
+              <button class="product-filter" data-filter="{{ t | handleize }}">{{ t }}</button>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for block in section.blocks %}
+            {% if block.type == 'filter' %}
+              <button class="product-filter" data-filter="{{ block.settings.filter_key }}">{{ block.settings.label }}</button>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="product-grid">
+        {% if featured_collection != blank %}
+          {% for product in featured_collection.products limit: section.settings.products_limit %}
             {% assign product_sellable = false %}
-          {% endif %}
-          <a href="{{ product.url }}" class="product-card" data-type="{{ product.type | handleize }}">
-            <div class="product-card__image-wrap">
-              {% if product.featured_image %}
-                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
-              {% else %}
-                <div class="product-card__image-placeholder">
-                  <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
-                </div>
-              {% endif %}
-              {% if product_sellable %}
-                {% if product.tags contains 'pre-order' %}
-                  <span class="product-card__badge product-card__badge--preorder">Pre-Order</span>
-                {% else %}
-                  <span class="product-card__badge product-card__badge--instock">In Stock</span>
+            {% if product.available %}
+              {% assign product_sellable = true %}
+            {% endif %}
+            {% unless product_sellable %}
+              {% for variant in product.variants %}
+                {% assign v_qty = variant.inventory_quantity | default: 0 %}
+                {% if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank %}
+                  {% assign product_sellable = true %}
+                  {% break %}
                 {% endif %}
-              {% else %}
-                <span class="product-card__badge product-card__badge--soon">Coming Soon</span>
-              {% endif %}
-            </div>
-            <div class="product-card__body">
-              <div class="product-card__category">{{ product.type }}</div>
-              <div class="product-card__title">{{ product.title }}</div>
-              <div class="product-card__vendor">{{ product.vendor }}</div>
-              <div class="product-card__footer">
-                <div>
-                  <div class="product-card__price">{{ product.price | money }}</div>
-                  {% if product.compare_at_price > product.price %}
-                    <span class="product-card__price-label">Was {{ product.compare_at_price | money }}</span>
-                  {% else %}
-                    <span class="product-card__price-label">Per unit</span>
-                  {% endif %}
-                </div>
-                <button class="product-card__add" aria-label="Add to cart">
-                  <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
-                </button>
-              </div>
-            </div>
-          </a>
-        {% endfor %}
-      {% else %}
-        {% for block in section.blocks %}
-          {% if block.type == 'product_card' %}
-            <div class="product-card" data-type="{{ block.settings.filter_key }}">
+              {% endfor %}
+            {% endunless %}
+            {% if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
+              {% assign product_sellable = false %}
+            {% endif %}
+            <a href="{{ product.url }}" class="product-card" data-type="{{ product.type | handleize }}">
               <div class="product-card__image-wrap">
-                <div class="product-card__image-placeholder">
-                  <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
-                </div>
-                <span class="product-card__badge product-card__badge--{{ block.settings.badge_type }}">{{ block.settings.badge }}</span>
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy">
+                {% else %}
+                  <div class="product-card__image-placeholder">
+                    <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+                  </div>
+                {% endif %}
+                {% if product_sellable %}
+                  {% if product.tags contains 'pre-order' %}
+                    <span class="product-card__badge product-card__badge--preorder">Pre-Order</span>
+                  {% else %}
+                    <span class="product-card__badge product-card__badge--instock">In Stock</span>
+                  {% endif %}
+                {% else %}
+                  <span class="product-card__badge product-card__badge--soon">Coming Soon</span>
+                {% endif %}
               </div>
               <div class="product-card__body">
-                <div class="product-card__category">{{ block.settings.category }}</div>
-                <div class="product-card__title">{{ block.settings.title }}</div>
-                <div class="product-card__vendor">{{ block.settings.vendor }}</div>
+                <div class="product-card__category">{{ product.type }}</div>
+                <div class="product-card__title">{{ product.title }}</div>
+                <div class="product-card__vendor">{{ product.vendor }}</div>
                 <div class="product-card__footer">
                   <div>
-                    <div class="product-card__price">{{ block.settings.price }}</div>
-                    <span class="product-card__price-label">{{ block.settings.price_label }}</span>
+                    <div class="product-card__price">{{ product.price | money }}</div>
+                    {% if product.compare_at_price > product.price %}
+                      <span class="product-card__price-label">Was {{ product.compare_at_price | money }}</span>
+                    {% else %}
+                      <span class="product-card__price-label">Per unit</span>
+                    {% endif %}
                   </div>
-                  <button class="product-card__add">
+                  <button class="product-card__add" aria-label="Add to cart">
                     <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
                   </button>
                 </div>
               </div>
-            </div>
-          {% endif %}
-        {% endfor %}
+            </a>
+          {% endfor %}
+        {% else %}
+          {% for block in section.blocks %}
+            {% if block.type == 'product_card' %}
+              <div class="product-card" data-type="{{ block.settings.filter_key }}">
+                <div class="product-card__image-wrap">
+                  <div class="product-card__image-placeholder">
+                    <svg viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+                  </div>
+                  <span class="product-card__badge product-card__badge--{{ block.settings.badge_type }}">{{ block.settings.badge }}</span>
+                </div>
+                <div class="product-card__body">
+                  <div class="product-card__category">{{ block.settings.category }}</div>
+                  <div class="product-card__title">{{ block.settings.title }}</div>
+                  <div class="product-card__vendor">{{ block.settings.vendor }}</div>
+                  <div class="product-card__footer">
+                    <div>
+                      <div class="product-card__price">{{ block.settings.price }}</div>
+                      <span class="product-card__price-label">{{ block.settings.price_label }}</span>
+                    </div>
+                    <button class="product-card__add">
+                      <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_view_all %}
+        <div class="featured-products__view-all">
+          <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="btn btn--navy">
+            {{ section.settings.view_all_text | default: 'View Full Catalogue' }}
+          </a>
+        </div>
       {% endif %}
     </div>
-
-    {% if section.settings.show_view_all %}
-      <div style="text-align:center;margin-top:40px">
-        <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="btn btn--navy">
-          {{ section.settings.view_all_text | default: 'View Full Catalogue' }}
-        </a>
-      </div>
-    {% endif %}
   </div>
 </section>
 

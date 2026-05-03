@@ -139,6 +139,23 @@
         "unit": "px",
         "label": "Logo max width",
         "default": 200
+      },
+      {
+        "type": "header",
+        "content": "Link preview (social & chat apps)"
+      },
+      {
+        "type": "image_picker",
+        "id": "social_share_image",
+        "label": "Default share image",
+        "info": "Shown when someone shares your store link (WhatsApp, iMessage, Facebook, X). Use a wide image about 1200×630px with your branding. Without this, apps may pick any large image from the page."
+      },
+      {
+        "type": "checkbox",
+        "id": "social_share_use_product_image",
+        "label": "Use product photo when sharing a product page",
+        "default": true,
+        "info": "When on, product URLs use that product’s main image in the preview instead of the default share image."
       }
     ]
   },
