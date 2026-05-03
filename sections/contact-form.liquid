@@ -3,8 +3,10 @@
     <div class="eyebrow__line"></div>
     <span class="eyebrow__text">{{ section.settings.eyebrow }}</span>
   </div>
-  <h1 class="section__title informal-page__title">{{ section.settings.title }} <em>{{ section.settings.title_italic }}</em></h1>
-  {% if section.settings.lead != blank %}
+  {% assign contact_lead = section.settings.lead | strip %}
+  {% assign contact_title_italic = section.settings.title_italic | strip %}
+  <h1 class="section__title informal-page__title">{{ section.settings.title }}{% if contact_title_italic != blank %} <em>{{ contact_title_italic }}</em>{% endif %}</h1>
+  {% if contact_lead != blank %}
     <p class="section__lead informal-page__lead contact-form-section__lead">{{ section.settings.lead }}</p>
   {% endif %}
 
@@ -125,13 +127,13 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Contact" },
     { "type": "text", "id": "title", "label": "Title", "default": "Contact us." },
-    { "type": "text", "id": "title_italic", "label": "Title (italic part)", "default": "Informal overview." },
+    { "type": "text", "id": "title_italic", "label": "Title (italic part)", "info": "Clear this field in the theme editor to hide the italic line.", "default": "We are here to help." },
     {
       "type": "textarea",
       "id": "lead",
       "label": "Short summary (intro)",
-      "info": "Shown under the title, above the form. Use one short paragraph—same tone as other informal pages.",
-      "default": "Informal overview of how to reach Global Hair Direct Nigeria—wholesale, salons, retail orders, delivery, returns, and general support. Pick an enquiry type below so we route your message to the right team; WhatsApp is often fastest when we are online."
+      "info": "Optional. Shown under the title, above the form. Clear this field to hide the intro paragraph.",
+      "default": "Choose an enquiry type below so we can route your message to the right team."
     },
     {
       "type": "header",
