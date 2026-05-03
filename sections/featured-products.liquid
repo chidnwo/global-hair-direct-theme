@@ -6,16 +6,26 @@
   assign sellable_sku_count = 0
   assign catalog_display_count = 0
   assign catalog_count_is_sku_fallback = false
+  assign product_count = 0
   if featured_collection != blank
     for product in featured_collection.products
+      assign product_count = product_count | plus: 1
       assign product_sellable = false
-      for variant in product.variants
-        assign v_qty = variant.inventory_quantity | default: 0
-        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
-          assign product_sellable = true
-          break
-        endif
-      endfor
+      if product.available
+        assign product_sellable = true
+      endif
+      unless product_sellable
+        for variant in product.variants
+          assign v_qty = variant.inventory_quantity | default: 0
+          if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
+            assign product_sellable = true
+            break
+          endif
+        endfor
+      endunless
+      if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock'
+        assign product_sellable = false
+      endif
       if product.tags contains 'pre-order'
         assign live_pre = live_pre | plus: 1
       elsif product_sellable
@@ -32,6 +42,10 @@
     assign catalog_display_count = total_units
     if total_units < 1 and sellable_sku_count > 0
       assign catalog_display_count = sellable_sku_count
+      assign catalog_count_is_sku_fallback = true
+    endif
+    if total_units < 1 and sellable_sku_count < 1 and live_in_stock > 0
+      assign catalog_display_count = live_in_stock
       assign catalog_count_is_sku_fallback = true
     endif
   endif
@@ -69,13 +83,21 @@
       {% if featured_collection != blank %}
         {% for product in featured_collection.products limit: section.settings.products_limit %}
           {% assign product_sellable = false %}
-          {% for variant in product.variants %}
-            {% assign v_qty = variant.inventory_quantity | default: 0 %}
-            {% if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank %}
-              {% assign product_sellable = true %}
-              {% break %}
-            {% endif %}
-          {% endfor %}
+          {% if product.available %}
+            {% assign product_sellable = true %}
+          {% endif %}
+          {% unless product_sellable %}
+            {% for variant in product.variants %}
+              {% assign v_qty = variant.inventory_quantity | default: 0 %}
+              {% if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank %}
+                {% assign product_sellable = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+          {% endunless %}
+          {% if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
+            {% assign product_sellable = false %}
+          {% endif %}
           <a href="{{ product.url }}" class="product-card" data-type="{{ product.type | handleize }}">
             <div class="product-card__image-wrap">
               {% if product.featured_image %}

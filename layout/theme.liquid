@@ -18,30 +18,27 @@
 
   {% liquid
     assign ghd_force_country_ng = false
+    assign ghd_local_dev_host = false
+    if request.host contains '127.0.0.1' or request.host contains 'localhost'
+      assign ghd_local_dev_host = true
+    endif
     unless settings.allow_visitor_detected_country
       unless request.design_mode
         if localization.country.iso_code != 'NG'
-          for ghd_c in localization.available_countries
-            if ghd_c.iso_code == 'NG'
-              assign ghd_force_country_ng = true
-              break
-            endif
-          endfor
+          if ghd_local_dev_host
+            assign ghd_force_country_ng = true
+          else
+            for ghd_c in localization.available_countries
+              if ghd_c.iso_code == 'NG'
+                assign ghd_force_country_ng = true
+                break
+              endif
+            endfor
+          endif
         endif
       endunless
     endunless
   %}
-  {% if ghd_force_country_ng %}
-    {% form 'localization', id: 'ghd-localization-default-ng', return_to: 'back' %}
-      <input type="hidden" name="country_code" value="NG">
-    {% endform %}
-    <script>
-      (function () {
-        var f = document.getElementById('ghd-localization-default-ng');
-        if (f) f.submit();
-      })();
-    </script>
-  {% endif %}
 
   {% liquid
     assign ghd_local_theme_preview = false
@@ -90,6 +87,21 @@
   {% if settings.use_legacy_customer_auth %}
     {% section 'register-modal' %}
     {% section 'login-modal' %}
+  {% endif %}
+
+  {% if ghd_force_country_ng %}
+    {% form 'localization', id: 'ghd-localization-default-ng', return_to: 'back' %}
+      <input type="hidden" name="country_code" value="NG">
+      <input type="hidden" name="language_code" value="{{ localization.language.iso_code }}">
+    {% endform %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var f = document.getElementById('ghd-localization-default-ng');
+        if (!f) return;
+        if (window.Shopify && window.Shopify.country === 'NG') return;
+        f.submit();
+      });
+    </script>
   {% endif %}
 
   {{ 'theme.js' | asset_url | script_tag }}
