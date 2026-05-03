@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function normOpt(x) {
       if (x === undefined || x === null || x === '') return null;
-      return String(x);
+      return String(x).trim();
     }
 
     function selectedOptionValues() {
@@ -99,6 +99,22 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    function setWhatsappEnquiryLink(variant) {
+      var waLink = productPage.querySelector('[data-whatsapp-enquiry]');
+      if (!waLink || !variant) return;
+      var waBase = waLink.getAttribute('data-whatsapp-base');
+      if (!waBase) return;
+      if (waBase.indexOf('text=') !== -1) {
+        waLink.href = waBase;
+        return;
+      }
+      var shop = productPage.getAttribute('data-shop-secure-url') || '';
+      var path = variant.url || '';
+      var intro = "Hi, I'd like to enquire about " + (variant.title || '') + ' (' + shop + path + ')';
+      var sep = waBase.indexOf('?') !== -1 ? '&' : '?';
+      waLink.href = waBase + sep + 'text=' + encodeURIComponent(intro);
+    }
+
     function applyVariant(variant) {
       if (!variant) return;
       var input = productPage.querySelector('[data-variant-input]');
@@ -119,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setMainImage(variant.image, '');
         syncThumbActiveByUrl(variant.image);
       }
+      setWhatsappEnquiryLink(variant);
     }
 
     function mergeAvailabilityFromShopifyProduct(productData) {
@@ -131,7 +148,10 @@ document.addEventListener('DOMContentLoaded', function () {
       for (var k = 0; k < variants.length; k++) {
         var vid = variants[k].id;
         if (Object.prototype.hasOwnProperty.call(byId, vid)) {
-          variants[k].available = byId[vid];
+          // Liquid already computed broad sellability (continue selling, qty, untracked).
+          // The Ajax product JSON only exposes strict `available` and can disagree with
+          // storefront Liquid — do not downgrade sellability when merging.
+          variants[k].available = Boolean(byId[vid] || variants[k].available);
         }
       }
     }

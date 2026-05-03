@@ -20,7 +20,7 @@
 {% endunless %}
 {% assign main_image = selected_variant.featured_image | default: product.featured_image %}
 
-<div class="product-page" data-product-page data-product-handle="{{ product.handle | escape }}">
+<div class="product-page" data-product-page data-product-handle="{{ product.handle | escape }}" data-shop-secure-url="{{ shop.secure_url | escape }}">
   <div class="product-page__gallery">
     {% if main_image %}
       <img
@@ -96,7 +96,35 @@
       </button>
     </form>
 
-    <a href="{% render 'theme-contact-url' %}" class="btn btn--ghost-dark btn--full" style="border-color:var(--line2);color:var(--muted)">
+    {% liquid
+      capture wa_base
+        render 'whatsapp-or-contact-url'
+      endcapture
+      assign wa_base = wa_base | strip
+      assign product_whatsapp_href = wa_base
+      assign wa_intro = "Hi, I'd like to enquire about " | append: selected_variant.title | append: " (" | append: shop.secure_url | append: selected_variant.url | append: ")"
+      assign wa_intro_enc = wa_intro | url_encode
+      assign wa_is_chat = false
+      if wa_base contains 'wa.me' or wa_base contains 'api.whatsapp.com' or wa_base contains 'web.whatsapp.com'
+        assign wa_is_chat = true
+      endif
+      if wa_is_chat
+        unless wa_base contains 'text='
+          if wa_base contains '?'
+            assign product_whatsapp_href = wa_base | append: '&text=' | append: wa_intro_enc
+          else
+            assign product_whatsapp_href = wa_base | append: '?text=' | append: wa_intro_enc
+          endif
+        endunless
+      endif
+    %}
+    <a
+      href="{{ product_whatsapp_href | escape }}"
+      class="btn btn--ghost-dark btn--full"
+      style="border-color:var(--line2);color:var(--muted)"
+      {% if wa_base contains 'wa.me' or wa_base contains 'whatsapp.com' %}target="_blank" rel="noopener noreferrer"{% endif %}
+      {% if wa_is_chat %}data-whatsapp-enquiry data-whatsapp-base="{{ wa_base | escape }}"{% endif %}
+    >
       Enquire on WhatsApp
     </a>
 
@@ -128,7 +156,7 @@
       {%- assign v_sellable = true -%}
     {%- endif -%}
   {%- endunless -%}
-  {"id":{{ variant.id }},"option1":{{ variant.option1 | json }},"option2":{{ variant.option2 | json }},"option3":{{ variant.option3 | json }},"available":{{ v_sellable | json }},"image":{% if variant.featured_image %}{{ variant.featured_image | image_url: width: 1200 | json }}{% else %}null{% endif %}}
+  {"id":{{ variant.id }},"title":{{ variant.title | json }},"url":{{ variant.url | json }},"option1":{{ variant.option1 | json }},"option2":{{ variant.option2 | json }},"option3":{{ variant.option3 | json }},"available":{{ v_sellable | json }},"image":{% if variant.featured_image %}{{ variant.featured_image | image_url: width: 1200 | json }}{% else %}null{% endif %}}
   {%- unless forloop.last -%},{%- endunless -%}
 {%- endfor -%}
 ]

@@ -4,6 +4,9 @@
   assign hero_types_count = 0
   assign hero_in_stock = 0
   assign hero_pre = 0
+  assign hero_sellable_sku_count = 0
+  assign hero_display_stock = 0
+  assign hero_stock_is_sku_fallback = false
   assign hero_show_live = false
   if section.settings.use_live_catalog_stats and stats_cat != blank
     assign hero_show_live = true
@@ -13,7 +16,7 @@
         assign hero_types_count = hero_types_count | plus: 1
       endif
     endfor
-    for product in stats_cat.products limit: 250
+    for product in stats_cat.products
       assign product_sellable = false
       for variant in product.variants
         assign v_qty = variant.inventory_quantity | default: 0
@@ -28,10 +31,18 @@
         assign hero_in_stock = hero_in_stock | plus: 1
       endif
       for variant in product.variants
-        assign q = variant.inventory_quantity | default: 0
-        assign hero_units = hero_units | plus: q
+        assign v_qty = variant.inventory_quantity | default: 0
+        assign hero_units = hero_units | plus: v_qty
+        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
+          assign hero_sellable_sku_count = hero_sellable_sku_count | plus: 1
+        endif
       endfor
     endfor
+    assign hero_display_stock = hero_units
+    if hero_units < 1 and hero_sellable_sku_count > 0
+      assign hero_display_stock = hero_sellable_sku_count
+      assign hero_stock_is_sku_fallback = true
+    endif
   endif
 %}
 <section class="hero">
@@ -66,8 +77,8 @@
     <div class="hero__stats">
       {% if hero_show_live %}
         <div class="hero__stat">
-          <div class="hero__stat-val">{{ hero_units }}</div>
-          <div class="hero__stat-lbl">Units in catalogue</div>
+          <div class="hero__stat-val">{{ hero_display_stock }}</div>
+          <div class="hero__stat-lbl">{% if hero_stock_is_sku_fallback %}Sellable SKUs{% else %}Units in catalogue{% endif %}</div>
         </div>
         <div class="hero__stat">
           <div class="hero__stat-val">{{ hero_types_count }}</div>

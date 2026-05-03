@@ -13,6 +13,9 @@
   assign about_types_count = 0
   assign about_in_stock = 0
   assign about_pre = 0
+  assign about_sellable_sku_count = 0
+  assign about_display_stock = 0
+  assign about_stock_is_sku_fallback = false
   if section.settings.use_live_catalog_stats and about_stats_cat != blank
     assign about_types = about_stats_cat.products | map: 'type' | uniq
     for t in about_types
@@ -20,7 +23,7 @@
         assign about_types_count = about_types_count | plus: 1
       endif
     endfor
-    for product in about_stats_cat.products limit: 250
+    for product in about_stats_cat.products
       assign product_sellable = false
       for variant in product.variants
         assign v_qty = variant.inventory_quantity | default: 0
@@ -35,10 +38,18 @@
         assign about_in_stock = about_in_stock | plus: 1
       endif
       for variant in product.variants
-        assign q = variant.inventory_quantity | default: 0
-        assign about_units = about_units | plus: q
+        assign v_qty = variant.inventory_quantity | default: 0
+        assign about_units = about_units | plus: v_qty
+        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
+          assign about_sellable_sku_count = about_sellable_sku_count | plus: 1
+        endif
       endfor
     endfor
+    assign about_display_stock = about_units
+    if about_units < 1 and about_sellable_sku_count > 0
+      assign about_display_stock = about_sellable_sku_count
+      assign about_stock_is_sku_fallback = true
+    endif
   endif
 %}
 {% capture default_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
@@ -92,8 +103,8 @@
       <div class="stats-block">
         {% if section.settings.use_live_catalog_stats and about_stats_cat != blank %}
           <div class="stat-row">
-            <span class="stat-row__val">{{ about_units }}</span>
-            <span class="stat-row__lbl">Units in catalogue</span>
+            <span class="stat-row__val">{{ about_display_stock }}</span>
+            <span class="stat-row__lbl">{% if about_stock_is_sku_fallback %}Sellable SKUs{% else %}Units in catalogue{% endif %}</span>
           </div>
           <div class="stat-row">
             <span class="stat-row__val">{{ about_types_count }}</span>
