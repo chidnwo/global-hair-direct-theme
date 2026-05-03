@@ -1,0 +1,96 @@
+<section class="section--alt why-us-pillars">
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Why Us' }}</span>
+  </div>
+  <h2 class="section__title">
+    {{ section.settings.title | default: 'Three reasons' }}<br>
+    <em>{{ section.settings.title_italic | default: 'buyers choose us.' }}</em>
+  </h2>
+  {% assign why_us_lead = section.settings.lead | strip %}
+  {% if why_us_lead != blank %}
+    <p class="section__lead">{{ section.settings.lead }}</p>
+  {% endif %}
+
+  <div class="why-us-pillars__grid">
+    {% for block in section.blocks %}
+      {% if block.type == 'pillar' %}
+        <article class="why-us-pillar" {{ block.shopify_attributes }}>
+          {% assign pillar_kicker = block.settings.kicker | strip %}
+          {% if pillar_kicker != blank %}
+            <p class="why-us-pillar__kicker">{{ pillar_kicker }}</p>
+          {% endif %}
+          <h3 class="why-us-pillar__title">{{ block.settings.title }}</h3>
+          <p class="why-us-pillar__text">{{ block.settings.text }}</p>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why us (3 pillars)",
+  "tag": "section",
+  "class": "section-why-us-pillars",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Us" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Three reasons" },
+    { "type": "text", "id": "title_italic", "label": "Title (italic line)", "default": "buyers choose us." },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Intro (optional)",
+      "default": "Straightforward supply, accountable delivery, and pricing that respects how you buy — whether you are retail, salon, or wholesale."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Label (small)", "default": "Supply" },
+        { "type": "text", "id": "title", "label": "Heading", "default": "Direct from the source" },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Body",
+          "default": "We focus on braiding, bulk, and curl lines with consistent grading and colour runs — so what you order is what you receive, without middlemen inflating cost or quality."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why us (3 pillars)",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "kicker": "Supply",
+            "title": "Direct from the source",
+            "text": "We focus on braiding, bulk, and curl lines with consistent grading and colour runs — so what you order is what you receive, without middlemen inflating cost or quality."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "kicker": "Delivery",
+            "title": "Nationwide, with accountability",
+            "text": "Same-day Lagos dispatch when you confirm early; all 36 states via trusted partners. WhatsApp updates at key milestones so you always know where your order is."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "kicker": "Pricing",
+            "title": "Tiers that match how you buy",
+            "text": "Individual, salon, and wholesale paths with clear written pricing before payment — Paystack, Flutterwave, or bank transfer. No surprise substitutions on colour without your approval."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

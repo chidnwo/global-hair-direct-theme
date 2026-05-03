@@ -194,48 +194,40 @@
       "block_order": ["tier_1", "tier_2", "tier_3"]
     },
     "how_to_order": {
-      "type": "how-to-order",
+      "type": "why-us-pillars",
       "settings": {
-        "eyebrow": "How to Order",
-        "title": "Simple Process.",
-        "title_italic": "Four Steps to Delivery.",
-        "lead": "Every order — standard or pre-order — follows a documented process with confirmed pricing, clear timelines, and WhatsApp tracking from dispatch to delivery."
+        "eyebrow": "Why Us",
+        "title": "Three reasons",
+        "title_italic": "buyers choose us.",
+        "lead": "Straightforward supply, accountable delivery, and pricing that respects how you buy — whether you are retail, salon, or wholesale."
       },
       "blocks": {
-        "step_1": {
-          "type": "step",
+        "pillar_1": {
+          "type": "pillar",
           "settings": {
-            "number": "01",
-            "title": "Select Your Products",
-            "text": "Choose your hair type, colour, and quantity from our catalogue. Mix colours within the same product line — 1B, 27#, BUG, and 613# all available. Confirm availability before proceeding."
+            "kicker": "Supply",
+            "title": "Direct from the source",
+            "text": "We focus on braiding, bulk, and curl lines with consistent grading and colour runs — so what you order is what you receive, without middlemen inflating cost or quality."
           }
         },
-        "step_2": {
-          "type": "step",
+        "pillar_2": {
+          "type": "pillar",
           "settings": {
-            "number": "02",
-            "title": "Confirm Pricing & Pay",
-            "text": "Receive a confirmed price list based on your order and account tier. Pay via Paystack, Flutterwave, or direct bank transfer. Order is confirmed in writing upon cleared payment — no informal commitments."
+            "kicker": "Delivery",
+            "title": "Nationwide, with accountability",
+            "text": "Same-day Lagos dispatch when you confirm early; all 36 states via trusted partners. WhatsApp updates at key milestones so you always know where your order is."
           }
         },
-        "step_3": {
-          "type": "step",
+        "pillar_3": {
+          "type": "pillar",
           "settings": {
-            "number": "03",
-            "title": "Track Your Order",
-            "text": "Receive WhatsApp updates at defined milestones — order confirmed, dispatched, and in transit. One communication channel per order. Same-day Lagos dispatch for orders confirmed before 12pm."
-          }
-        },
-        "step_4": {
-          "type": "step",
-          "settings": {
-            "number": "04",
-            "title": "Receive Your Delivery",
-            "text": "Delivered to all 36 states via GIG Logistics and DHL Nigeria. Lagos 24–48 hours. Abuja and Port Harcourt 1–2 days. Remote states 2–4 days. Delivery confirmation issued on completion."
+            "kicker": "Pricing",
+            "title": "Tiers that match how you buy",
+            "text": "Individual, salon, and wholesale paths with clear written pricing before payment — Paystack, Flutterwave, or bank transfer. No surprise substitutions on colour without your approval."
           }
         }
       },
-      "block_order": ["step_1", "step_2", "step_3", "step_4"]
+      "block_order": ["pillar_1", "pillar_2", "pillar_3"]
     },
     "cta_banner": {
       "type": "cta-banner",

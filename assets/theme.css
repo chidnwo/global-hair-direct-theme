@@ -372,6 +372,51 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; line-height: 1.2; 
 .process-item__title { font-family: var(--serif); font-size: 19px; color: var(--text); margin-bottom: 8px; }
 .process-item__text { font-size: 14px; color: var(--muted); line-height: 1.8; }
 
+/* Why us — 3 pillars (homepage) */
+.why-us-pillars__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+  align-items: stretch;
+}
+.why-us-pillar {
+  padding: 28px 24px;
+  background: var(--bg);
+  border: 0.5px solid var(--line);
+  border-top: 3px solid var(--gold);
+  min-height: 100%;
+  box-sizing: border-box;
+}
+.why-us-pillar__kicker {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 14px;
+}
+.why-us-pillar__title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+.why-us-pillar__text {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .why-us-pillars__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 36px;
+  }
+}
+
 /* ── FAQ ── */
 .faq-wrap { margin-top: 48px; border-top: 1px solid var(--line); }
 .faq-item { border-bottom: 1px solid var(--line); }
