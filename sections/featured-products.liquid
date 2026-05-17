@@ -23,7 +23,7 @@
           endif
         endfor
       endunless
-      if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock'
+      if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock'
         assign product_sellable = false
       endif
       if product.tags contains 'pre-order'
@@ -96,7 +96,7 @@
                 {% endif %}
               {% endfor %}
             {% endunless %}
-            {% if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
+            {% if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
               {% assign product_sellable = false %}
             {% endif %}
             <a href="{{ product.url }}" class="product-card" data-type="{{ product.type | handleize }}">

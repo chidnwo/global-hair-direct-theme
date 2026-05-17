@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "store_coming_soon_mode": true,
     "colors_solid_button_labels": "#FFFFFF",
     "colors_accent_1": "#C9970A",
     "colors_accent_2": "#2E0D14",

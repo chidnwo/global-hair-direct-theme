@@ -20,12 +20,12 @@
     {% assign selected_sellable = true %}
   {% endif %}
 {% endunless %}
-{% if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
+{% if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
   {% assign selected_sellable = false %}
 {% endif %}
 {% assign main_image = selected_variant.featured_image | default: product.featured_image %}
 
-<div class="product-page" data-product-page data-product-handle="{{ product.handle | escape }}" data-shop-secure-url="{{ shop.secure_url | escape }}">
+<div class="product-page" data-product-page data-product-handle="{{ product.handle | escape }}" data-shop-secure-url="{{ shop.secure_url | escape }}" data-store-coming-soon="{% if ghd_sales_blocked %}true{% else %}false{% endif %}">
   <div class="product-page__gallery">
     {% if main_image %}
       <img
@@ -97,7 +97,7 @@
       <input type="hidden" name="id" value="{{ selected_variant.id }}" data-variant-input>
       <input type="hidden" name="quantity" value="1">
       <button type="submit" class="btn btn--gold btn--full" style="margin-bottom:12px" data-add-to-cart {% unless selected_sellable %}disabled aria-disabled="true"{% endunless %}>
-        {% if selected_sellable %}Add to Cart{% else %}Out of Stock{% endif %}
+        {% if selected_sellable %}Add to Cart{% elsif ghd_sales_blocked or product.tags contains 'coming-soon' %}Coming Soon{% else %}Out of Stock{% endif %}
       </button>
     </form>
 
@@ -163,7 +163,7 @@
       {%- assign v_sellable = true -%}
     {%- endif -%}
   {%- endunless -%}
-  {%- if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' -%}
+  {%- if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' -%}
     {%- assign v_sellable = false -%}
   {%- endif -%}
   {"id":{{ variant.id }},"title":{{ variant.title | json }},"url":{{ variant.url | json }},"option1":{{ variant.option1 | json }},"option2":{{ variant.option2 | json }},"option3":{{ variant.option3 | json }},"available":{{ v_sellable | json }},"image":{% if variant.featured_image %}{{ variant.featured_image | image_url: width: 1200 | json }}{% else %}null{% endif %}}

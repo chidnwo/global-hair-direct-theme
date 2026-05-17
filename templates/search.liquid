@@ -35,6 +35,9 @@
                 {% break %}
               {% endif %}
             {% endfor %}
+            {% if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock' %}
+              {% assign product_sellable = false %}
+            {% endif %}
             <a href="{{ product.url }}" class="product-card">
               <div class="product-card__image-wrap">
                 {% if product.featured_image %}

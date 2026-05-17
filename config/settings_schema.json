@@ -184,6 +184,17 @@
       },
       {
         "type": "header",
+        "content": "Store availability"
+      },
+      {
+        "type": "checkbox",
+        "id": "store_coming_soon_mode",
+        "label": "Coming soon mode (all products)",
+        "default": true,
+        "info": "Shows Coming Soon everywhere and disables Add to cart, even when inventory is set in Shopify Admin. Keep stock updated in Admin; turn this off when goods are delivered and you are ready to sell."
+      },
+      {
+        "type": "header",
         "content": "Markets"
       },
       {

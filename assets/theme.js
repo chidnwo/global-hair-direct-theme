@@ -115,20 +115,23 @@ document.addEventListener('DOMContentLoaded', function () {
       waLink.href = waBase + sep + 'text=' + encodeURIComponent(intro);
     }
 
+    var storeComingSoon = productPage.getAttribute('data-store-coming-soon') === 'true';
+
     function applyVariant(variant) {
       if (!variant) return;
       var input = productPage.querySelector('[data-variant-input]');
       if (input) input.value = String(variant.id);
       var addBtn = productPage.querySelector('[data-add-to-cart]');
       if (addBtn) {
-        if (variant.available) {
+        var canSell = variant.available && !storeComingSoon;
+        if (canSell) {
           addBtn.disabled = false;
           addBtn.removeAttribute('aria-disabled');
           addBtn.textContent = 'Add to Cart';
         } else {
           addBtn.disabled = true;
           addBtn.setAttribute('aria-disabled', 'true');
-          addBtn.textContent = 'Out of Stock';
+          addBtn.textContent = storeComingSoon ? 'Coming Soon' : 'Out of Stock';
         }
       }
       if (variant.image) {
@@ -139,6 +142,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function mergeAvailabilityFromShopifyProduct(productData) {
+      if (storeComingSoon) {
+        for (var i = 0; i < variants.length; i++) {
+          variants[i].available = false;
+        }
+        return;
+      }
       if (!productData || !productData.variants) return;
       var byId = {};
       for (var j = 0; j < productData.variants.length; j++) {

@@ -18,6 +18,10 @@
 <body class="template-{{ template.name }}">
 
   {% liquid
+    assign ghd_sales_blocked = settings.store_coming_soon_mode
+  %}
+
+  {% liquid
     assign ghd_force_country_ng = false
     assign ghd_local_dev_host = false
     if request.host contains '127.0.0.1' or request.host contains 'localhost'
