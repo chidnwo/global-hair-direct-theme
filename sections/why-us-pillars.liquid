@@ -1,41 +1,44 @@
-<section class="section--alt why-us-pillars">
-  <div class="eyebrow eyebrow--gold">
-    <div class="eyebrow__line"></div>
-    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Why Us' }}</span>
-  </div>
-  <h2 class="section__title">
-    {{ section.settings.title | default: 'Three reasons' }}<br>
-    <em>{{ section.settings.title_italic | default: 'buyers choose us.' }}</em>
-  </h2>
-  {% assign why_us_lead = section.settings.lead | strip %}
-  {% if why_us_lead != blank %}
-    <p class="section__lead">{{ section.settings.lead }}</p>
-  {% endif %}
-
-  {% assign pillar_count = 0 %}
-  {% for b in section.blocks %}
-    {% if b.type == 'pillar' %}
-      {% assign pillar_count = pillar_count | plus: 1 %}
+<section class="section--alt why-us-pillars" data-why-us-section>
+  <div class="why-us-pillars__intro">
+    <div class="eyebrow eyebrow--gold">
+      <div class="eyebrow__line"></div>
+      <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Why Us' }}</span>
+    </div>
+    <h2 class="section__title why-us-pillars__title">
+      {{ section.settings.title | default: 'Supply. Delivery. Pricing.' }}
+      {% assign title_italic = section.settings.title_italic | strip %}
+      {% if title_italic != blank %}
+        <em>{{ title_italic }}</em>
+      {% endif %}
+    </h2>
+    {% assign why_us_lead = section.settings.lead | strip %}
+    {% if why_us_lead != blank %}
+      <p class="section__lead why-us-pillars__lead">{{ section.settings.lead }}</p>
     {% endif %}
-  {% endfor %}
+  </div>
 
-  <div class="why-us-pillars__panel why-us-pillars__panel--pillars-{{ pillar_count }}">
+  <div class="why-us-pillars__grid" role="list">
     {% assign pillar_idx = 0 %}
     {% for block in section.blocks %}
       {% if block.type == 'pillar' %}
         {% assign pillar_idx = pillar_idx | plus: 1 %}
         {% capture idx_pad %}{% if pillar_idx < 10 %}0{% endif %}{{ pillar_idx }}{% endcapture %}
-        <article class="why-us-pillar" {{ block.shopify_attributes }}>
-          <div class="why-us-pillar__meta">
-            <span class="why-us-pillar__num">{{ idx_pad }}</span>
-            <span class="why-us-pillar__meta-line" aria-hidden="true"></span>
-            {% assign pillar_kicker = block.settings.kicker | strip | upcase %}
+        {% assign pillar_kicker = block.settings.kicker | strip | upcase %}
+        <article
+          class="why-us-card"
+          role="listitem"
+          style="--why-us-i: {{ pillar_idx | minus: 1 }};"
+          {{ block.shopify_attributes }}
+        >
+          <div class="why-us-card__top">
+            <span class="why-us-card__num" aria-hidden="true">{{ idx_pad }}</span>
             {% if pillar_kicker != blank %}
-              <p class="why-us-pillar__kicker">{{ pillar_kicker }}</p>
+              <span class="why-us-card__kicker">{{ pillar_kicker }}</span>
             {% endif %}
           </div>
-          <h3 class="why-us-pillar__title">{{ block.settings.title }}</h3>
-          <p class="why-us-pillar__text">{{ block.settings.text }}</p>
+          <h3 class="why-us-card__title">{{ block.settings.title }}</h3>
+          <p class="why-us-card__text">{{ block.settings.text }}</p>
+          <span class="why-us-card__shine" aria-hidden="true"></span>
         </article>
       {% endif %}
     {% endfor %}
@@ -44,14 +47,14 @@
 
 {% schema %}
 {
-  "name": "Why us (3 pillars)",
+  "name": "Why us (pillars)",
   "tag": "section",
   "class": "section-why-us-pillars",
   "max_blocks": 3,
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Us" },
-    { "type": "text", "id": "title", "label": "Title", "default": "Three reasons" },
-    { "type": "text", "id": "title_italic", "label": "Title (italic line)", "default": "buyers choose us." },
+    { "type": "text", "id": "title", "label": "Title", "default": "Supply. Delivery. Pricing." },
+    { "type": "text", "id": "title_italic", "label": "Title (italic line)", "default": "Done properly." },
     {
       "type": "textarea",
       "id": "lead",
@@ -77,7 +80,7 @@
   ],
   "presets": [
     {
-      "name": "Why us (3 pillars)",
+      "name": "Why us (pillars)",
       "blocks": [
         {
           "type": "pillar",

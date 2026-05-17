@@ -1,118 +1,146 @@
 {% liquid
-  assign stats_cat = collections[section.settings.stats_collection]
-  assign hero_units = 0
-  assign hero_types_count = 0
+  assign stats_cat = section.settings.stats_collection
+  if stats_cat == blank
+    assign stats_cat = collections.all
+  endif
+
+  assign hero_products = 0
   assign hero_in_stock = 0
   assign hero_pre = 0
+  assign hero_total_units = 0
   assign hero_sellable_sku_count = 0
   assign hero_display_stock = 0
   assign hero_stock_is_sku_fallback = false
   assign hero_show_live = false
+
   if section.settings.use_live_catalog_stats and stats_cat != blank
     assign hero_show_live = true
-    assign hero_types = stats_cat.products | map: 'type' | uniq
-    for t in hero_types
-      if t != blank
-        assign hero_types_count = hero_types_count | plus: 1
-      endif
-    endfor
+    assign hero_products = stats_cat.all_products_count
+
     for product in stats_cat.products
-      assign product_sellable = false
-      for variant in product.variants
-        assign v_qty = variant.inventory_quantity | default: 0
-        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
-          assign product_sellable = true
-          break
-        endif
-      endfor
-      if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock'
-        assign product_sellable = false
+      assign product_stats_sellable = false
+      if product.available
+        assign product_stats_sellable = true
+      endif
+      unless product_stats_sellable
+        for variant in product.variants
+          assign v_qty = variant.inventory_quantity | default: 0
+          if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
+            assign product_stats_sellable = true
+            break
+          endif
+        endfor
+      endunless
+      if product.tags contains 'coming-soon' or product.tags contains 'out-of-stock'
+        assign product_stats_sellable = false
       endif
       if product.tags contains 'pre-order'
         assign hero_pre = hero_pre | plus: 1
-      elsif product_sellable
+      elsif product_stats_sellable
         assign hero_in_stock = hero_in_stock | plus: 1
       endif
       for variant in product.variants
         assign v_qty = variant.inventory_quantity | default: 0
-        assign hero_units = hero_units | plus: v_qty
+        if v_qty > 0
+          assign hero_total_units = hero_total_units | plus: v_qty
+        endif
         if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
           assign hero_sellable_sku_count = hero_sellable_sku_count | plus: 1
         endif
       endfor
     endfor
-    assign hero_display_stock = hero_units
-    if hero_units < 1 and hero_sellable_sku_count > 0
+
+    assign hero_display_stock = hero_total_units
+    if hero_total_units < 1 and hero_sellable_sku_count > 0
       assign hero_display_stock = hero_sellable_sku_count
       assign hero_stock_is_sku_fallback = true
     endif
+    if hero_total_units < 1 and hero_sellable_sku_count < 1 and hero_in_stock > 0
+      assign hero_display_stock = hero_in_stock
+      assign hero_stock_is_sku_fallback = true
+    endif
   endif
+
+  assign hero_states = section.settings.static_states_covered | default: '36'
 %}
-<section class="hero">
-  <div class="hero__content">
-    <div class="hero__eyebrow">
-      <div class="hero__eyebrow-line"></div>
-      <span class="hero__eyebrow-text">{{ section.settings.eyebrow | default: "Nigeria's Hair Supplier" }}</span>
-    </div>
-
-    <h1 class="hero__title">{{ section.settings.title | default: "Quality You Can Trust." | newline_to_br }}<br><em>{{ section.settings.title_italic | default: 'From Supplier to Door.' }}</em></h1>
-
-    <p class="hero__lead">{{ section.settings.lead | default: 'Global Hair Direct supplies braiding hair, bulk hair, and premium hair extensions directly to salon owners, distributors, and individual buyers across all 36 Nigerian states.' }}</p>
-
-    <p class="hero__tagline">{{ section.settings.tagline | default: 'Transparent pricing. Accountable delivery.' }}</p>
-
-    <div class="hero__actions">
-      <a href="{{ section.settings.cta2_url | default: '/collections/all' }}" class="btn btn--white">{{ section.settings.cta2_text | default: 'View Catalogue' }}</a>
-      <a href="{{ section.settings.cta3_url | default: '/pages/wholesale' }}" class="btn btn--ghost-light">{{ section.settings.cta3_text | default: 'Wholesale Inquiry' }}</a>
-    </div>
-
-  </div>
-
-  <div class="hero__panel">
-    <div class="hero__panel-head">
-      <span class="hero__panel-title">{{ section.settings.panel_title | default: 'Current Stock' }}</span>
-      <div class="hero__panel-live">
-        <div class="hero__panel-dot"></div>
-        {% if hero_show_live %}Live from catalogue{% else %}Updated today{% endif %}
+<section class="hero" data-hero-section>
+  <div class="hero__inner">
+    <div class="hero__top">
+      <div class="hero__eyebrow">
+        <span class="hero__eyebrow-line" aria-hidden="true"></span>
+        <span class="hero__eyebrow-text">{{ section.settings.eyebrow | default: "Nigeria's Hair Supplier" }}</span>
+      </div>
+      <div class="hero__panel-meta">
+        <div class="hero__panel-title">
+          <span class="hero__panel-title-line" aria-hidden="true"></span>
+          <span class="hero__panel-title-text">{{ section.settings.panel_title | default: 'Current Stock' }}</span>
+        </div>
+        <div class="hero__panel-live">
+          <span class="hero__panel-dot" aria-hidden="true"></span>
+          {% if hero_show_live %}Live from catalogue{% else %}Updated today{% endif %}
+        </div>
       </div>
     </div>
 
-    <div class="hero__stats">
-      {% if hero_show_live %}
-        <div class="hero__stat">
-          <div class="hero__stat-val">{{ hero_display_stock }}</div>
-          <div class="hero__stat-lbl">{% if hero_stock_is_sku_fallback %}Sellable SKUs{% else %}Units in catalogue{% endif %}</div>
-        </div>
-        <div class="hero__stat">
-          <div class="hero__stat-val">{{ hero_types_count }}</div>
-          <div class="hero__stat-lbl">Product types</div>
-        </div>
-        <div class="hero__stat">
-          <div class="hero__stat-val">{{ hero_in_stock }}</div>
-          <div class="hero__stat-lbl">In stock now</div>
-        </div>
-        <div class="hero__stat">
-          <div class="hero__stat-val">{{ hero_pre }}</div>
-          <div class="hero__stat-lbl">Pre-order lines</div>
-        </div>
-      {% else %}
-        {% for block in section.blocks %}
-          {% if block.type == 'stat' %}
-            <div class="hero__stat" {{ block.shopify_attributes }}>
-              <div class="hero__stat-val">{{ block.settings.value }}</div>
-              <div class="hero__stat-lbl">{{ block.settings.label }}</div>
-            </div>
+    <div class="hero__grid">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          {{ section.settings.title | default: "Quality You Can Trust." | newline_to_br }}
+          {% assign hero_title_italic = section.settings.title_italic | strip %}
+          {% if hero_title_italic != blank %}
+            <em>{{ hero_title_italic }}</em>
           {% endif %}
-        {% endfor %}
-      {% endif %}
-    </div>
+        </h1>
 
-    <div class="hero__panel-notice">
-      <div class="hero__panel-notice-tag">{{ section.settings.notice_tag | default: 'Pre-Order Offer — Active Now' }}</div>
-      <p>{{ section.settings.notice_text | default: 'Bone Straight, French Curl & Deep Wave — order now and receive 5% discount on your total.' }}</p>
-      <a href="{{ section.settings.notice_cta_url | default: '/collections/all' }}" class="btn btn--gold btn--full" style="margin-top:14px;height:38px;font-size:11px;">
-        {{ section.settings.notice_cta_text | default: 'Place Pre-Order' }}
-      </a>
+        <p class="hero__lead">{{ section.settings.lead | default: 'Global Hair Direct supplies braiding hair, bulk hair, and premium hair extensions directly to salon owners, distributors, and individual buyers across all 36 Nigerian states.' }}</p>
+
+        <p class="hero__tagline">{{ section.settings.tagline | default: 'Transparent pricing. Accountable delivery.' }}</p>
+
+        <div class="hero__actions">
+          <a href="{{ section.settings.cta2_url | default: '/collections/all' }}" class="btn btn--white">{{ section.settings.cta2_text | default: 'View Catalogue' }}</a>
+          <a href="{{ section.settings.cta3_url | default: '/pages/contact' }}" class="btn btn--ghost-light">{{ section.settings.cta3_text | default: 'Wholesale Inquiry' }}</a>
+        </div>
+      </div>
+
+      <div class="hero__panel">
+        <div class="hero__stats">
+          {% if hero_show_live %}
+            <div class="hero__stat">
+              <div class="hero__stat-val" data-count-to="{{ hero_products }}">{{ hero_products }}</div>
+              <div class="hero__stat-lbl">Products</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-val" data-count-to="{{ hero_display_stock }}">{{ hero_display_stock }}</div>
+              <div class="hero__stat-lbl">{% if hero_stock_is_sku_fallback %}Sellable SKUs{% else %}Units tracked{% endif %}</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-val" data-count-to="{{ hero_in_stock }}">{{ hero_in_stock }}</div>
+              <div class="hero__stat-lbl">Lines in catalogue</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-val" data-count-to="{{ hero_states }}">{{ hero_states }}</div>
+              <div class="hero__stat-lbl">States covered</div>
+            </div>
+          {% else %}
+            {% for block in section.blocks %}
+              {% if block.type == 'stat' %}
+                <div class="hero__stat" {{ block.shopify_attributes }}>
+                  <div class="hero__stat-val">{{ block.settings.value }}</div>
+                  <div class="hero__stat-lbl">{{ block.settings.label }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="hero__panel-notice">
+          <div class="hero__panel-notice-tag">{{ section.settings.notice_tag | default: 'Pre-Order Offer — Active Now' }}</div>
+          <p>{{ section.settings.notice_text | default: 'Bone Straight, French Curl & Deep Wave — order now and receive 5% discount on your total.' }}</p>
+          <a href="{{ section.settings.notice_cta_url | default: '/collections/all' }}" class="btn btn--gold btn--full">
+            {{ section.settings.notice_cta_text | default: 'Place Pre-Order' }}
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -126,27 +154,26 @@
     { "type": "text", "id": "title_italic", "label": "Title Italic Line", "default": "From Supplier to Door." },
     { "type": "textarea", "id": "lead", "label": "Lead Paragraph" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "Transparent pricing. Accountable delivery." },
-    { "type": "text", "id": "cta1_text", "label": "CTA 1 Text", "default": "Place Pre-Order" },
-    { "type": "url", "id": "cta1_url", "label": "CTA 1 URL" },
-    { "type": "text", "id": "cta2_text", "label": "CTA 2 Text", "default": "View Catalogue" },
-    { "type": "url", "id": "cta2_url", "label": "CTA 2 URL" },
-    { "type": "text", "id": "cta3_text", "label": "CTA 3 Text", "default": "Wholesale Inquiry" },
-    { "type": "url", "id": "cta3_url", "label": "CTA 3 URL" },
+    { "type": "text", "id": "cta2_text", "label": "CTA Text", "default": "View Catalogue" },
+    { "type": "url", "id": "cta2_url", "label": "CTA URL" },
+    { "type": "text", "id": "cta3_text", "label": "CTA 2 Text", "default": "Wholesale Inquiry" },
+    { "type": "url", "id": "cta3_url", "label": "CTA 2 URL" },
     { "type": "text", "id": "panel_title", "label": "Panel Title", "default": "Current Stock" },
     { "type": "text", "id": "notice_tag", "label": "Notice Tag", "default": "Pre-Order Offer — Active Now" },
     { "type": "textarea", "id": "notice_text", "label": "Notice Text" },
     { "type": "text", "id": "notice_cta_text", "label": "Notice CTA Text", "default": "Place Pre-Order" },
     { "type": "url", "id": "notice_cta_url", "label": "Notice CTA URL" },
     { "type": "checkbox", "id": "use_live_catalog_stats", "label": "Use live stats from catalogue (collection)", "default": true },
-    { "type": "collection", "id": "stats_collection", "label": "Catalogue for hero panel stats" }
+    { "type": "collection", "id": "stats_collection", "label": "Catalogue for hero panel stats" },
+    { "type": "text", "id": "static_states_covered", "label": "States covered", "default": "36" }
   ],
   "blocks": [
     {
       "type": "stat",
       "name": "Stats Panel Item",
       "settings": [
-        { "type": "text", "id": "value", "label": "Value", "default": "700+" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Units in stock" }
+        { "type": "text", "id": "value", "label": "Value", "default": "4" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Products" }
       ]
     }
   ],
@@ -154,10 +181,10 @@
     {
       "name": "Hero",
       "blocks": [
-        { "type": "stat", "settings": { "value": "700+", "label": "Units in stock" } },
-        { "type": "stat", "settings": { "value": "3", "label": "Hair types" } },
-        { "type": "stat", "settings": { "value": "36", "label": "States covered" } },
-        { "type": "stat", "settings": { "value": "4+", "label": "Colour options" } }
+        { "type": "stat", "settings": { "value": "4", "label": "Products" } },
+        { "type": "stat", "settings": { "value": "12", "label": "Sellable SKUs" } },
+        { "type": "stat", "settings": { "value": "3", "label": "Lines in catalogue" } },
+        { "type": "stat", "settings": { "value": "36", "label": "States covered" } }
       ]
     }
   ]

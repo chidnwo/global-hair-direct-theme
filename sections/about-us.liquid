@@ -1,161 +1,63 @@
 {% liquid
   assign check_count = 0
-  assign stat_count = 0
   for block in section.blocks
     if block.type == 'check_item'
       assign check_count = check_count | plus: 1
-    elsif block.type == 'stat'
-      assign stat_count = stat_count | plus: 1
     endif
   endfor
-  assign about_stats_cat = collections[section.settings.stats_collection]
-  assign about_units = 0
-  assign about_types_count = 0
-  assign about_in_stock = 0
-  assign about_pre = 0
-  assign about_sellable_sku_count = 0
-  assign about_display_stock = 0
-  assign about_stock_is_sku_fallback = false
-  if section.settings.use_live_catalog_stats and about_stats_cat != blank
-    assign about_types = about_stats_cat.products | map: 'type' | uniq
-    for t in about_types
-      if t != blank
-        assign about_types_count = about_types_count | plus: 1
-      endif
-    endfor
-    for product in about_stats_cat.products
-      assign product_sellable = false
-      for variant in product.variants
-        assign v_qty = variant.inventory_quantity | default: 0
-        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
-          assign product_sellable = true
-          break
-        endif
-      endfor
-      if ghd_sales_blocked or product.tags contains 'coming-soon' or product.tags contains 'out-of-stock'
-        assign product_sellable = false
-      endif
-      if product.tags contains 'pre-order'
-        assign about_pre = about_pre | plus: 1
-      elsif product_sellable
-        assign about_in_stock = about_in_stock | plus: 1
-      endif
-      for variant in product.variants
-        assign v_qty = variant.inventory_quantity | default: 0
-        assign about_units = about_units | plus: v_qty
-        if variant.available or variant.inventory_policy == 'continue' or v_qty > 0 or variant.inventory_management == blank
-          assign about_sellable_sku_count = about_sellable_sku_count | plus: 1
-        endif
-      endfor
-    endfor
-    assign about_display_stock = about_units
-    if about_units < 1 and about_sellable_sku_count > 0
-      assign about_display_stock = about_sellable_sku_count
-      assign about_stock_is_sku_fallback = true
-    endif
-  endif
+
+  capture default_contact_url
+    render 'theme-contact-url'
+  endcapture
+  assign default_contact_url = default_contact_url | strip
 %}
-{% capture default_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
-{% assign default_contact_url = default_contact_url | strip %}
-<section class="section" id="about">
-  <div class="about-cols">
-    <div>
+<section class="section about-us about-us--compact" id="about" data-about-section>
+  <div class="about-us__inner about-us__inner--single">
+    <div class="about-us__story">
       <div class="eyebrow">
         <div class="eyebrow__line"></div>
         <span class="eyebrow__text">{{ section.settings.left_eyebrow | default: 'About Us' }}</span>
       </div>
-      <h2 class="section__title">{{ section.settings.title | default: 'One Standard.' }}<br><em>{{ section.settings.title_italic | default: 'Consistently Applied.' }}</em></h2>
-      <p class="section__lead">{{ section.settings.lead | default: 'Global Hair Direct supplies quality hair products directly to Nigerian buyers — salon owners, beauty distributors, and individuals — with fair wholesale pricing, multiple colour options, and reliable nationwide delivery on every order.' }}</p>
-      <ul class="checklist">
+      <h2 class="section__title about-us__title">
+        {{ section.settings.title | default: 'Built for' }}
+        <em>{{ section.settings.title_italic | default: 'how you buy hair.' }}</em>
+      </h2>
+      <p class="section__lead about-us__lead">{{ section.settings.lead | default: 'We supply braiding, bulk, and curl lines to salons, distributors, and individual buyers across Nigeria — with written pricing before you pay, colour runs you can trust, and delivery you can track.' }}</p>
+
+      <ul class="about-us__checks">
         {% if check_count > 0 %}
           {% for block in section.blocks %}
             {% if block.type == 'check_item' %}
-              <li class="checklist__item" {{ block.shopify_attributes }}>
-                <span class="{% if block.settings.is_negative %}checklist__mark--no{% else %}checklist__mark--yes{% endif %}">
-                  {% if block.settings.is_negative %}✕{% else %}✓{% endif %}
-                </span>
-                <div><strong>{{ block.settings.label }}</strong> {{ block.settings.text }}</div>
+              <li class="about-us__check{% if block.settings.is_negative %} about-us__check--no{% endif %}" {{ block.shopify_attributes }}>
+                <span class="about-us__check-icon" aria-hidden="true">{% if block.settings.is_negative %}✕{% else %}✓{% endif %}</span>
+                <div class="about-us__check-body">
+                  <strong>{{ block.settings.label }}</strong>
+                  {{ block.settings.text }}
+                </div>
               </li>
             {% endif %}
           {% endfor %}
         {% else %}
-          <li class="checklist__item">
-            <span class="checklist__mark--yes">✓</span>
-            <div><strong>What we are:</strong> A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states.</div>
+          <li class="about-us__check">
+            <span class="about-us__check-icon" aria-hidden="true">✓</span>
+            <div class="about-us__check-body"><strong>Who we serve:</strong> Salon owners, distributors, and individual buyers in all 36 states.</div>
           </li>
-          <li class="checklist__item">
-            <span class="checklist__mark--yes">✓</span>
-            <div><strong>What we supply:</strong> Braiding hair, bulk hair, and curl hair — with premium human hair extensions launching soon.</div>
+          <li class="about-us__check">
+            <span class="about-us__check-icon" aria-hidden="true">✓</span>
+            <div class="about-us__check-body"><strong>What you get:</strong> Consistent grading, multiple colours per line, and wholesale tiers when you order regularly.</div>
           </li>
-          <li class="checklist__item">
-            <span class="checklist__mark--yes">✓</span>
-            <div><strong>What we offer:</strong> Wholesale pricing tiers, pre-order discounts, and dedicated support for salon and distributor accounts.</div>
-          </li>
-          <li class="checklist__item">
-            <span class="checklist__mark--no">✕</span>
-            <div><strong>What we do not do:</strong> Process unconfirmed orders, substitute colours without approval, or ship outside Nigeria.</div>
+          <li class="about-us__check about-us__check--no">
+            <span class="about-us__check-icon" aria-hidden="true">✕</span>
+            <div class="about-us__check-body"><strong>What we avoid:</strong> Unconfirmed orders, colour substitutions without approval, or shipping outside Nigeria.</div>
           </li>
         {% endif %}
       </ul>
-    </div>
-    <div>
-      <div class="eyebrow">
-        <div class="eyebrow__line"></div>
-        <span class="eyebrow__text">{{ section.settings.right_eyebrow | default: 'By the Numbers' }}</span>
-      </div>
-      <div class="stats-block">
-        {% if section.settings.use_live_catalog_stats and about_stats_cat != blank %}
-          <div class="stat-row">
-            <span class="stat-row__val">{{ about_display_stock }}</span>
-            <span class="stat-row__lbl">{% if about_stock_is_sku_fallback %}Sellable SKUs{% else %}Units in catalogue{% endif %}</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">{{ about_types_count }}</span>
-            <span class="stat-row__lbl">Product types</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">{{ about_in_stock }}</span>
-            <span class="stat-row__lbl">In stock now</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">{{ about_pre }}</span>
-            <span class="stat-row__lbl">Pre-order lines</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">{{ section.settings.static_states_covered | default: '36' }}</span>
-            <span class="stat-row__lbl">States covered nationwide</span>
-          </div>
-        {% elsif stat_count > 0 %}
-          {% for block in section.blocks %}
-            {% if block.type == 'stat' %}
-              <div class="stat-row" {{ block.shopify_attributes }}>
-                <span class="stat-row__val">{{ block.settings.value }}</span>
-                <span class="stat-row__lbl">{{ block.settings.label }}</span>
-              </div>
-            {% endif %}
-          {% endfor %}
-        {% else %}
-          <div class="stat-row">
-            <span class="stat-row__val">700+</span>
-            <span class="stat-row__lbl">Units available in current stock</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">3</span>
-            <span class="stat-row__lbl">Hair types stocked — more coming</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">4+</span>
-            <span class="stat-row__lbl">Colour options per product line</span>
-          </div>
-          <div class="stat-row">
-            <span class="stat-row__val">36</span>
-            <span class="stat-row__lbl">States covered nationwide</span>
-          </div>
-        {% endif %}
-      </div>
-      <a href="{{ section.settings.cta_url | default: default_contact_url }}" class="btn btn--navy btn--full" style="margin-top:24px;">
-        {{ section.settings.cta_text | default: 'Request Wholesale Account' }}
-      </a>
+
+      {% if section.settings.show_cta %}
+        <a href="{{ section.settings.cta_url | default: default_contact_url }}" class="btn btn--navy about-us__cta">
+          {{ section.settings.cta_text | default: 'Request Wholesale Account' }}
+        </a>
+      {% endif %}
     </div>
   </div>
 </section>
@@ -164,16 +66,13 @@
 {
   "name": "About Us",
   "settings": [
-    { "type": "text", "id": "left_eyebrow", "label": "Left Eyebrow", "default": "About Us" },
-    { "type": "text", "id": "title", "label": "Title", "default": "One Standard." },
-    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Consistently Applied." },
+    { "type": "text", "id": "left_eyebrow", "label": "Eyebrow", "default": "About Us" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Built for" },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "how you buy hair." },
     { "type": "textarea", "id": "lead", "label": "Lead Text" },
-    { "type": "text", "id": "right_eyebrow", "label": "Right Eyebrow", "default": "By the Numbers" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show CTA button", "default": true },
     { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Request Wholesale Account" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "checkbox", "id": "use_live_catalog_stats", "label": "Use live stats from catalogue (collection)", "default": true },
-    { "type": "collection", "id": "stats_collection", "label": "Catalogue for stats" },
-    { "type": "text", "id": "static_states_covered", "label": "States covered (shown with live stats)", "default": "36" }
+    { "type": "url", "id": "cta_url", "label": "CTA URL" }
   ],
   "blocks": [
     {
@@ -181,16 +80,8 @@
       "name": "Checklist Item",
       "settings": [
         { "type": "checkbox", "id": "is_negative", "label": "Negative item", "default": false },
-        { "type": "text", "id": "label", "label": "Label", "default": "What we are:" },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states." }
-      ]
-    },
-    {
-      "type": "stat",
-      "name": "Stat",
-      "settings": [
-        { "type": "text", "id": "value", "label": "Value", "default": "700+" },
-        { "type": "text", "id": "label", "label": "Label", "default": "Units available in current stock" }
+        { "type": "text", "id": "label", "label": "Label", "default": "Who we serve:" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Salon owners, distributors, and individual buyers in all 36 states." }
       ]
     }
   ],
@@ -198,14 +89,9 @@
     {
       "name": "About Us",
       "blocks": [
-        { "type": "check_item", "settings": { "is_negative": false, "label": "What we are:", "text": "A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states." } },
-        { "type": "check_item", "settings": { "is_negative": false, "label": "What we supply:", "text": "Braiding hair, bulk hair, and curl hair — with premium human hair extensions launching soon." } },
-        { "type": "check_item", "settings": { "is_negative": false, "label": "What we offer:", "text": "Wholesale pricing tiers, pre-order discounts, and dedicated support for salon and distributor accounts." } },
-        { "type": "check_item", "settings": { "is_negative": true, "label": "What we do not do:", "text": "Process unconfirmed orders, substitute colours without approval, or ship outside Nigeria." } },
-        { "type": "stat", "settings": { "value": "700+", "label": "Units available in current stock" } },
-        { "type": "stat", "settings": { "value": "3", "label": "Hair types stocked — more coming" } },
-        { "type": "stat", "settings": { "value": "4+", "label": "Colour options per product line" } },
-        { "type": "stat", "settings": { "value": "36", "label": "States covered nationwide" } }
+        { "type": "check_item", "settings": { "is_negative": false, "label": "Who we serve:", "text": "Salon owners, distributors, and individual buyers in all 36 states." } },
+        { "type": "check_item", "settings": { "is_negative": false, "label": "What you get:", "text": "Consistent grading, multiple colours per line, and wholesale tiers when you order regularly." } },
+        { "type": "check_item", "settings": { "is_negative": true, "label": "What we avoid:", "text": "Unconfirmed orders, colour substitutions without approval, or shipping outside Nigeria." } }
       ]
     }
   ]

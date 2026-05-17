@@ -19,7 +19,7 @@
         "notice_text": "<strong>Bone Straight, French Curl &amp; Deep Wave</strong> — order now and receive 5% discount on your total. Wholesale pricing available for salon and distributor accounts.",
         "notice_cta_text": "Place Pre-Order",
         "notice_cta_url": "/collections/all",
-        "use_live_catalog_stats": false,
+        "use_live_catalog_stats": true,
         "stats_collection": "all"
       },
       "blocks": {
@@ -54,90 +54,28 @@
         "title": "Current Stock &",
         "title_italic": "Pre-Order Lines",
         "collection": "all",
-        "auto_filters_from_catalog": true,
+        "auto_filters_from_catalog": false,
         "show_catalog_summary": true,
         "products_limit": 8,
         "show_view_all": true,
         "view_all_text": "View Full Catalogue",
         "view_all_url": "/collections/all"
       },
-      "blocks": {},
-      "block_order": []
-    },
-    "about_us": {
-      "type": "about-us",
-      "settings": {
-        "left_eyebrow": "About Us",
-        "title": "One Standard.",
-        "title_italic": "Consistently Applied.",
-        "lead": "Global Hair Direct supplies quality hair products directly to Nigerian buyers — salon owners, beauty distributors, and individuals — with fair wholesale pricing, multiple colour options, and reliable nationwide delivery on every order.",
-        "right_eyebrow": "By the Numbers",
-        "cta_text": "Request Wholesale Account",
-        "cta_url": "/pages/contact",
-        "use_live_catalog_stats": false,
-        "stats_collection": "all",
-        "static_states_covered": "36"
-      },
       "blocks": {
-        "about_check_1": {
-          "type": "check_item",
-          "settings": {
-            "is_negative": false,
-            "label": "What we are:",
-            "text": "A direct hair supplier servicing salon owners, distributors, and individual buyers across all 36 Nigerian states."
-          }
+        "filter_curl": {
+          "type": "filter",
+          "settings": { "label": "Curl", "filter_key": "curl" }
         },
-        "about_check_2": {
-          "type": "check_item",
-          "settings": {
-            "is_negative": false,
-            "label": "What we supply:",
-            "text": "Braiding hair, bulk hair, and curl hair — with premium human hair extensions launching soon."
-          }
+        "filter_braiding": {
+          "type": "filter",
+          "settings": { "label": "Braiding", "filter_key": "braiding" }
         },
-        "about_check_3": {
-          "type": "check_item",
-          "settings": {
-            "is_negative": false,
-            "label": "What we offer:",
-            "text": "Wholesale pricing tiers, pre-order discounts, and dedicated support for salon and distributor accounts."
-          }
-        },
-        "about_check_4": {
-          "type": "check_item",
-          "settings": {
-            "is_negative": true,
-            "label": "What we do not do:",
-            "text": "Process unconfirmed orders, substitute colours without approval, or ship outside Nigeria."
-          }
-        },
-        "about_stat_1": {
-          "type": "stat",
-          "settings": { "value": "700+", "label": "Units available in current stock" }
-        },
-        "about_stat_2": {
-          "type": "stat",
-          "settings": { "value": "3", "label": "Hair types stocked — more coming" }
-        },
-        "about_stat_3": {
-          "type": "stat",
-          "settings": { "value": "4+", "label": "Colour options per product line" }
-        },
-        "about_stat_4": {
-          "type": "stat",
-          "settings": { "value": "36", "label": "States covered nationwide" }
+        "filter_deep_wave": {
+          "type": "filter",
+          "settings": { "label": "Deep Wave", "filter_key": "deep-wave" }
         }
       },
-      "block_order": [
-        "about_check_1",
-        "about_check_2",
-        "about_check_3",
-        "about_check_4",
-        "about_stat_1",
-        "about_stat_2",
-        "about_stat_3",
-        "about_stat_4"
-      ]
+      "block_order": ["filter_curl", "filter_braiding", "filter_deep_wave"]
     },
     "buyer_tiers": {
       "type": "buyer-tiers",
@@ -197,8 +135,8 @@
       "type": "why-us-pillars",
       "settings": {
         "eyebrow": "Why Us",
-        "title": "Three reasons",
-        "title_italic": "buyers choose us.",
+        "title": "Supply. Delivery. Pricing.",
+        "title_italic": "Done properly.",
         "lead": "Straightforward supply, accountable delivery, and pricing that respects how you buy — whether you are retail, salon, or wholesale."
       },
       "blocks": {
@@ -248,7 +186,6 @@
   "order": [
     "hero",
     "featured_products",
-    "about_us",
     "buyer_tiers",
     "how_to_order",
     "cta_banner"

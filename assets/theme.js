@@ -2,6 +2,105 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  // ── LIVE CATALOG SUMMARY (Shopify products JSON) ──
+  document.querySelectorAll('[data-catalog-summary]').forEach(function (el) {
+    var handle = el.getAttribute('data-collection');
+    if (!handle) return;
+    var comingSoon = el.getAttribute('data-coming-soon') === 'true';
+    var routesRoot = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+    var base = routesRoot.replace(/\/?$/, '/');
+    fetch(base + 'collections/' + encodeURIComponent(handle) + '/products.json?limit=250')
+      .then(function (res) {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data || !data.products) return;
+        var inStock = 0;
+        var pre = 0;
+        var products = data.products.length;
+        data.products.forEach(function (p) {
+          var tags = p.tags || [];
+          if (typeof tags === 'string') tags = tags.split(',').map(function (t) { return t.trim(); });
+          var tagStr = tags.join(' ').toLowerCase();
+          if (tagStr.indexOf('coming-soon') !== -1 || tagStr.indexOf('out-of-stock') !== -1) return;
+          var hasAvail = false;
+          (p.variants || []).forEach(function (v) {
+            if (v.available) hasAvail = true;
+          });
+          if (tagStr.indexOf('pre-order') !== -1) pre += 1;
+          else if (hasAvail) inStock += 1;
+        });
+        var text;
+        if (comingSoon) {
+          text = products + ' products in catalogue · Ordering opens soon';
+        } else {
+          text = inStock + ' in stock · ' + pre + ' pre-order · ' + products + ' products';
+        }
+        el.textContent = text;
+      })
+      .catch(function () {});
+  });
+
+  function revealOnScroll(section, visibleClass) {
+    var reveal = function () {
+      section.classList.add(visibleClass);
+    };
+    if (!('IntersectionObserver' in window)) {
+      reveal();
+      return;
+    }
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            reveal();
+            observer.disconnect();
+          }
+        });
+      },
+      { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+    );
+    observer.observe(section);
+  }
+
+  function animateCountUp(el) {
+    var raw = el.getAttribute('data-count-to');
+    if (!raw) return;
+    var target = parseInt(String(raw).replace(/[^\d]/g, ''), 10);
+    if (isNaN(target)) return;
+    var suffix = String(raw).replace(/[\d\s]/g, '');
+    var duration = 900;
+    var start = null;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = raw;
+      return;
+    }
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ── HERO: live panel count-up ──
+  document.querySelectorAll('[data-hero-section]').forEach(function (section) {
+    section.querySelectorAll('[data-count-to]').forEach(animateCountUp);
+  });
+
+  // ── ABOUT US: scroll-reveal ──
+  document.querySelectorAll('[data-about-section]').forEach(function (section) {
+    revealOnScroll(section, 'about-us--visible');
+  });
+
+  // ── WHY US: scroll-reveal cards ──
+  document.querySelectorAll('[data-why-us-section]').forEach(function (section) {
+    revealOnScroll(section, 'why-us-pillars--visible');
+  });
+
   // ── FAQ ACCORDION ──
   document.querySelectorAll('.faq-item__question').forEach(function (q) {
     q.addEventListener('click', function () {
