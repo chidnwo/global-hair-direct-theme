@@ -7,7 +7,13 @@
   <meta name="theme-color" content="#2E0D14">
   <link rel="canonical" href="{{ canonical_url }}">
   <title>{{ page_title }} — {{ shop.name }}</title>
-  {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  {%- liquid
+    assign meta_description = page_description
+    if meta_description == blank
+      assign meta_description = shop.description
+    endif
+  -%}
+  {% if meta_description != blank %}<meta name="description" content="{{ meta_description | escape }}">{% endif %}
   {{ content_for_header }}
   {% render 'social-meta-tags' %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,6 +94,7 @@
   </main>
 
   {% section 'footer' %}
+  {% render 'cart-drawer' %}
   {% section 'welcome-popup' %}
   {% if settings.use_legacy_customer_auth %}
     {% section 'register-modal' %}
@@ -109,6 +116,6 @@
     </script>
   {% endif %}
 
-  {{ 'theme.js' | asset_url | script_tag }}
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
 </body>
 </html>

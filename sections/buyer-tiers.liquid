@@ -4,39 +4,45 @@
       <div class="eyebrow__line"></div>
       <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Buyer Tiers' }}</span>
     </div>
-    <h2 class="section__title section__title--light">{{ section.settings.title | default: 'Structured Pricing.' }}<br><em>{{ section.settings.title_italic | default: 'Three Account Tiers.' }}</em></h2>
-    <p class="section__lead section__lead--light">{{ section.settings.lead | default: 'Pricing reflects order volume and account type. All pricing confirmed in writing before any order is processed. No hidden charges.' }}</p>
+    <h2 class="section__title section__title--light">{{ section.settings.title | default: 'Buy more.' }} <em>{{ section.settings.title_italic | default: 'Pay less.' }}</em></h2>
+    {% assign bt_lead = section.settings.lead | strip %}
+    {% if bt_lead != blank %}
+      <p class="section__lead section__lead--light">{{ section.settings.lead }}</p>
+    {% endif %}
 
-    <div class="tiers-cards">
+    <div class="tier-rows">
       {% for block in section.blocks %}
         {% if block.type == 'tier' %}
-          <article class="tier-card{% if block.settings.featured %} tier-card--featured{% endif %}" {{ block.shopify_attributes }}>
-            <header class="tier-card__head">
-              <p class="tier-card__num">{{ block.settings.tier_number }}</p>
-              <h3 class="tier-card__name">{{ block.settings.name }}</h3>
-              <p class="tier-card__range">{{ block.settings.range }}</p>
-            </header>
-            <div class="tier-card__highlight">
-              <span class="tier-card__disc">{{ block.settings.discount }}</span>
-              <span class="tier-card__disc-lbl">{{ block.settings.discount_label }}</span>
+          <article class="tier-row{% if block.settings.featured %} tier-row--featured{% endif %}" {{ block.shopify_attributes }}>
+            <div class="tier-row__main">
+              <p class="tier-row__num">{{ block.settings.tier_number }}</p>
+              <h3 class="tier-row__name">
+                {{ block.settings.name }}
+                {% if block.settings.featured %}<span class="tier-row__flag">Most popular</span>{% endif %}
+              </h3>
+              {% assign tier_tagline = block.settings.tagline | strip %}
+              {% if tier_tagline != blank %}
+                <p class="tier-row__tagline">{{ tier_tagline }}</p>
+              {% endif %}
             </div>
-            <ul class="tier-card__perks">
-              {% assign perk_html = block.settings.perks | newline_to_br %}
-              {% assign perk_lines = perk_html | split: '<br />' %}
-              {% for line in perk_lines %}
-                {% assign trimmed = line | strip | strip_html %}
-                {% if trimmed != blank %}
-                  <li class="tier-card__perk">{{ trimmed }}</li>
-                {% endif %}
-              {% endfor %}
-            </ul>
+            <div class="tier-row__price">
+              <span class="tier-row__disc">{{ block.settings.discount }}</span>
+              <span class="tier-row__disc-lbl">{{ block.settings.discount_label }}</span>
+            </div>
             {% if block.settings.cta_text != blank %}
-              <a href="{{ block.settings.cta_url | default: '#' }}" class="tier-card__cta{% if block.settings.featured %} tier-card__cta--featured{% endif %}">{{ block.settings.cta_text }}</a>
+              <a href="{{ block.settings.cta_url | default: '#' }}" class="tier-row__cta{% if block.settings.featured %} tier-row__cta--featured{% endif %}">
+                {{ block.settings.cta_text }}
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 8h9M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
             {% endif %}
           </article>
         {% endif %}
       {% endfor %}
     </div>
+
+    {% if section.settings.footnote != blank %}
+      <p class="buyer-tiers__footnote">{{ section.settings.footnote }}</p>
+    {% endif %}
   </div>
 </section>
 
@@ -45,9 +51,10 @@
   "name": "Buyer Tiers",
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Buyer Tiers" },
-    { "type": "text", "id": "title", "label": "Title", "default": "Structured Pricing." },
-    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Three Account Tiers." },
-    { "type": "textarea", "id": "lead", "label": "Lead Text" }
+    { "type": "text", "id": "title", "label": "Title", "default": "Buy more." },
+    { "type": "text", "id": "title_italic", "label": "Title Italic", "default": "Pay less." },
+    { "type": "textarea", "id": "lead", "label": "Lead Text", "default": "Three account tiers. The more you buy, the lower your per-unit price — confirmed in writing before any order." },
+    { "type": "text", "id": "footnote", "label": "Footnote (small print under cards)", "default": "All pricing confirmed in writing. No hidden charges." }
   ],
   "blocks": [
     {
@@ -56,10 +63,9 @@
       "settings": [
         { "type": "text", "id": "tier_number", "label": "Tier Number", "default": "Tier 01" },
         { "type": "text", "id": "name", "label": "Tier Name", "default": "Individual Buyer" },
-        { "type": "text", "id": "range", "label": "Range Text", "default": "Small quantities · No minimums" },
-        { "type": "textarea", "id": "perks", "label": "Perks (one per line)", "default": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door" },
-        { "type": "text", "id": "discount", "label": "Discount", "default": "Retail" },
+        { "type": "text", "id": "discount", "label": "Discount (hero)", "default": "Retail" },
         { "type": "text", "id": "discount_label", "label": "Discount Label", "default": "Standard pricing" },
+        { "type": "text", "id": "tagline", "label": "Tagline (one short line)", "default": "Any quantity · no minimums" },
         { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Shop Now" },
         { "type": "url", "id": "cta_url", "label": "CTA URL" },
         { "type": "checkbox", "id": "featured", "label": "Featured tier (highlight card)", "default": false }
@@ -70,9 +76,9 @@
     {
       "name": "Buyer Tiers",
       "blocks": [
-        { "type": "tier", "settings": { "tier_number": "Tier 01", "name": "Individual Buyer", "range": "Small quantities · No minimums", "perks": "Order any colour combination per product\nFree delivery on orders above ₦50,000\n30-day satisfaction guarantee\nWhatsApp tracking from dispatch to door", "discount": "Retail", "discount_label": "Standard pricing", "cta_text": "Shop Now", "featured": false } },
-        { "type": "tier", "settings": { "tier_number": "Tier 02", "name": "Salon Owner", "range": "Medium volume · Regular orders", "perks": "Salon-tier pricing across all hair types\nMixed colour orders accepted per product\nMonthly standing order option available\nPriority dispatch and dedicated support\nFirst access to new product launches", "discount": "–15%", "discount_label": "Off retail pricing", "cta_text": "Apply Now", "featured": true } },
-        { "type": "tier", "settings": { "tier_number": "Tier 03", "name": "Wholesale Distributor", "range": "High volume · Bulk orders", "perks": "Lowest per-unit pricing available\nFull colour and product mix per order\nCustom packaging options available\nDedicated account manager assigned\nNet-30 payment terms for verified accounts\nMulti-state distribution support", "discount": "–35%", "discount_label": "Off retail pricing", "cta_text": "Apply Now", "featured": false } }
+        { "type": "tier", "settings": { "tier_number": "Tier 01", "name": "Individual Buyer", "discount": "Retail", "discount_label": "Standard pricing", "tagline": "Any quantity · no minimums", "cta_text": "Shop Now", "featured": false } },
+        { "type": "tier", "settings": { "tier_number": "Tier 02", "name": "Salon Owner", "discount": "–15%", "discount_label": "Off retail pricing", "tagline": "Regular orders · priority dispatch", "cta_text": "Apply Now", "featured": true } },
+        { "type": "tier", "settings": { "tier_number": "Tier 03", "name": "Wholesale Distributor", "discount": "–35%", "discount_label": "Off retail pricing", "tagline": "Bulk volume · lowest per-unit", "cta_text": "Apply Now", "featured": false } }
       ]
     }
   ]

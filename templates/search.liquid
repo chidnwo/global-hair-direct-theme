@@ -4,19 +4,18 @@
     <span class="eyebrow__text">Shop</span>
   </div>
   <h1 class="collection-header__title">Search</h1>
-  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form" style="max-width:520px;margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:stretch">
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
     <input
       id="SearchPage-Input"
-      class="customer-form__input"
+      class="customer-form__input search-page__input"
       type="search"
       name="q"
       value="{{ search.terms | escape }}"
       placeholder="Search products..."
       autocomplete="off"
       aria-label="Search products"
-      style="flex:1;min-width:200px"
     >
-    <button type="submit" class="btn btn--navy btn--sm" style="height:44px">Search</button>
+    <button type="submit" class="btn btn--navy btn--sm search-page__submit">Search</button>
   </form>
 </div>
 
@@ -66,34 +65,63 @@
                     <div class="product-card__price">{{ product.price | money }}</div>
                     <span class="product-card__price-label">Per unit</span>
                   </div>
-                  <div class="product-card__add">
-                    <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
-                  </div>
+                  {% if product_sellable %}
+                    <button
+                      type="button"
+                      class="product-card__add"
+                      aria-label="{% if product.variants.size > 1 %}Choose options for {{ product.title | escape }}{% else %}Add {{ product.title | escape }} to cart{% endif %}"
+                      data-quick-add
+                      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                      data-variant-count="{{ product.variants.size }}"
+                      data-product-url="{{ product.url }}"
+                    >
+                      <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
+                    </button>
+                  {% endif %}
                 </div>
               </div>
             </a>
           {% else %}
-            <a href="{{ item.url }}" class="product-card" style="padding:24px;justify-content:center">
-              <div class="product-card__body" style="flex:1;display:flex;flex-direction:column;justify-content:center">
-                <div class="product-card__category" style="text-transform:capitalize">{{ item.object_type }}</div>
+            <a href="{{ item.url }}" class="product-card product-card--text">
+              <div class="product-card__body">
+                <div class="product-card__category product-card__category--type">{{ item.object_type }}</div>
                 <div class="product-card__title">{{ item.title }}</div>
               </div>
             </a>
           {% endif %}
         {% endfor %}
       </div>
+      {% if paginate.pages > 1 %}
+        <div class="collection-pagination">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="btn btn--navy btn--sm">← Previous</a>
+          {% endif %}
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="btn btn--navy btn--sm">Next →</a>
+          {% endif %}
+        </div>
+      {% endif %}
     {% else %}
-      <p style="padding:24px 52px;color:var(--muted);font-size:15px">No products matched your search.</p>
-    {% endif %}
-    {% if paginate.pages > 1 %}
-      <div style="display:flex;justify-content:center;gap:8px;padding:40px 52px">
-        {% if paginate.previous %}
-          <a href="{{ paginate.previous.url }}" class="btn btn--navy btn--sm">← Previous</a>
-        {% endif %}
-        {% if paginate.next %}
-          <a href="{{ paginate.next.url }}" class="btn btn--navy btn--sm">Next →</a>
-        {% endif %}
+      <div class="search-state">
+        <h2 class="search-state__title">No results for “{{ search.terms | escape }}”</h2>
+        <p class="search-state__text">
+          Check the spelling, try a more general word (for example “braiding”, “bulk”, or “curl”), or browse the full catalogue.
+        </p>
+        <div class="search-state__links">
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--gold">Browse the catalogue</a>
+          <a href="/pages/contact" class="btn btn--navy">Ask us what you need</a>
+        </div>
       </div>
     {% endif %}
+  {% else %}
+    <div class="search-state">
+      <h2 class="search-state__title">Find your hair, fast.</h2>
+      <p class="search-state__text">
+        Search by product type, length, or colour — try “bone straight”, “deep wave”, or “613”. Or browse everything we stock.
+      </p>
+      <div class="search-state__links">
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--gold">Browse the catalogue</a>
+      </div>
+    </div>
   {% endif %}
 {% endpaginate %}

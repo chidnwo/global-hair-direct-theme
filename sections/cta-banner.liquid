@@ -11,50 +11,55 @@
       {% form 'customer', id: cta_newsletter_form_id, class: 'cta-banner__form', return_to: 'back' %}
         <input type="hidden" name="contact[tags]" value="{{ section.settings.customer_tag | default: 'newsletter, cta-banner' | escape }}">
 
-        <div class="eyebrow eyebrow--gold">
-          <div class="eyebrow__line"></div>
-          <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Newsletter' | escape }}</span>
-        </div>
-
-        <h2 class="cta-banner__title">
-          {{ section.settings.title | default: 'Stay up to date' | escape }}
-          {% if section.settings.title_italic != blank %}
-            <em>{{ section.settings.title_italic | escape }}</em>
-          {% endif %}
-        </h2>
-
-        {% if form.posted_successfully? %}
-          <p class="cta-banner__text cta-banner__success-msg" role="status">
-            {{ section.settings.success_message | default: 'Thank you for subscribing.' | escape }}
-          </p>
-        {% else %}
-          {% if form.errors %}
-            <ul class="cta-banner__errors customer-page__errors" role="alert">
-              {% for field in form.errors %}
-                <li>
-                  {{ form.errors.translated_fields[field] | default: field | capitalize }}
-                  {{ form.errors.messages[field] }}
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-
-          <div class="cta-banner__newsletter-split">
-            <div class="cta-banner__text cta-banner__richtext cta-banner__newsletter-copy">
-              {% if section.settings.newsletter_description != blank %}
-                {{ section.settings.newsletter_description }}
-              {% else %}
-                <p>
-                  Sign up for restocks, new lines, and exclusive offers. We use your personal data as described in our
-                  <a href="/pages/privacy-policy">Privacy Policy</a>.
-                </p>
-              {% endif %}
+        <div class="cta-banner__newsletter-split">
+          <div class="cta-banner__newsletter-intro">
+            <div class="eyebrow eyebrow--gold">
+              <div class="eyebrow__line"></div>
+              <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Newsletter' | escape }}</span>
             </div>
-            <div class="cta-banner__newsletter-stack">
+
+            <h2 class="cta-banner__title">
+              {{ section.settings.title | default: 'Stay up to date' | escape }}
+              {% if section.settings.title_italic != blank %}
+                <em>{{ section.settings.title_italic | escape }}</em>
+              {% endif %}
+            </h2>
+
+            {% unless form.posted_successfully? %}
+              <div class="cta-banner__text cta-banner__richtext cta-banner__newsletter-copy">
+                {% if section.settings.newsletter_description != blank %}
+                  {{ section.settings.newsletter_description }}
+                {% else %}
+                  <p>
+                    Sign up for restocks, new lines, and exclusive offers. We use your personal data as described in our
+                    <a href="/pages/privacy-policy">Privacy Policy</a>.
+                  </p>
+                {% endif %}
+              </div>
+            {% endunless %}
+          </div>
+
+          <div class="cta-banner__newsletter-form-col">
+            {% if form.posted_successfully? %}
+              <p class="cta-banner__text cta-banner__success-msg" role="status">
+                {{ section.settings.success_message | default: 'Thank you for subscribing.' | escape }}
+              </p>
+            {% else %}
+              {% if form.errors %}
+                <ul class="cta-banner__errors customer-page__errors" role="alert">
+                  {% for field in form.errors %}
+                    <li>
+                      {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                      {{ form.errors.messages[field] }}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+              <label class="cta-banner__label" for="CtaBanner-email-{{ section.id }}">
+                {{ section.settings.email_label | default: 'Your e-mail address' | escape }}
+              </label>
               <div class="cta-banner__newsletter-row">
-                <label class="cta-banner__label" for="CtaBanner-email-{{ section.id }}">
-                  {{ section.settings.email_label | default: 'Your e-mail address' | escape }}
-                </label>
                 <input
                   id="CtaBanner-email-{{ section.id }}"
                   class="cta-banner__input cta-banner__input--classic"
@@ -73,9 +78,9 @@
               {% if section.settings.fine_print != blank %}
                 <p class="cta-banner__fine-print">{{ section.settings.fine_print | escape }}</p>
               {% endif %}
-            </div>
+            {% endif %}
           </div>
-        {% endif %}
+        </div>
       {% endform %}
     {% else %}
       {% comment %} Classic layout (e.g. wholesale page) {% endcomment %}

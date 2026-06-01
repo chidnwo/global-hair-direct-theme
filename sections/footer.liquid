@@ -60,7 +60,7 @@
       <h5>Accounts</h5>
       <a href="/pages/wholesale">Wholesale</a>
       <a href="/pages/pre-order">Pre-Order</a>
-      <a href="#">Salon Registration</a>
+      <a href="{% if shop.customer_accounts_enabled %}{{ routes.account_register_url }}{% else %}/pages/wholesale{% endif %}">Salon Registration</a>
       <a href="/pages/distributor-access">Distributor Access</a>
       <a href="/pages/referral-programme">Referral Programme</a>
     </div>

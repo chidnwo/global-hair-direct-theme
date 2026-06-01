@@ -1,7 +1,7 @@
 {% if cart.item_count == 0 %}
-  <div style="text-align:center;padding:80px 52px">
-    <h1 style="font-family:var(--serif);font-size:32px;color:var(--text);margin-bottom:16px">Your cart is empty</h1>
-    <p style="font-size:15px;color:var(--muted);margin-bottom:32px">Add some products to get started.</p>
+  <div class="cart-empty">
+    <h1 class="cart-empty__title">Your cart is empty</h1>
+    <p class="cart-empty__text">Add some products to get started.</p>
     <a href="/collections/all" class="btn btn--navy">View Products</a>
   </div>
 {% else %}
@@ -34,12 +34,17 @@
             {% endif %}
           </a>
           <div>
-            <div class="cart-item__name"><a href="{{ item.url }}" style="color:inherit;text-decoration:none">{{ item.product.title }}</a></div>
-            <div class="cart-item__variant">
-              {% unless item.variant.title == 'Default Title' %}{{ item.variant.title }} · {% endunless %}Qty: {{ item.quantity }}
+            <div class="cart-item__name"><a href="{{ item.url }}">{{ item.product.title }}</a></div>
+            {% unless item.variant.title == 'Default Title' %}
+              <div class="cart-item__variant">{{ item.variant.title }}</div>
+            {% endunless %}
+            <div class="cart-item__qty">
+              <a class="cart-item__qty-btn" href="/cart/change?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" aria-label="Decrease quantity of {{ item.product.title | escape }}">−</a>
+              <span class="cart-item__qty-value" aria-label="Quantity">{{ item.quantity }}</span>
+              <a class="cart-item__qty-btn" href="/cart/change?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" aria-label="Increase quantity of {{ item.product.title | escape }}">+</a>
             </div>
-            <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
-              <a href="/cart/change?line={{ forloop.index }}&quantity=0" style="font-size:12px;color:var(--muted);text-decoration:underline">Remove</a>
+            <div class="cart-item__actions">
+              <a class="cart-item__remove" href="/cart/change?line={{ forloop.index }}&quantity=0">Remove</a>
             </div>
           </div>
           <div class="cart-item__price">{{ item.line_price | money }}</div>
@@ -57,20 +62,20 @@
         <span>Delivery</span>
         <span>Calculated at checkout</span>
       </div>
-      <div class="cart-summary__row" style="border-bottom:none;padding-top:16px">
-        <span style="font-family:var(--serif);font-size:16px;color:var(--text)">Total</span>
+      <div class="cart-summary__row cart-summary__row--total">
+        <span class="cart-summary__total-label">Total</span>
         <span class="cart-summary__total">{{ cart.total_price | money }}</span>
       </div>
-      <div style="margin-top:20px">
-        <button type="submit" name="checkout" class="btn btn--gold btn--full" style="margin-bottom:10px">
+      <div class="cart-summary__actions">
+        <button type="submit" name="checkout" class="btn btn--gold btn--full cart-summary__checkout-btn">
           Proceed to Checkout
         </button>
-        <a href="/collections/all" class="btn btn--full" style="border-color:var(--line2);color:var(--muted)">
+        <a href="/collections/all" class="btn btn--full cart-summary__continue">
           Continue Shopping
         </a>
       </div>
-      <div style="margin-top:16px;padding:12px;background:var(--off);border:0.5px solid var(--line)">
-        <div style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6">Paystack · Flutterwave · Bank Transfer · USSD</div>
+      <div class="cart-summary__payments">
+        <div class="cart-summary__payments-text">Paystack · Flutterwave · Bank Transfer · USSD</div>
       </div>
     </div>
   </form>

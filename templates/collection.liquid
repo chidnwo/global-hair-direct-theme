@@ -50,9 +50,19 @@
             <div class="product-card__price">{{ product.price | money }}</div>
             <span class="product-card__price-label">Per unit</span>
           </div>
-          <div class="product-card__add">
-            <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
-          </div>
+          {% if product_sellable %}
+            <button
+              type="button"
+              class="product-card__add"
+              aria-label="{% if product.variants.size > 1 %}Choose options for {{ product.title | escape }}{% else %}Add {{ product.title | escape }} to cart{% endif %}"
+              data-quick-add
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              data-variant-count="{{ product.variants.size }}"
+              data-product-url="{{ product.url }}"
+            >
+              <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
+            </button>
+          {% endif %}
         </div>
       </div>
     </a>
@@ -60,7 +70,7 @@
 </div>
 
 {% if paginate.pages > 1 %}
-  <div style="display:flex;justify-content:center;gap:8px;padding:40px 52px">
+  <div class="collection-pagination">
     {% if paginate.previous %}
       <a href="{{ paginate.previous.url }}" class="btn btn--navy btn--sm">← Previous</a>
     {% endif %}

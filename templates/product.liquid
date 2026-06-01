@@ -37,8 +37,8 @@
         fetchpriority="high"
       >
     {% else %}
-      <div style="aspect-ratio:1;background:var(--bg);display:flex;align-items:center;justify-content:center;border:0.5px solid var(--line)">
-        <svg width="80" height="80" viewBox="0 0 64 64" style="opacity:0.1;fill:var(--navy)"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
+      <div class="product-page__placeholder">
+        <svg width="80" height="80" viewBox="0 0 64 64"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
       </div>
     {% endif %}
     {% if product.images.size > 1 %}
@@ -86,17 +86,16 @@
       {% endfor %}
     {% endunless %}
 
-    <div class="product-page__label" style="margin-top:16px">Quantity</div>
+    <div class="product-page__label product-page__label--spaced">Quantity</div>
     <div class="product-page__qty">
-      <button class="qty-btn" data-action="minus">−</button>
-      <input type="number" class="qty-input" value="1" min="1">
-      <button class="qty-btn" data-action="plus">+</button>
+      <button type="button" class="qty-btn" data-action="minus" aria-label="Decrease quantity">−</button>
+      <input type="number" class="qty-input" name="quantity" value="1" min="1" inputmode="numeric" form="product-form-add" aria-label="Quantity">
+      <button type="button" class="qty-btn" data-action="plus" aria-label="Increase quantity">+</button>
     </div>
 
     <form action="/cart/add" method="post" enctype="multipart/form-data" id="product-form-add">
       <input type="hidden" name="id" value="{{ selected_variant.id }}" data-variant-input>
-      <input type="hidden" name="quantity" value="1">
-      <button type="submit" class="btn btn--gold btn--full" style="margin-bottom:12px" data-add-to-cart {% unless selected_sellable %}disabled aria-disabled="true"{% endunless %}>
+      <button type="submit" class="btn btn--gold btn--full product-page__add-btn" data-add-to-cart {% unless selected_sellable %}disabled aria-disabled="true"{% endunless %}>
         {% if selected_sellable %}Add to Cart{% elsif ghd_sales_blocked or product.tags contains 'coming-soon' %}Coming Soon{% else %}Out of Stock{% endif %}
       </button>
     </form>
@@ -125,21 +124,20 @@
     %}
     <a
       href="{{ product_whatsapp_href | escape }}"
-      class="btn btn--ghost-dark btn--full"
-      style="border-color:var(--line2);color:var(--muted)"
+      class="btn btn--ghost-dark btn--full product-page__enquire"
       {% if wa_base contains 'wa.me' or wa_base contains 'whatsapp.com' %}target="_blank" rel="noopener noreferrer"{% endif %}
       {% if wa_is_chat %}data-whatsapp-enquiry data-whatsapp-base="{{ wa_base | escape }}"{% endif %}
     >
       Enquire on WhatsApp
     </a>
 
-    <div style="margin-top:28px;padding-top:24px;border-top:0.5px solid var(--line)">
+    <div class="product-page__section">
       <div class="product-page__desc">{{ product.description }}</div>
     </div>
 
-    <div style="margin-top:24px;padding:16px;background:var(--off);border:0.5px solid var(--line)">
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px">Delivery</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.7">Same-day Lagos dispatch before 12pm. All 36 states via GIG Logistics and DHL. WhatsApp tracking on every order.</div>
+    <div class="product-page__delivery">
+      <div class="product-page__delivery-title">Delivery</div>
+      <div class="product-page__delivery-text">Same-day Lagos dispatch before 12pm. All 36 states via GIG Logistics and DHL. WhatsApp tracking on every order.</div>
     </div>
   </div>
 </div>

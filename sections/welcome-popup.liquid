@@ -27,6 +27,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
 
+          <div class="eyebrow eyebrow--gold welcome-popup__eyebrow">
+            <div class="eyebrow__line"></div>
+            <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Join the list' | escape }}</span>
+          </div>
           {% if section.settings.heading != blank %}
             <h2 id="welcome-popup-title-{{ section.id }}" class="welcome-popup__title">{{ section.settings.heading | escape }}</h2>
           {% endif %}
@@ -159,6 +163,12 @@
       "id": "customer_tag",
       "label": "Customer tag (for filtering in admin)",
       "default": "welcome-popup"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow (small label above heading)",
+      "default": "Join the list"
     },
     {
       "type": "text",

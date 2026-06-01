@@ -110,6 +110,16 @@
   </nav>
 
   <div class="site-header__actions">
+    <button
+      type="button"
+      class="site-header__menu-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="MobileMenu"
+      data-mobile-menu-open
+    >
+      <svg class="site-header__menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+    </button>
     <a href="{{ routes.search_url }}" class="site-header__search" aria-label="Search">
       <svg class="site-header__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg>
     </a>
@@ -129,6 +139,30 @@
       {% endif %}
     {% endif %}
   </div>
+</div>
+
+<div class="site-header__mobile" id="MobileMenu" data-mobile-menu hidden>
+  <div class="site-header__mobile-backdrop" data-mobile-menu-close></div>
+  <nav class="site-header__mobile-panel" aria-label="Mobile">
+    <div class="site-header__mobile-head">
+      <span class="site-header__mobile-title">Menu</span>
+      <button type="button" class="site-header__mobile-close" aria-label="Close menu" data-mobile-menu-close>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <a href="{{ nav_catalog_url }}" class="site-header__mobile-link">Catalog</a>
+    <a href="{{ nav_collections_url }}" class="site-header__mobile-link">Collections</a>
+    <a href="{{ nav_care_guide_url }}" class="site-header__mobile-link">Care guide</a>
+    <a href="{{ nav_wholesale_url }}" class="site-header__mobile-link">Wholesale</a>
+    <a href="{{ nav_contact_url }}" class="site-header__mobile-link">Contact</a>
+    <div class="site-header__mobile-divider"></div>
+    {% if customer %}
+      <a href="{{ routes.account_url }}" class="site-header__mobile-link">My account</a>
+      <a href="{{ routes.account_logout_url }}" class="site-header__mobile-link">Log out</a>
+    {% elsif shop.customer_accounts_enabled %}
+      <a href="{{ routes.storefront_login_url }}" class="site-header__mobile-link">Sign in</a>
+    {% endif %}
+  </nav>
 </div>
 </div>
 
