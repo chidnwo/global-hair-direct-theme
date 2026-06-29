@@ -47,12 +47,48 @@
         "hero_stat_4"
       ]
     },
+    "why_us": {
+      "type": "why-us-pillars",
+      "settings": {
+        "eyebrow": "Why Distributors Choose Us",
+        "title": "Supply. Delivery. Pricing.",
+        "title_italic": "Done properly.",
+        "lead": "Built for businesses that reorder. Consistent supply, accountable delivery, and pricing that rewards the volume you buy — backed in writing before you pay."
+      },
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "kicker": "Supply",
+            "title": "Direct from the source",
+            "text": "We focus on braiding, bulk, and curl lines with consistent grading and colour runs — so what you order is what you receive, batch after batch, without middlemen inflating cost or quality."
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "kicker": "Delivery",
+            "title": "Nationwide, with accountability",
+            "text": "Same-day Lagos dispatch when you confirm before 12pm; all 36 states via GIG and DHL. WhatsApp updates at every milestone so you always know where your order is."
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "kicker": "Pricing",
+            "title": "Tiers that reward volume",
+            "text": "Salon, distributor, and master-distributor tiers with clear written pricing before payment — Paystack, Flutterwave, or bank transfer. No surprise colour substitutions without your approval."
+          }
+        }
+      },
+      "block_order": ["pillar_1", "pillar_2", "pillar_3"]
+    },
     "featured_products": {
       "type": "featured-products",
       "settings": {
         "eyebrow": "Product Catalogue",
-        "title": "Current Stock &",
-        "title_italic": "Pre-Order Lines",
+        "title": "In Stock &",
+        "title_italic": "Ready to Order",
         "collection": "all",
         "auto_filters_from_catalog": false,
         "show_catalog_summary": true,
@@ -77,115 +113,25 @@
       },
       "block_order": ["filter_curl", "filter_braiding", "filter_deep_wave"]
     },
-    "buyer_tiers": {
-      "type": "buyer-tiers",
-      "settings": {
-        "eyebrow": "Wholesale Tiers",
-        "title": "Buy more.",
-        "title_italic": "Pay less.",
-        "lead": "Wholesale account tiers. The more you buy, the lower your per-unit price — confirmed in writing before any order. No retail accounts; ordering is by request.",
-        "footnote": "All pricing confirmed in writing. No hidden charges."
-      },
-      "blocks": {
-        "tier_1": {
-          "type": "tier",
-          "settings": {
-            "tier_number": "Tier 01",
-            "name": "Salon / Stylist",
-            "discount": "–15%",
-            "discount_label": "Off retail pricing",
-            "tagline": "Regular orders · priority dispatch",
-            "cta_text": "Start Order",
-            "cta_url": "/pages/wholesale-order",
-            "featured": false
-          }
-        },
-        "tier_2": {
-          "type": "tier",
-          "settings": {
-            "tier_number": "Tier 02",
-            "name": "Distributor",
-            "discount": "–25%",
-            "discount_label": "Off retail pricing",
-            "tagline": "Bulk volume · dedicated support",
-            "cta_text": "Start Order",
-            "cta_url": "/pages/wholesale-order",
-            "featured": true
-          }
-        },
-        "tier_3": {
-          "type": "tier",
-          "settings": {
-            "tier_number": "Tier 03",
-            "name": "Master Distributor",
-            "discount": "–35%",
-            "discount_label": "Off retail pricing",
-            "tagline": "Highest volume · lowest per-unit",
-            "cta_text": "Start Order",
-            "cta_url": "/pages/wholesale-order",
-            "featured": false
-          }
-        }
-      },
-      "block_order": ["tier_1", "tier_2", "tier_3"]
-    },
-    "how_to_order": {
-      "type": "why-us-pillars",
-      "settings": {
-        "eyebrow": "Why Us",
-        "title": "Supply. Delivery. Pricing.",
-        "title_italic": "Done properly.",
-        "lead": "Straightforward supply, accountable delivery, and pricing that respects how you buy — whether you are retail, salon, or wholesale."
-      },
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "kicker": "Supply",
-            "title": "Direct from the source",
-            "text": "We focus on braiding, bulk, and curl lines with consistent grading and colour runs — so what you order is what you receive, without middlemen inflating cost or quality."
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "kicker": "Delivery",
-            "title": "Nationwide, with accountability",
-            "text": "Same-day Lagos dispatch when you confirm early; all 36 states via trusted partners. WhatsApp updates at key milestones so you always know where your order is."
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "kicker": "Pricing",
-            "title": "Tiers that reward volume",
-            "text": "Salon, distributor, and master-distributor tiers with clear written pricing before payment — Paystack, Flutterwave, or bank transfer. No surprise substitutions on colour without your approval."
-          }
-        }
-      },
-      "block_order": ["pillar_1", "pillar_2", "pillar_3"]
-    },
     "cta_banner": {
       "type": "cta-banner",
       "settings": {
-        "newsletter_layout": true,
-        "eyebrow": "",
-        "title": "Stay up to date",
-        "title_italic": "",
-        "text": "",
+        "newsletter_layout": false,
+        "eyebrow": "Wholesale Accounts Open",
+        "title": "Ready to Order at Volume?",
+        "title_italic": "Start Your Request.",
+        "text": "Build your order by the line and colour, get tier pricing confirmed in writing, and lock in priority allocation on incoming stock. No account, no commitment to enquire.",
         "cta1_text": "Start Wholesale Order",
         "cta1_url": "/pages/wholesale-order",
         "cta2_text": "Speak to Us on WhatsApp",
-        "cta2_url": "/pages/contact",
-        "fine_print": "No spam — only restocks, new lines, and offers. Unsubscribe anytime."
+        "cta2_url": ""
       }
     }
   },
   "order": [
     "hero",
+    "why_us",
     "featured_products",
-    "buyer_tiers",
-    "how_to_order",
     "cta_banner"
   ]
 }

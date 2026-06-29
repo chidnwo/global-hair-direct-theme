@@ -99,10 +99,9 @@
         }}
       </p>
       <div class="cta-banner__actions">
-        {% comment %} Place Pre-Order — hidden per request {% endcomment %}
-        {% comment %}
-          <a href="{{ section.settings.cta1_url | default: '/collections/all' }}" class="btn btn--gold">{{ section.settings.cta1_text | default: 'Place Pre-Order Now' }}</a>
-        {% endcomment %}
+        {% if section.settings.cta1_text != blank and section.settings.cta1_url != blank %}
+          <a href="{{ section.settings.cta1_url }}" class="btn btn--gold">{{ section.settings.cta1_text }}</a>
+        {% endif %}
         <a
           href="{{ cta2_href }}"
           class="btn btn--white"
