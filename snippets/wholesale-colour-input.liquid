@@ -1,0 +1,24 @@
+{% comment %}
+  Renders one colour row with a quantity stepper for the wholesale order builder.
+  Params: line_label (product name), colour_label (colour / variant title)
+{% endcomment %}
+<div class="wholesale-colour">
+  <span class="wholesale-colour__name">{{ colour_label }}</span>
+  <div class="wholesale-line__qty" data-qty-stepper>
+    <button type="button" class="wholesale-line__qty-btn" data-qty-minus aria-label="Decrease {{ line_label | escape }} {{ colour_label | escape }}">−</button>
+    <input
+      type="number"
+      class="wholesale-line__qty-input"
+      name="contact[{{ line_label | escape }} — {{ colour_label | escape }}]"
+      value="0"
+      min="0"
+      step="1"
+      inputmode="numeric"
+      data-qty-input
+      data-line-name="{{ line_label | escape }}"
+      data-colour-name="{{ colour_label | escape }}"
+      aria-label="Units of {{ line_label | escape }} in {{ colour_label | escape }}"
+    >
+    <button type="button" class="wholesale-line__qty-btn" data-qty-plus aria-label="Increase {{ line_label | escape }} {{ colour_label | escape }}">+</button>
+  </div>
+</div>
