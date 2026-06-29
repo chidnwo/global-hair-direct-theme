@@ -8,8 +8,8 @@
         "title_italic": "From Supplier to Door.",
         "lead": "<strong>Global Hair Direct</strong> supplies braiding hair, bulk hair, and premium hair extensions directly to salon owners, distributors, and individual buyers across all 36 Nigerian states — with consistent quality, transparent pricing, and accountable delivery every order.",
         "tagline": "Transparent pricing. Accountable delivery.",
-        "cta1_text": "Place Pre-Order",
-        "cta1_url": "/collections/all",
+        "cta1_text": "Start Wholesale Order",
+        "cta1_url": "/pages/wholesale-order",
         "cta2_text": "View Catalogue",
         "cta2_url": "/collections/all",
         "cta3_text": "Wholesale Inquiry",
@@ -17,8 +17,8 @@
         "panel_title": "Current Stock",
         "notice_tag": "Pre-Order Offer — Active Now",
         "notice_text": "<strong>Bone Straight, French Curl &amp; Deep Wave</strong> — order now and receive 5% discount on your total. Wholesale pricing available for salon and distributor accounts.",
-        "notice_cta_text": "Place Pre-Order",
-        "notice_cta_url": "/collections/all",
+        "notice_cta_text": "Start Wholesale Order",
+        "notice_cta_url": "/pages/wholesale-order",
         "use_live_catalog_stats": true,
         "stats_collection": "all"
       },
@@ -80,10 +80,10 @@
     "buyer_tiers": {
       "type": "buyer-tiers",
       "settings": {
-        "eyebrow": "Buyer Tiers",
+        "eyebrow": "Wholesale Tiers",
         "title": "Buy more.",
         "title_italic": "Pay less.",
-        "lead": "Three account tiers. The more you buy, the lower your per-unit price — confirmed in writing before any order.",
+        "lead": "Wholesale account tiers. The more you buy, the lower your per-unit price — confirmed in writing before any order. No retail accounts; ordering is by request.",
         "footnote": "All pricing confirmed in writing. No hidden charges."
       },
       "blocks": {
@@ -91,12 +91,12 @@
           "type": "tier",
           "settings": {
             "tier_number": "Tier 01",
-            "name": "Individual Buyer",
-            "discount": "Retail",
-            "discount_label": "Standard pricing",
-            "tagline": "Any quantity · no minimums",
-            "cta_text": "Shop Now",
-            "cta_url": "/collections/all",
+            "name": "Salon / Stylist",
+            "discount": "–15%",
+            "discount_label": "Off retail pricing",
+            "tagline": "Regular orders · priority dispatch",
+            "cta_text": "Start Order",
+            "cta_url": "/pages/wholesale-order",
             "featured": false
           }
         },
@@ -104,12 +104,12 @@
           "type": "tier",
           "settings": {
             "tier_number": "Tier 02",
-            "name": "Salon Owner",
-            "discount": "–15%",
+            "name": "Distributor",
+            "discount": "–25%",
             "discount_label": "Off retail pricing",
-            "tagline": "Regular orders · priority dispatch",
-            "cta_text": "Apply Now",
-            "cta_url": "/pages/contact",
+            "tagline": "Bulk volume · dedicated support",
+            "cta_text": "Start Order",
+            "cta_url": "/pages/wholesale-order",
             "featured": true
           }
         },
@@ -117,12 +117,12 @@
           "type": "tier",
           "settings": {
             "tier_number": "Tier 03",
-            "name": "Wholesale Distributor",
+            "name": "Master Distributor",
             "discount": "–35%",
             "discount_label": "Off retail pricing",
-            "tagline": "Bulk volume · lowest per-unit",
-            "cta_text": "Apply Now",
-            "cta_url": "/pages/contact",
+            "tagline": "Highest volume · lowest per-unit",
+            "cta_text": "Start Order",
+            "cta_url": "/pages/wholesale-order",
             "featured": false
           }
         }
@@ -173,8 +173,8 @@
         "title": "Stay up to date",
         "title_italic": "",
         "text": "",
-        "cta1_text": "Place Pre-Order Now",
-        "cta1_url": "/collections/all",
+        "cta1_text": "Start Wholesale Order",
+        "cta1_url": "/pages/wholesale-order",
         "cta2_text": "Speak to Us on WhatsApp",
         "cta2_url": "/pages/contact",
         "fine_print": "No spam — only restocks, new lines, and offers. Unsubscribe anytime."

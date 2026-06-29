@@ -94,12 +94,7 @@
   </main>
 
   {% section 'footer' %}
-  {% render 'cart-drawer' %}
   {% section 'welcome-popup' %}
-  {% if settings.use_legacy_customer_auth %}
-    {% section 'register-modal' %}
-    {% section 'login-modal' %}
-  {% endif %}
 
   {% if ghd_force_country_ng %}
     {% form 'localization', id: 'ghd-localization-default-ng', return_to: 'back' %}

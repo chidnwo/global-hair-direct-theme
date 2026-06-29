@@ -4,6 +4,8 @@
 {% assign footer_whatsapp_href = footer_whatsapp_href | strip %}
 {% capture footer_track_url %}{% render 'track-order-url' %}{% endcapture %}
 {% assign footer_track_url = footer_track_url | strip %}
+{% assign footer_order_url = '/pages/wholesale-order' %}
+{% if pages['wholesale-order'] != blank %}{% assign footer_order_url = pages['wholesale-order'].url %}{% endif %}
 {% liquid
   assign footer_email_info = settings.email_info | strip
   if footer_email_info == blank
@@ -57,17 +59,16 @@
       <a href="{{ footer_contact_url }}">Contact Us</a>
     </div>
     <div class="site-footer__col">
-      <h5>Accounts</h5>
-      <a href="/pages/wholesale">Wholesale</a>
-      <a href="/pages/pre-order">Pre-Order</a>
-      <a href="{% if shop.customer_accounts_enabled %}{{ routes.account_register_url }}{% else %}/pages/wholesale{% endif %}">Salon Registration</a>
+      <h5>Wholesale</h5>
+      <a href="{{ footer_order_url }}">Start an Order</a>
+      <a href="/pages/wholesale">Wholesale Info</a>
       <a href="/pages/distributor-access">Distributor Access</a>
       <a href="/pages/referral-programme">Referral Programme</a>
     </div>
     <div class="site-footer__col">
       <h5>Support</h5>
       <a href="{{ footer_whatsapp_href }}"{% if footer_whatsapp_href contains 'wa.me' or footer_whatsapp_href contains 'whatsapp.com' %} target="_blank" rel="noopener noreferrer"{% endif %}>WhatsApp Team</a>
-      <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ footer_track_url }}{% endif %}">Track My Order</a>
+      <a href="{{ footer_track_url }}">Track My Order</a>
       <a href="/pages/return-policy">Return Policy</a>
       <a href="/pages/terms-of-sale">Terms of Sale</a>
       <a href="/pages/privacy-policy">Privacy Policy</a>

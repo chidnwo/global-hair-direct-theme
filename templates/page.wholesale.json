@@ -140,8 +140,8 @@
           "type": "step",
           "settings": {
             "number": "01",
-            "title": "Share Product Mix And Quantities",
-            "text": "Send your preferred hair type, colour split, and volume requirements for your account. Team confirms availability and MOQ alignment."
+            "title": "Build Your Order: Products And Quantities",
+            "text": "Use the wholesale order form to select your hair types, colour split, and volumes line by line. The team confirms availability and MOQ alignment."
           }
         },
         "step_2": {
@@ -179,8 +179,8 @@
         "title": "Ready To Buy At Volume?",
         "title_italic": "Request Your Account Review.",
         "text": "Apply for a wholesale account to access tier pricing, dedicated support, and priority allocation for incoming stock lines.",
-        "cta1_text": "Request Wholesale Account",
-        "cta1_url": "/pages/contact",
+        "cta1_text": "Start Your Wholesale Order",
+        "cta1_url": "/pages/wholesale-order",
         "cta2_text": "View Full Catalogue",
         "cta2_url": "/collections/all"
       }

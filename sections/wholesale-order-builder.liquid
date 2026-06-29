@@ -1,0 +1,386 @@
+{% liquid
+  assign order_collection = collections[section.settings.collection]
+  assign use_live = false
+  if order_collection != blank and order_collection.products_count > 0
+    assign use_live = true
+  endif
+%}
+<section class="section wholesale-order" data-wholesale-order>
+  <div class="eyebrow">
+    <div class="eyebrow__line"></div>
+    <span class="eyebrow__text">{{ section.settings.eyebrow | default: 'Wholesale Order Request' }}</span>
+  </div>
+  {% assign wo_italic = section.settings.title_italic | strip %}
+  <h1 class="section__title">{{ section.settings.title | default: 'Build Your Wholesale Order.' }}{% if wo_italic != blank %} <em>{{ wo_italic }}</em>{% endif %}</h1>
+  {% if section.settings.lead != blank %}
+    <p class="section__lead wholesale-order__lead">{{ section.settings.lead }}</p>
+  {% endif %}
+
+  <div class="contact-form-section__form-wrap wholesale-order__wrap">
+    {% form 'contact', class: 'wholesale-order__form' %}
+      {% if form.posted_successfully? %}
+        <p class="customer-page__success" role="status">{{ section.settings.success_message }}</p>
+      {% else %}
+        {% if form.errors %}
+          <ul class="customer-page__errors">
+            {% for field in form.errors %}
+              <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% comment %} ── Step 1: Select products + quantities ── {% endcomment %}
+        <div class="wholesale-order__step">
+          <div class="wholesale-order__step-head">
+            <span class="wholesale-order__step-num">01</span>
+            <div>
+              <h2 class="wholesale-order__step-title">Select Products &amp; Quantities</h2>
+              <p class="wholesale-order__step-text">Tick the lines you want, choose a colour, and set the units for each. {{ section.settings.moq_note }}</p>
+            </div>
+          </div>
+
+          <div class="wholesale-order__lines">
+            {% if use_live %}
+              {% for product in order_collection.products %}
+                {% assign line_label = product.title %}
+                {% capture line_meta %}{{ product.type }}{% if product.vendor != blank %} · {{ product.vendor }}{% endif %}{% endcapture %}
+                <div class="wholesale-line" data-line>
+                  <label class="wholesale-line__select">
+                    <input type="checkbox" class="wholesale-line__check" data-line-check aria-label="Select {{ line_label | escape }}">
+                    <span class="wholesale-line__info">
+                      <span class="wholesale-line__name">{{ line_label }}</span>
+                      <span class="wholesale-line__meta">{{ line_meta | strip }}</span>
+                    </span>
+                  </label>
+                  <div class="wholesale-line__controls">
+                    {% if product.variants.size > 1 %}
+                      <select class="wholesale-line__colour customer-form__input" name="contact[{{ line_label | escape }} — variant]" data-line-colour disabled>
+                        {% for variant in product.variants %}
+                          <option value="{{ variant.title | escape }}">{{ variant.title }}</option>
+                        {% endfor %}
+                      </select>
+                    {% endif %}
+                    <div class="wholesale-line__qty" data-qty-stepper>
+                      <button type="button" class="wholesale-line__qty-btn" data-qty-minus aria-label="Decrease quantity" disabled>−</button>
+                      <input
+                        type="number"
+                        class="wholesale-line__qty-input"
+                        name="contact[{{ line_label | escape }} — units]"
+                        value="0"
+                        min="0"
+                        step="1"
+                        inputmode="numeric"
+                        data-qty-input
+                        data-line-name="{{ line_label | escape }}"
+                        aria-label="Units of {{ line_label | escape }}"
+                        disabled
+                      >
+                      <button type="button" class="wholesale-line__qty-btn" data-qty-plus aria-label="Increase quantity" disabled>+</button>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              {% for block in section.blocks %}
+                {% if block.type == 'product_line' %}
+                  {% assign line_label = block.settings.title %}
+                  <div class="wholesale-line" data-line {{ block.shopify_attributes }}>
+                    <label class="wholesale-line__select">
+                      <input type="checkbox" class="wholesale-line__check" data-line-check aria-label="Select {{ line_label | escape }}">
+                      <span class="wholesale-line__info">
+                        <span class="wholesale-line__name">{{ line_label }}</span>
+                        {% if block.settings.meta != blank %}<span class="wholesale-line__meta">{{ block.settings.meta }}</span>{% endif %}
+                      </span>
+                    </label>
+                    <div class="wholesale-line__controls">
+                      {% assign colours = block.settings.colours | strip %}
+                      {% if colours != blank %}
+                        <select class="wholesale-line__colour customer-form__input" name="contact[{{ line_label | escape }} — colour]" data-line-colour disabled>
+                          {% assign colour_opts = colours | split: ',' %}
+                          {% for c in colour_opts %}
+                            {% assign c_clean = c | strip %}
+                            {% if c_clean != blank %}
+                              <option value="{{ c_clean | escape }}">{{ c_clean }}</option>
+                            {% endif %}
+                          {% endfor %}
+                          <option value="Mixed colours (see notes)">Mixed colours (see notes)</option>
+                        </select>
+                      {% endif %}
+                      <div class="wholesale-line__qty" data-qty-stepper>
+                        <button type="button" class="wholesale-line__qty-btn" data-qty-minus aria-label="Decrease quantity" disabled>−</button>
+                        <input
+                          type="number"
+                          class="wholesale-line__qty-input"
+                          name="contact[{{ line_label | escape }} — units]"
+                          value="0"
+                          min="0"
+                          step="1"
+                          inputmode="numeric"
+                          data-qty-input
+                          data-line-name="{{ line_label | escape }}"
+                          aria-label="Units of {{ line_label | escape }}"
+                          disabled
+                        >
+                        <button type="button" class="wholesale-line__qty-btn" data-qty-plus aria-label="Increase quantity" disabled>+</button>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="wholesale-order__summary" data-order-summary hidden>
+            <span class="wholesale-order__summary-label">Your selection</span>
+            <span class="wholesale-order__summary-value" data-summary-value>0 lines · 0 units</span>
+          </div>
+          <p class="wholesale-order__empty" data-order-empty>Select at least one product and set a quantity to continue.</p>
+        </div>
+
+        {% comment %} ── Step 2: Business details ── {% endcomment %}
+        <div class="wholesale-order__step">
+          <div class="wholesale-order__step-head">
+            <span class="wholesale-order__step-num">02</span>
+            <div>
+              <h2 class="wholesale-order__step-title">Your Business Details</h2>
+              <p class="wholesale-order__step-text">We use these to confirm your tier pricing and prepare a written quote.</p>
+            </div>
+          </div>
+
+          <div class="wholesale-order__grid">
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-business">Business name</label>
+              <input id="WholesaleOrder-business" class="customer-form__input" type="text" name="contact[Business name]" autocomplete="organization" value="{{ form.business_name }}" required>
+            </div>
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-name">Contact name</label>
+              <input id="WholesaleOrder-name" class="customer-form__input" type="text" name="contact[name]" autocomplete="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" required>
+            </div>
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-email">Email</label>
+              <input id="WholesaleOrder-email" class="customer-form__input" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required>
+            </div>
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-phone">Phone / WhatsApp</label>
+              <input id="WholesaleOrder-phone" class="customer-form__input" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}" required>
+            </div>
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-tier">Buyer type</label>
+              <select id="WholesaleOrder-tier" class="customer-form__input" name="contact[Buyer type]" autocomplete="off" required>
+                <option value="" disabled selected>Select your buyer type</option>
+                <option value="Wholesale distributor">Wholesale distributor</option>
+                <option value="Salon / stylist">Salon / stylist</option>
+                <option value="Reseller / retailer">Reseller / retailer</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-state">Delivery state / city</label>
+              <input id="WholesaleOrder-state" class="customer-form__input" type="text" name="contact[Delivery location]" placeholder="e.g. Lagos, Abuja" required>
+            </div>
+            <div class="customer-form__field">
+              <label for="WholesaleOrder-frequency">Order frequency <span class="contact-form-section__optional">(optional)</span></label>
+              <select id="WholesaleOrder-frequency" class="customer-form__input" name="contact[Order frequency]" autocomplete="off">
+                <option value="">No preference</option>
+                <option value="One-off order">One-off order</option>
+                <option value="Weekly reorders">Weekly reorders</option>
+                <option value="Monthly reorders">Monthly reorders</option>
+                <option value="Quarterly reorders">Quarterly reorders</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="customer-form__field">
+            <label for="WholesaleOrder-notes">Notes for your order <span class="contact-form-section__optional">(optional)</span></label>
+            <textarea id="WholesaleOrder-notes" class="customer-form__input customer-form__textarea" name="contact[Notes]" rows="4" placeholder="Colour splits, target budget, delivery deadline, anything else we should know."></textarea>
+          </div>
+
+          {% comment %} Hidden compiled order summary — populated by JS, included in the email body. {% endcomment %}
+          <textarea name="contact[body]" data-order-body hidden>Wholesale order request</textarea>
+
+          <div class="customer-form__actions">
+            <button type="submit" class="btn btn--gold btn--full" data-order-submit>{{ section.settings.submit_label | default: 'Submit Order Request' }}</button>
+            <p class="wholesale-order__disclaimer">{{ section.settings.disclaimer }}</p>
+          </div>
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-wholesale-order]');
+    if (!root) return;
+    var form = root.querySelector('.wholesale-order__form');
+    if (!form) return;
+
+    var lines = Array.prototype.slice.call(root.querySelectorAll('[data-line]'));
+    var summaryWrap = root.querySelector('[data-order-summary]');
+    var summaryValue = root.querySelector('[data-summary-value]');
+    var emptyNote = root.querySelector('[data-order-empty]');
+    var bodyField = root.querySelector('[data-order-body]');
+    var submitBtn = root.querySelector('[data-order-submit]');
+
+    function lineState(line) {
+      var check = line.querySelector('[data-line-check]');
+      var qty = line.querySelector('[data-qty-input]');
+      var colour = line.querySelector('[data-line-colour]');
+      return { check: check, qty: qty, colour: colour };
+    }
+
+    function setLineEnabled(line, enabled) {
+      var s = lineState(line);
+      if (s.qty) s.qty.disabled = !enabled;
+      if (s.colour) s.colour.disabled = !enabled;
+      line.querySelectorAll('[data-qty-minus],[data-qty-plus]').forEach(function (b) { b.disabled = !enabled; });
+      line.classList.toggle('is-selected', enabled);
+      if (enabled && s.qty && (parseInt(s.qty.value, 10) || 0) < 1) {
+        s.qty.value = '1';
+      }
+      if (!enabled && s.qty) {
+        s.qty.value = '0';
+      }
+    }
+
+    function refresh() {
+      var lineCount = 0;
+      var unitTotal = 0;
+      var parts = [];
+      lines.forEach(function (line) {
+        var s = lineState(line);
+        if (!s.check || !s.check.checked) return;
+        var qty = parseInt(s.qty && s.qty.value, 10) || 0;
+        if (qty < 1) return;
+        lineCount++;
+        unitTotal += qty;
+        var name = (s.qty && s.qty.getAttribute('data-line-name')) || 'Item';
+        var colour = s.colour ? (' [' + s.colour.value + ']') : '';
+        parts.push('• ' + name + colour + ' — ' + qty + ' units');
+      });
+
+      if (summaryValue) {
+        summaryValue.textContent = lineCount + (lineCount === 1 ? ' line · ' : ' lines · ') + unitTotal + ' units';
+      }
+      if (summaryWrap) summaryWrap.hidden = lineCount === 0;
+      if (emptyNote) emptyNote.hidden = lineCount > 0;
+
+      if (bodyField) {
+        if (lineCount === 0) {
+          bodyField.value = 'Wholesale order request (no lines selected)';
+        } else {
+          bodyField.value = 'WHOLESALE ORDER REQUEST\n\n' + parts.join('\n') +
+            '\n\nTotal: ' + lineCount + (lineCount === 1 ? ' line, ' : ' lines, ') + unitTotal + ' units.';
+        }
+      }
+      return lineCount;
+    }
+
+    lines.forEach(function (line) {
+      var s = lineState(line);
+      if (s.check) {
+        s.check.addEventListener('change', function () {
+          setLineEnabled(line, s.check.checked);
+          refresh();
+        });
+      }
+      line.querySelectorAll('[data-qty-minus]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var v = parseInt(s.qty.value, 10) || 0;
+          s.qty.value = Math.max(0, v - 1);
+          if ((parseInt(s.qty.value, 10) || 0) === 0 && s.check) {
+            s.check.checked = false;
+            setLineEnabled(line, false);
+          }
+          refresh();
+        });
+      });
+      line.querySelectorAll('[data-qty-plus]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var v = parseInt(s.qty.value, 10) || 0;
+          s.qty.value = v + 1;
+          refresh();
+        });
+      });
+      if (s.qty) s.qty.addEventListener('input', refresh);
+    });
+
+    form.addEventListener('submit', function (e) {
+      var count = refresh();
+      if (count === 0) {
+        e.preventDefault();
+        if (emptyNote) {
+          emptyNote.classList.add('wholesale-order__empty--error');
+          emptyNote.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+      // Drop unselected / zero lines so the email only lists chosen items.
+      lines.forEach(function (line) {
+        var s = lineState(line);
+        var qty = parseInt(s.qty && s.qty.value, 10) || 0;
+        if (!s.check || !s.check.checked || qty < 1) {
+          if (s.qty) s.qty.disabled = true;
+          if (s.colour) s.colour.disabled = true;
+        }
+      });
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+      }
+    });
+
+    refresh();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wholesale Order Builder",
+  "tag": "section",
+  "class": "section-wholesale-order",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Wholesale Order Request" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Build Your Wholesale Order." },
+    { "type": "text", "id": "title_italic", "label": "Title (italic part)", "default": "Pick products. Set quantities." },
+    { "type": "textarea", "id": "lead", "label": "Lead text", "default": "Select the lines you want to stock, choose colours, and tell us your volumes. We confirm availability and your tier price in writing — no payment is taken here." },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Live catalogue collection",
+      "info": "Optional. If set and it has products, the form lists those products automatically. Otherwise the manual Product Line blocks below are used."
+    },
+    { "type": "text", "id": "moq_note", "label": "MOQ note (under step 1)", "default": "Minimum order quantities are confirmed on your quote." },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Disclaimer under submit button",
+      "default": "This is a request, not a paid order. Our team replies with confirmed pricing, MOQs, and payment options."
+    },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Submit Order Request" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thank you — your wholesale order request was received. We will reply with a confirmed quote shortly." }
+  ],
+  "blocks": [
+    {
+      "type": "product_line",
+      "name": "Product Line",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Product name", "default": "Bone Straight Braiding Hair 30inch" },
+        { "type": "text", "id": "meta", "label": "Spec / description", "default": "150g · Braiding Hair" },
+        { "type": "text", "id": "colours", "label": "Colour options (comma separated)", "default": "1B, 27#, BUG, 613#" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wholesale Order Builder",
+      "blocks": [
+        { "type": "product_line", "settings": { "title": "Bone Straight Braiding Hair 30inch", "meta": "150g · Braiding Hair", "colours": "1B, 27#, BUG, 613#" } },
+        { "type": "product_line", "settings": { "title": "French Curl 22inch", "meta": "150g · Curl Hair", "colours": "1B, 27#, BUG, 613#" } },
+        { "type": "product_line", "settings": { "title": "Deep Wave Bulk 22inch", "meta": "100g · Bulk Hair", "colours": "1B, 27#, BUG, 613#" } },
+        { "type": "product_line", "settings": { "title": "Premium Human Hair Bundles", "meta": "Raw Virgin · Pre-registration", "colours": "Natural Black, Custom" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

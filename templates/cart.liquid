@@ -1,82 +1,16 @@
-{% if cart.item_count == 0 %}
-  <div class="cart-empty">
-    <h1 class="cart-empty__title">Your cart is empty</h1>
-    <p class="cart-empty__text">Add some products to get started.</p>
-    <a href="/collections/all" class="btn btn--navy">View Products</a>
-  </div>
-{% else %}
-  <form action="/cart" method="post" class="cart-page">
-    <div>
-      <h1 class="cart-page__title">Your Order</h1>
-      {% for item in cart.items %}
-        {% liquid
-          assign cart_img = item.image
-          unless cart_img
-            assign cart_img = item.variant.featured_image
-          endunless
-          unless cart_img
-            assign cart_img = item.product.featured_image
-          endunless
-          unless cart_img
-            if item.product.images.size > 0
-              assign cart_img = item.product.images[0]
-            endif
-          endunless
-        %}
-        <div class="cart-item">
-          <a href="{{ item.url }}" class="cart-item__image-link" aria-label="View {{ item.product.title | escape }}">
-            {% if cart_img %}
-              <img src="{{ cart_img | image_url: width: 320 }}" alt="{{ cart_img.alt | default: item.product.title | escape }}" class="cart-item__image" width="160" height="160" loading="lazy">
-            {% else %}
-              <div class="cart-item__image cart-item__image--placeholder" role="img" aria-label="No image available">
-                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 8c0 0 4 20 4 32s-4 16-4 16M28 6c0 0 4 22 4 34s-4 16-4 16M36 8c0 0 4 20 4 32s-4 16-4 16M44 10c0 0 4 18 4 30s-4 16-4 16"/></svg>
-              </div>
-            {% endif %}
-          </a>
-          <div>
-            <div class="cart-item__name"><a href="{{ item.url }}">{{ item.product.title }}</a></div>
-            {% unless item.variant.title == 'Default Title' %}
-              <div class="cart-item__variant">{{ item.variant.title }}</div>
-            {% endunless %}
-            <div class="cart-item__qty">
-              <a class="cart-item__qty-btn" href="/cart/change?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" aria-label="Decrease quantity of {{ item.product.title | escape }}">−</a>
-              <span class="cart-item__qty-value" aria-label="Quantity">{{ item.quantity }}</span>
-              <a class="cart-item__qty-btn" href="/cart/change?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" aria-label="Increase quantity of {{ item.product.title | escape }}">+</a>
-            </div>
-            <div class="cart-item__actions">
-              <a class="cart-item__remove" href="/cart/change?line={{ forloop.index }}&quantity=0">Remove</a>
-            </div>
-          </div>
-          <div class="cart-item__price">{{ item.line_price | money }}</div>
-        </div>
-      {% endfor %}
-    </div>
+{% assign order_page_url = '/pages/wholesale-order' %}
+{% if pages['wholesale-order'] != blank %}{% assign order_page_url = pages['wholesale-order'].url %}{% endif %}
 
-    <div class="cart-summary">
-      <h2 class="cart-summary__title">Order Summary</h2>
-      <div class="cart-summary__row">
-        <span>Subtotal</span>
-        <span>{{ cart.total_price | money }}</span>
-      </div>
-      <div class="cart-summary__row">
-        <span>Delivery</span>
-        <span>Calculated at checkout</span>
-      </div>
-      <div class="cart-summary__row cart-summary__row--total">
-        <span class="cart-summary__total-label">Total</span>
-        <span class="cart-summary__total">{{ cart.total_price | money }}</span>
-      </div>
-      <div class="cart-summary__actions">
-        <button type="submit" name="checkout" class="btn btn--gold btn--full cart-summary__checkout-btn">
-          Proceed to Checkout
-        </button>
-        <a href="/collections/all" class="btn btn--full cart-summary__continue">
-          Continue Shopping
-        </a>
-      </div>
-      <div class="cart-summary__payments">
-        <div class="cart-summary__payments-text">Paystack · Flutterwave · Bank Transfer · USSD</div>
-      </div>
-    </div>
-  </form>
-{% endif %}
+<div class="cart-empty">
+  <h1 class="cart-empty__title">Orders are placed by request</h1>
+  <p class="cart-empty__text">Global Hair Direct is wholesale only — there is no checkout cart. Build your order by selecting the lines and quantities you need, and we confirm pricing in writing.</p>
+  <a href="{{ order_page_url }}" class="btn btn--gold">Start Wholesale Order</a>
+</div>
+
+<script>
+  (function () {
+    window.setTimeout(function () {
+      window.location.replace({{ order_page_url | json }});
+    }, 2500);
+  })();
+</script>

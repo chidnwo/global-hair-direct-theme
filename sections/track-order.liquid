@@ -103,11 +103,6 @@
   </div>
 
   <div class="track-order-section__secondary">
-    <p>
-      {{ section.settings.secondary_text | default: 'Have an account?' }}
-      <a href="{{ routes.storefront_login_url }}">{{ section.settings.secondary_login | default: 'Sign in' }}</a>
-      · <a href="{{ routes.account_register_url }}">{{ section.settings.secondary_register | default: 'Create account' }}</a>
-    </p>
     {% if track_whatsapp_href != blank %}
       <p>
         {{ section.settings.secondary_whatsapp_lead | default: 'Need a quick answer?' }}

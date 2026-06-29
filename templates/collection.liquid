@@ -50,19 +50,7 @@
             <div class="product-card__price">{{ product.price | money }}</div>
             <span class="product-card__price-label">Per unit</span>
           </div>
-          {% if product_sellable %}
-            <button
-              type="button"
-              class="product-card__add"
-              aria-label="{% if product.variants.size > 1 %}Choose options for {{ product.title | escape }}{% else %}Add {{ product.title | escape }} to cart{% endif %}"
-              data-quick-add
-              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-              data-variant-count="{{ product.variants.size }}"
-              data-product-url="{{ product.url }}"
-            >
-              <svg viewBox="0 0 16 16"><path d="M9 7V2H7v5H2v2h5v5h2V9h5V7z"/></svg>
-            </button>
-          {% endif %}
+          <span class="product-card__cta-hint">View &amp; order</span>
         </div>
       </div>
     </a>

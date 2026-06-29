@@ -86,19 +86,11 @@
       {% endfor %}
     {% endunless %}
 
-    <div class="product-page__label product-page__label--spaced">Quantity</div>
-    <div class="product-page__qty">
-      <button type="button" class="qty-btn" data-action="minus" aria-label="Decrease quantity">−</button>
-      <input type="number" class="qty-input" name="quantity" value="1" min="1" inputmode="numeric" form="product-form-add" aria-label="Quantity">
-      <button type="button" class="qty-btn" data-action="plus" aria-label="Increase quantity">+</button>
-    </div>
-
-    <form action="/cart/add" method="post" enctype="multipart/form-data" id="product-form-add">
-      <input type="hidden" name="id" value="{{ selected_variant.id }}" data-variant-input>
-      <button type="submit" class="btn btn--gold btn--full product-page__add-btn" data-add-to-cart {% unless selected_sellable %}disabled aria-disabled="true"{% endunless %}>
-        {% if selected_sellable %}Add to Cart{% elsif ghd_sales_blocked or product.tags contains 'coming-soon' %}Coming Soon{% else %}Out of Stock{% endif %}
-      </button>
-    </form>
+    {% assign order_page_url = '/pages/wholesale-order' %}
+    {% if pages['wholesale-order'] != blank %}{% assign order_page_url = pages['wholesale-order'].url %}{% endif %}
+    <a href="{{ order_page_url }}" class="btn btn--gold btn--full product-page__add-btn">
+      {% if ghd_sales_blocked or product.tags contains 'coming-soon' %}Pre-Register This Line{% else %}Add to Wholesale Order{% endif %}
+    </a>
 
     {% liquid
       capture wa_base

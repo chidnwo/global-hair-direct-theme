@@ -31,6 +31,10 @@
   if pages.wholesale != blank
     assign nav_wholesale_url = pages.wholesale.url
   endif
+  assign nav_order_url = '/pages/wholesale-order'
+  if pages['wholesale-order'] != blank
+    assign nav_order_url = pages['wholesale-order'].url
+  endif
 %}
 <div class="site-header-shell">
 <div class="site-header">
@@ -102,6 +106,12 @@
       Wholesale
     </a>
     <a
+      href="{{ nav_order_url }}"
+      class="site-header__nav-link {% if request.path == nav_order_url %}active{% endif %}"
+    >
+      Wholesale Order
+    </a>
+    <a
       href="{{ nav_contact_url }}"
       class="site-header__nav-link {% if request.path == nav_contact_url %}active{% endif %}"
     >
@@ -110,6 +120,10 @@
   </nav>
 
   <div class="site-header__actions">
+    <a href="{{ routes.search_url }}" class="site-header__search" aria-label="Search">
+      <svg class="site-header__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg>
+    </a>
+    <a href="{{ nav_order_url }}" class="site-header__cta site-header__cta--order">Wholesale Order</a>
     <button
       type="button"
       class="site-header__menu-toggle"
@@ -120,24 +134,6 @@
     >
       <svg class="site-header__menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
     </button>
-    <a href="{{ routes.search_url }}" class="site-header__search" aria-label="Search">
-      <svg class="site-header__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.35-4.35"/></svg>
-    </a>
-    <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="{% if cart.item_count > 0 %}Cart, {{ cart.item_count }} items{% else %}Cart{% endif %}">
-      <svg class="site-header__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12L6 6z"/><path d="M6 6V4a2 2 0 012-2h8a2 2 0 012 2v2"/><circle cx="9" cy="20" r="1" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1" fill="currentColor" stroke="none"/></svg>
-      {% if cart.item_count > 0 %}
-        <span class="site-header__cart-count">{{ cart.item_count }}</span>
-      {% endif %}
-    </a>
-    {% if customer %}
-      <a href="{{ routes.account_url }}" class="site-header__account" aria-label="Account">{{ header_account_icon }}</a>
-    {% elsif shop.customer_accounts_enabled %}
-      {% if settings.use_legacy_customer_auth %}
-        <a href="{{ routes.storefront_login_url }}" class="site-header__account" aria-label="Log in" data-login-modal-open>{{ header_account_icon }}</a>
-      {% else %}
-        <a href="{{ routes.storefront_login_url }}" class="site-header__account" aria-label="Log in">{{ header_account_icon }}</a>
-      {% endif %}
-    {% endif %}
   </div>
 </div>
 
@@ -156,12 +152,7 @@
     <a href="{{ nav_wholesale_url }}" class="site-header__mobile-link">Wholesale</a>
     <a href="{{ nav_contact_url }}" class="site-header__mobile-link">Contact</a>
     <div class="site-header__mobile-divider"></div>
-    {% if customer %}
-      <a href="{{ routes.account_url }}" class="site-header__mobile-link">My account</a>
-      <a href="{{ routes.account_logout_url }}" class="site-header__mobile-link">Log out</a>
-    {% elsif shop.customer_accounts_enabled %}
-      <a href="{{ routes.storefront_login_url }}" class="site-header__mobile-link">Sign in</a>
-    {% endif %}
+    <a href="{{ nav_order_url }}" class="btn btn--gold btn--full site-header__mobile-cta">Wholesale Order</a>
   </nav>
 </div>
 </div>
@@ -188,7 +179,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Primary links are fixed in order: Catalog, Collections, Care guide, Wholesale, Contact."
+      "content": "Primary links are fixed in order: Catalog, Collections, Care guide, Wholesale, Wholesale Order, Contact. The Wholesale Order button links to the /pages/wholesale-order page."
     },
     {
       "type": "collection",

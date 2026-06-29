@@ -1,0 +1,102 @@
+{
+  "sections": {
+    "order_builder": {
+      "type": "wholesale-order-builder",
+      "settings": {
+        "eyebrow": "Wholesale Order Request",
+        "title": "Build Your Wholesale Order.",
+        "title_italic": "Pick products. Set quantities.",
+        "lead": "Select the lines you want to stock, choose colours, and tell us your volumes. We confirm availability and your tier price in writing — no payment is taken here.",
+        "collection": "all",
+        "moq_note": "Minimum order quantities are confirmed on your quote.",
+        "disclaimer": "This is a request, not a paid order. Our team replies with confirmed pricing, MOQs, and payment options.",
+        "submit_label": "Submit Order Request",
+        "success_message": "Thank you — your wholesale order request was received. We will reply with a confirmed quote shortly."
+      },
+      "blocks": {
+        "line_1": {
+          "type": "product_line",
+          "settings": {
+            "title": "Bone Straight Braiding Hair 30inch",
+            "meta": "150g · Braiding Hair",
+            "colours": "1B, 27#, BUG, 613#"
+          }
+        },
+        "line_2": {
+          "type": "product_line",
+          "settings": {
+            "title": "French Curl 22inch",
+            "meta": "150g · Curl Hair",
+            "colours": "1B, 27#, BUG, 613#"
+          }
+        },
+        "line_3": {
+          "type": "product_line",
+          "settings": {
+            "title": "Deep Wave Bulk 22inch",
+            "meta": "100g · Bulk Hair",
+            "colours": "1B, 27#, BUG, 613#"
+          }
+        },
+        "line_4": {
+          "type": "product_line",
+          "settings": {
+            "title": "Premium Human Hair Bundles & Frontals",
+            "meta": "Raw Virgin · Pre-registration",
+            "colours": "Natural Black, Custom (see notes)"
+          }
+        }
+      },
+      "block_order": ["line_1", "line_2", "line_3", "line_4"]
+    },
+    "divider_1": {
+      "type": "section-divider",
+      "settings": {}
+    },
+    "how_to_order": {
+      "type": "how-to-order",
+      "settings": {
+        "eyebrow": "What Happens Next",
+        "title": "From Request",
+        "title_italic": "To Dispatch.",
+        "lead": "Your order request follows one clear workflow: submit, confirm, pay, and track."
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Submit Your Product Mix",
+            "text": "You've selected your lines, colours, and quantities above. We review availability and check MOQ alignment for your account."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Receive A Confirmed Quote",
+            "text": "Pricing is issued in writing based on your tier and quantities. No hidden charges after confirmation."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Complete Payment",
+            "text": "Pay via approved channels. Your order moves to processing only after payment is confirmed, then dispatch is scheduled."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "number": "04",
+            "title": "Track To Delivery",
+            "text": "You receive milestone updates through one channel from dispatch to delivery, including interstate logistics handoff."
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4"]
+    }
+  },
+  "order": ["order_builder", "divider_1", "how_to_order"]
+}

@@ -62,11 +62,11 @@
       "name": "Tier",
       "settings": [
         { "type": "text", "id": "tier_number", "label": "Tier Number", "default": "Tier 01" },
-        { "type": "text", "id": "name", "label": "Tier Name", "default": "Individual Buyer" },
-        { "type": "text", "id": "discount", "label": "Discount (hero)", "default": "Retail" },
-        { "type": "text", "id": "discount_label", "label": "Discount Label", "default": "Standard pricing" },
-        { "type": "text", "id": "tagline", "label": "Tagline (one short line)", "default": "Any quantity · no minimums" },
-        { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Shop Now" },
+        { "type": "text", "id": "name", "label": "Tier Name", "default": "Salon / Stylist" },
+        { "type": "text", "id": "discount", "label": "Discount (hero)", "default": "–15%" },
+        { "type": "text", "id": "discount_label", "label": "Discount Label", "default": "Off retail pricing" },
+        { "type": "text", "id": "tagline", "label": "Tagline (one short line)", "default": "Regular orders · priority dispatch" },
+        { "type": "text", "id": "cta_text", "label": "CTA Text", "default": "Start Order" },
         { "type": "url", "id": "cta_url", "label": "CTA URL" },
         { "type": "checkbox", "id": "featured", "label": "Featured tier (highlight card)", "default": false }
       ]
@@ -76,9 +76,9 @@
     {
       "name": "Buyer Tiers",
       "blocks": [
-        { "type": "tier", "settings": { "tier_number": "Tier 01", "name": "Individual Buyer", "discount": "Retail", "discount_label": "Standard pricing", "tagline": "Any quantity · no minimums", "cta_text": "Shop Now", "featured": false } },
-        { "type": "tier", "settings": { "tier_number": "Tier 02", "name": "Salon Owner", "discount": "–15%", "discount_label": "Off retail pricing", "tagline": "Regular orders · priority dispatch", "cta_text": "Apply Now", "featured": true } },
-        { "type": "tier", "settings": { "tier_number": "Tier 03", "name": "Wholesale Distributor", "discount": "–35%", "discount_label": "Off retail pricing", "tagline": "Bulk volume · lowest per-unit", "cta_text": "Apply Now", "featured": false } }
+        { "type": "tier", "settings": { "tier_number": "Tier 01", "name": "Salon / Stylist", "discount": "–15%", "discount_label": "Off retail pricing", "tagline": "Regular orders · priority dispatch", "cta_text": "Start Order", "cta_url": "/pages/wholesale-order", "featured": false } },
+        { "type": "tier", "settings": { "tier_number": "Tier 02", "name": "Distributor", "discount": "–25%", "discount_label": "Off retail pricing", "tagline": "Bulk volume · dedicated support", "cta_text": "Start Order", "cta_url": "/pages/wholesale-order", "featured": true } },
+        { "type": "tier", "settings": { "tier_number": "Tier 03", "name": "Master Distributor", "discount": "–35%", "discount_label": "Off retail pricing", "tagline": "Highest volume · lowest per-unit", "cta_text": "Start Order", "cta_url": "/pages/wholesale-order", "featured": false } }
       ]
     }
   ]
