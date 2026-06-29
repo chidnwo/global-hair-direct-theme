@@ -31,7 +31,7 @@
         </div>
         <span class="site-footer__brand-name">{{ section.settings.brand_name | default: shop.name }}</span>
       </div>
-      <p class="site-footer__desc">{{ section.settings.desc | default: 'Quality hair supply for salon owners, distributors, and individual buyers across all 36 Nigerian states. Braiding hair, bulk hair, and premium extensions - delivered direct.' }}</p>
+      <p class="site-footer__desc">{{ section.settings.desc | default: 'Wholesale hair supply for salons, distributors, and resellers across all 36 Nigerian states. Braiding hair, bulk hair, and premium extensions - delivered direct, ordered by request.' }}</p>
       {% assign instagram_url = section.settings.social_instagram | default: 'https://www.instagram.com/globalhairdirectng/' %}
       {% if instagram_url != blank or footer_email_info != blank %}
         <div class="site-footer__social">

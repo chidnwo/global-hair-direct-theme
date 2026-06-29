@@ -25,8 +25,8 @@
         "faq_3": {
           "type": "faq_item",
           "settings": {
-            "question": "What is the pre-order discount?",
-            "answer": "Pre-orders placed before stock arrives receive a 5% discount off the standard unit price. The discounted price is confirmed in writing at the time of order. Additional wholesale discounts apply for salon and distributor accounts on top of the pre-order rate."
+            "question": "How does wholesale pricing work?",
+            "answer": "Pricing is by tier and volume. Build your order on the wholesale order form — select your lines, colours, and quantities — and we reply with a confirmed quote in writing based on your account tier. No payment is taken until pricing is agreed."
           }
         },
         "faq_4": {

@@ -222,6 +222,11 @@
     var bodyField = root.querySelector('[data-order-body]');
     var submitBtn = root.querySelector('[data-order-submit]');
 
+    function fieldVal(name) {
+      var el = form.querySelector('[name="contact[' + name + ']"]');
+      return el && el.value ? String(el.value).trim() : '';
+    }
+
     function lineState(line) {
       var check = line.querySelector('[data-line-check]');
       var qty = line.querySelector('[data-qty-input]');
@@ -266,12 +271,32 @@
       if (emptyNote) emptyNote.hidden = lineCount > 0;
 
       if (bodyField) {
+        var out = ['WHOLESALE ORDER REQUEST', ''];
+        out.push('— BUSINESS —');
+        out.push('Business: ' + (fieldVal('Business name') || '—'));
+        out.push('Contact: ' + (fieldVal('name') || '—'));
+        out.push('Email: ' + (fieldVal('email') || '—'));
+        out.push('Phone / WhatsApp: ' + (fieldVal('phone') || '—'));
+        out.push('Buyer type: ' + (fieldVal('Buyer type') || '—'));
+        out.push('Delivery: ' + (fieldVal('Delivery location') || '—'));
+        var freq = fieldVal('Order frequency');
+        if (freq) out.push('Order frequency: ' + freq);
+        out.push('');
+        out.push('— ORDER LINES —');
         if (lineCount === 0) {
-          bodyField.value = 'Wholesale order request (no lines selected)';
+          out.push('(no lines selected yet)');
         } else {
-          bodyField.value = 'WHOLESALE ORDER REQUEST\n\n' + parts.join('\n') +
-            '\n\nTotal: ' + lineCount + (lineCount === 1 ? ' line, ' : ' lines, ') + unitTotal + ' units.';
+          out = out.concat(parts);
+          out.push('');
+          out.push('Total: ' + lineCount + (lineCount === 1 ? ' line, ' : ' lines, ') + unitTotal + ' units.');
         }
+        var notes = fieldVal('Notes');
+        if (notes) {
+          out.push('');
+          out.push('— NOTES —');
+          out.push(notes);
+        }
+        bodyField.value = out.join('\n');
       }
       return lineCount;
     }

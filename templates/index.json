@@ -3,11 +3,11 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "eyebrow": "Nigeria's Hair Supplier",
-        "title": "Quality You Can Trust.",
+        "eyebrow": "Nigeria's Wholesale Hair Supplier",
+        "title": "Built for Volume.",
         "title_italic": "From Supplier to Door.",
-        "lead": "<strong>Global Hair Direct</strong> supplies braiding hair, bulk hair, and premium hair extensions directly to salon owners, distributors, and individual buyers across all 36 Nigerian states — with consistent quality, transparent pricing, and accountable delivery every order.",
-        "tagline": "Transparent pricing. Accountable delivery.",
+        "lead": "<strong>Global Hair Direct</strong> supplies braiding hair, bulk hair, and premium hair extensions at wholesale to salons, distributors, and resellers across all 36 Nigerian states — with consistent quality, tier pricing, and accountable delivery every order.",
+        "tagline": "Wholesale pricing. Accountable delivery.",
         "cta1_text": "Start Wholesale Order",
         "cta1_url": "/pages/wholesale-order",
         "cta2_text": "View Catalogue",
@@ -15,8 +15,8 @@
         "cta3_text": "Wholesale Inquiry",
         "cta3_url": "/pages/contact",
         "panel_title": "Current Stock",
-        "notice_tag": "Pre-Order Offer — Active Now",
-        "notice_text": "<strong>Bone Straight, French Curl &amp; Deep Wave</strong> — order now and receive 5% discount on your total. Wholesale pricing available for salon and distributor accounts.",
+        "notice_tag": "Wholesale Accounts Open",
+        "notice_text": "<strong>Bone Straight, French Curl &amp; Deep Wave</strong> — build your order by the line and colour. Tier pricing for salons and distributors, confirmed in writing.",
         "notice_cta_text": "Start Wholesale Order",
         "notice_cta_url": "/pages/wholesale-order",
         "use_live_catalog_stats": true,
@@ -158,8 +158,8 @@
           "type": "pillar",
           "settings": {
             "kicker": "Pricing",
-            "title": "Tiers that match how you buy",
-            "text": "Individual, salon, and wholesale paths with clear written pricing before payment — Paystack, Flutterwave, or bank transfer. No surprise substitutions on colour without your approval."
+            "title": "Tiers that reward volume",
+            "text": "Salon, distributor, and master-distributor tiers with clear written pricing before payment — Paystack, Flutterwave, or bank transfer. No surprise substitutions on colour without your approval."
           }
         }
       },
