@@ -15,13 +15,6 @@
     {{ section.settings.hint | default: 'Fastest option: open your order confirmation email and use the “View your order” link — that page updates when your order ships.' }}
   </div>
 
-  {% if customer %}
-    <p class="track-order-section__signed-in">
-      You’re signed in —
-      <a href="{{ routes.account_url }}">view your orders in your account</a>.
-    </p>
-  {% endif %}
-
   {% if page.content != blank %}
     <div class="informal-page__body contact-form-section__page rte">{{ page.content }}</div>
   {% endif %}

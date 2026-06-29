@@ -9,9 +9,6 @@
     assign logo_alt = logo_alt | append: ' ' | append: section.settings.logo_sub
   endif
 %}
-{% capture header_account_icon %}
-  <svg class="site-header__account-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M6 20v-1a4 4 0 014-4h4a4 4 0 014 4v1"/></svg>
-{% endcapture %}
 {% capture nav_contact_url %}{% render 'theme-contact-url' %}{% endcapture %}
 {% assign nav_contact_url = nav_contact_url | strip %}
 {% liquid
